@@ -53,9 +53,11 @@ app.use(express.static('dist'));
 
 app.post('/api/garageSwitch', (req, res) =>
 {
-	let request = req.body;
-	request.status = "Open";
-	res.send(request);
+	let gpio = require('onoff').Gpio;
+	let doorPin = new gpio(4, 'out');
+
+	setTimeout(() => doorPin.writeSync(1));
+	res.send({...req.body, status: "Open"});
 });
 
 
