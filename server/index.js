@@ -51,20 +51,24 @@ app.use(express.static('dist'));
 
 // Create API URLs Here
 
-app.post('/api/postRequest', (req, res) => console.log(req.body));
-
+app.post('/api/garageSwitch', (req, res) =>
+{
+	let request = req.body;
+	request.status = "Open";
+	res.send(request);
+});
 
 
 let port;
 
 if (secure)
 {
-	port = 8443
+	port = 443;
 	server.listen(port, () => console.log('HTTPS Server Running on Port ' + port));
 }
 
 else
 {
-	port = 8080
+	port = 80;
 	server.listen(port, () => console.log('HTTP Server Running on Port ' + port));
 }

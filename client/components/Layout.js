@@ -5,7 +5,7 @@ import {sendServerRequest} from "../utils/api";
 
 const Layout = () =>
 {
-	let request = {requestType: "postRequest", payload: "Test"};
+	let request = {requestType: "garageSwitch"};
 
 	return (
 		<Grid
