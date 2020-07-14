@@ -74,7 +74,6 @@ app.post('/api/garageSwitch', (req, res) =>
 		setTimeout(() => doorPin.writeSync(1), 500);
 	};
 
-	let timeDown = 9500 * (percentClosed - 5) / 100;
 	flipSwitch();
 
 	if(percentClosed !== 100)
@@ -85,8 +84,8 @@ app.post('/api/garageSwitch', (req, res) =>
 			setTimeout(() =>
 			{
 				flipSwitch();
-			}, 1500)
-		}, timeDown);
+			}, 3000)
+		}, 9500 * percentClosed / 100);
 	}
 
 	res.send(garageState);
