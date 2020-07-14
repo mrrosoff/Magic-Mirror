@@ -45,13 +45,13 @@ const GarageOpener = props =>
 
 	return(
 		<Grid container direction={"column"} justify={"center"} alignContent={"center"} alignItems={"center"} spacing={2}>
-			<Grid item>
+			<Grid item style={{width: '100%'}}>
 				<Slider
 					value={amountToClose}
 					onChange={(e, value) => setAmountToClose(value)}
-					valueLabelDisplay="auto"
+					valueLabelDisplay="on"
 					step={10}
-					marks min={50} max={10}
+					marks min={50} max={100}
 				/>
 			</Grid>
 			<Grid item>
