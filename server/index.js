@@ -49,24 +49,43 @@ app.use((req, res, next) =>
 
 app.use(express.static('dist'));
 
-// True => Open, False => Closed
-
-let garageState = false;
+let garageState =
+	{
+		percentClosed: 100,
+		nextDirection: "Up"
+	};
 
 app.get('/api/getGarageState', (req, res) =>
 {
-	res.send({state: garageState});
+	res.send(garageState);
 });
 
-app.get('/api/garageSwitch', (req, res) =>
+app.post('/api/garageSwitch', (req, res) =>
 {
-	garageState = !garageState;
+	let percentClosed = req.body.percentClosed;
+
 	let gpio = require('onoff').Gpio;
 	let doorPin = new gpio(4, 'out');
 
-	setTimeout(() => doorPin.writeSync(1), 500);
-	res.send({state: garageState});
+	let timeDown = 9500 * percentClosed / 100;
+	flipSwitch(doorPin);
+
+	if(percentClosed !== 100)
+	{
+		setTimeout(() =>
+		{
+			flipSwitch(doorPin);
+			setTimeout(() =>
+			{
+				flipSwitch(doorPin);
+			}, 500)
+		}, timeDown + 500);
+	}
+
+	res.send(garageState);
 });
+
+const flipSwitch = (gpioPin) => setTimeout(gpioPin.writeSync(1), 300);
 
 
 let port;
