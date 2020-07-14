@@ -6,8 +6,7 @@ const logger = require('morgan');
 const express = require('express');
 
 const app = express();
-let credentials, server;
-let secure = false;
+let credentials, server, secure = false;
 
 try
 {
@@ -23,41 +22,48 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-if (secure)
-{
-	server = https.createServer(credentials, app);
-}
-
-else
-{
-	server = http.createServer(app);
-}
+if (secure) server = https.createServer(credentials, app);
+else server = http.createServer(app);
 
 app.use((req, res, next) =>
 {
-	if (!req.secure && secure)
-	{
-		console.log('Redirecting Insecure Request');
-		res.redirect('https://' + req.headers.host + req.url);
-	}
-
-	else
-	{
-		next();
-	}
+	if (!req.secure && secure) res.redirect('https://' + req.headers.host + req.url);
+	else next();
 });
 
 app.use(express.static('dist'));
 
-let garageState =
-	{
-		percentClosed: 100,
-		nextDirection: "Up"
-	};
+let garageState = { percentClosed: 100, nextDirection: "Up" };
 
 app.get('/api/getGarageState', (req, res) =>
 {
 	res.send(garageState);
+});
+
+app.post('/api/getLatLngWeatherStats', async (req, res) =>
+{
+	const axios = require('axios');
+	const params = [
+		'gust', 'secondarySwellDirection', 'secondarySwellHeight', 'secondarySwellPeriod',
+		'swellDirection', 'swellHeight', 'swellPeriod',
+		'waveDirection', 'waveHeight', 'wavePeriod', 'windSpeed', 'waterTemperature',
+		'windWaveDirection', 'windWaveHeight', 'windWavePeriod'
+	].join(',');
+
+	try
+	{
+		await axios.get(`https://api.stormglass.io/v2/weather/point?lat=${req.body.lat}&lng=${req.body.lng}&params=${params}`,
+			{
+				headers: { 'Authorization': '39ddd11e-c628-11ea-954a-0242ac130002-39ddd1d2-c628-11ea-954a-0242ac130002' }
+			})
+		.then(weatherData =>
+		{
+			res.send(weatherData.data);
+		});
+	}
+	catch(error) { console.log(error); }
+
+
 });
 
 app.post('/api/garageSwitch', (req, res) =>
@@ -84,23 +90,16 @@ app.post('/api/garageSwitch', (req, res) =>
 			setTimeout(() =>
 			{
 				flipSwitch();
-			}, 2000)
-		}, 10000 * percentClosed / 100);
+			}, 2000 + 1000 * (90 - percentClosed) / 10)
+		}, 9000);
 	}
 
 	res.send(garageState);
 });
 
-let port;
+let port = secure ? 8443 : 8080;
 
-if (secure)
+server.listen(port, () =>
 {
-	port = 8443;
-	server.listen(port, () => console.log('HTTPS Server Running on Port ' + port));
-}
-
-else
-{
-	port = 8080;
-	server.listen(port, () => console.log('HTTP Server Running on Port ' + port));
-}
+	console.log('\n\n', 'Server Running on Port ' + port + '\n')
+});

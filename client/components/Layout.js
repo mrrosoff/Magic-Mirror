@@ -1,69 +1,94 @@
 import React, {useEffect, useState} from "react";
 
-import { AppBar, Button, Box, Grid, Slider, Toolbar, Typography } from "@material-ui/core";
+import { Button, Box, Grid, Typography } from "@material-ui/core";
 
 import {sendGetRequest, sendPostRequest} from "../utils/api";
 
-import WaveImage from "../static/images/wave.jpg";
-
 const Layout = () =>
 {
+	const [weatherData, setWeatherData] = useState();
+
 	return (
-		<>
-			<AppBar position="static">
-				<Toolbar>
-					<Typography variant="h4">Rosoff Club</Typography>
-				</Toolbar>
-			</AppBar>
-			<Box pl={2} pr={2} pt={2}>
-				<Grid container justify={"center"} alignContent={"center"} alignItems={"center"}
-					  spacing={3} style={{height: "90vh"}}
+		<Box p={4}>
+			<Grid
+				container justify={"center"} alignContent={"center"} alignItems={"center"}
+				spacing={6} style={{height: "95vh"}}
+			>
+				<Grid item xs={12} sm={5}>
+					<GarageOpener />
+				</Grid>
+				<Grid
+					item xs={12} sm={7}
+					container justify={"center"} alignContent={"center"} alignItems={"center"} spacing={2}
 				>
-					<Grid item xs={12} sm={4}>
-						<GarageOpener />
-					</Grid>
-					<Grid item xs={12} sm={8} container justify={"center"} alignContent={"center"} alignItems={"center"} spacing={2}>
-						<Grid item>
-							<img src={WaveImage} alt={"A Wave"} width={"100%"}/>
-						</Grid>
+					<Grid item>
+						<Button color={"primary"} variant={"contained"} size={"large"} style={{width: '100%', height: 200}}
+								onClick={() =>
+								{
+									sendPostRequest("getLatLngWeatherStats", {lat: "32.9546027", lng: "-117.2719195"})
+									.then(res => setWeatherData(res.data));
+								}}
+						>
+							<Typography color={"inherit"} variant={"h3"}>
+								Ping Weather API
+							</Typography>
+						</Button>
 					</Grid>
 				</Grid>
-			</Box>
-		</>
+			</Grid>
+		</Box>
 	)
 };
 
 const GarageOpener = props =>
 {
 	const [garageState, setGarageState] = useState();
-	const [amountToClose, setAmountToClose] = useState(100);
 
 	useEffect(() =>
 	{
-		sendGetRequest("getGarageState").then(res => setGarageState(res.data.state));
+		sendGetRequest("getGarageState").then(res => setGarageState(res.data));
 	}, []);
 
 	return(
-		<Grid container direction={"column"} justify={"center"} alignContent={"center"} alignItems={"center"} spacing={2}>
-			<Grid item style={{width: '100%'}}>
-				<Slider
-					value={amountToClose}
-					onChange={(e, value) => setAmountToClose(value)}
-					valueLabelDisplay="on"
-					step={10}
-					marks min={50} max={100}
-				/>
-			</Grid>
+		<Grid container direction={"column"} justify={"center"} alignContent={"center"} alignItems={"center"} spacing={6}>
 			<Grid item>
-				<Button color={"primary"} variant={"contained"} size={"large"} style={{height: 300}}
+				<Button color={"primary"} variant={"contained"} size={"large"} style={{width: '100%', height: 200}}
 						onClick={() =>
 						{
-							sendPostRequest("garageSwitch", {percentClosed: amountToClose})
+							sendPostRequest("garageSwitch", {percentClosed: 100})
 							.then(res => setGarageState(res.data.state));
 						}}
 				>
-					<Typography color={"inherit"} variant={"h4"}>Open / Close Garage</Typography>
+					<Typography color={"inherit"} variant={"h3"}>
+						{garageState && garageState.nextDirection === "Up" ? "Open Garage" : "Close Garage"}
+					</Typography>
 				</Button>
+			</Grid>
+			<Grid
+				item
+				container justify={"center"} alignContent={"center"} alignItems={"center"} spacing={4}
+			>
+				<Grid item>
+					<Button color={"primary"} variant={"contained"} size={"large"}
+							disabled={garageState && garageState.nextDirection === "Up"}
+							onClick={() =>
+							{
+								sendPostRequest("garageSwitch", {percentClosed: 90})
+								.then(res => setGarageState(res.data.state));
+							}}
+					>
+						<Typography color={"inherit"} variant={"h5"}>Close Garage 90%</Typography>
+					</Button>
+				</Grid>
+				<Grid item>
+					<Button color={"primary"} variant={"contained"} size={"large"}
+							disabled={true}
+							onClick={() => {}}
+					>
+						<Typography color={"inherit"} variant={"h5"}>
+							Coming Soon</Typography>
+					</Button>
+				</Grid>
 			</Grid>
 		</Grid>
 	)
