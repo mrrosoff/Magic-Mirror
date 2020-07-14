@@ -66,7 +66,7 @@ app.post('/api/garageSwitch', (req, res) =>
 
 	let gpio = require('onoff').Gpio;
 	let doorPin = new gpio(4, 'out');
-	const flipSwitch = (gpioPin) => setTimeout(gpioPin.writeSync(1), 500);
+	const flipSwitch = (gpioPin) => setTimeout(() => gpioPin.writeSync(1), 500);
 
 	let timeDown = (9500 * percentClosed / 100) - 1000;
 	flipSwitch(doorPin);
