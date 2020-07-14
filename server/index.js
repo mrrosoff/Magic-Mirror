@@ -84,7 +84,7 @@ app.post('/api/garageSwitch', (req, res) =>
 			setTimeout(() =>
 			{
 				flipSwitch();
-			}, 3000)
+			}, 2000)
 		}, 9500 * percentClosed / 100);
 	}
 
