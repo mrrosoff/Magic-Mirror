@@ -49,15 +49,23 @@ app.use((req, res, next) =>
 
 app.use(express.static('dist'));
 
-// Create API URLs Here
+// True => Open, False => Closed
 
-app.post('/api/garageSwitch', (req, res) =>
+let garageState = false;
+
+app.get('/api/getGarageState', (req, res) =>
 {
+	res.send({state: garageState});
+});
+
+app.get('/api/garageSwitch', (req, res) =>
+{
+	garageState = !garageState;
 	let gpio = require('onoff').Gpio;
 	let doorPin = new gpio(4, 'out');
 
-	setTimeout(() => doorPin.writeSync(1));
-	res.send({...req.body, status: "Open"});
+	setTimeout(() => doorPin.writeSync(1), 500);
+	res.send({state: garageState});
 });
 
 
