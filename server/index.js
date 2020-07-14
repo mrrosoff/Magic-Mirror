@@ -68,23 +68,23 @@ app.post('/api/garageSwitch', (req, res) =>
 	let doorPin = new gpio(4, 'out');
 	doorPin.writeSync(1);
 
-	const flipSwitch = (gpioPin) =>
+	const flipSwitch = () =>
 	{
 		doorPin.writeSync(0);
-		setTimeout(() => gpioPin.writeSync(1), 500);
+		setTimeout(() => doorPin.writeSync(1), 500);
 	};
 
 	let timeDown = (9500 * percentClosed / 100) - 1000;
-	flipSwitch(doorPin);
+	flipSwitch();
 
 	if(percentClosed !== 100)
 	{
 		setTimeout(() =>
 		{
-			flipSwitch(doorPin);
+			flipSwitch();
 			setTimeout(() =>
 			{
-				flipSwitch(doorPin);
+				flipSwitch();
 			}, 800)
 		}, timeDown + 800);
 	}
