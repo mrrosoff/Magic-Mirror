@@ -63,12 +63,12 @@ let port;
 
 if (secure)
 {
-	port = 443;
+	port = 8443;
 	server.listen(port, () => console.log('HTTPS Server Running on Port ' + port));
 }
 
 else
 {
-	port = 80;
+	port = 8080;
 	server.listen(port, () => console.log('HTTP Server Running on Port ' + port));
 }
