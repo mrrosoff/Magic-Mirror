@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-import { AppBar, Button, Box, Grid, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Button, Box, Grid, Slider, Toolbar, Typography } from "@material-ui/core";
 
 import {sendGetRequest, sendPostRequest} from "../utils/api";
 
@@ -36,6 +36,7 @@ const Layout = () =>
 const GarageOpener = props =>
 {
 	const [garageState, setGarageState] = useState();
+	const [amountToClose, setAmountToClose] = useState(100);
 
 	useEffect(() =>
 	{
@@ -45,25 +46,23 @@ const GarageOpener = props =>
 	return(
 		<Grid container direction={"column"} justify={"center"} alignContent={"center"} alignItems={"center"} spacing={2}>
 			<Grid item>
-				<Button color={"primary"} variant={"contained"} size={"large"} style={{height: 300}}
-						onClick={() =>
-						{
-							sendPostRequest("garageSwitch", {percentClosed: 100})
-							.then(res => setGarageState(res.data.state));
-						}}
-				>
-					Full Open/Close Garage
-				</Button>
+				<Slider
+					value={amountToClose}
+					onChange={(e, value) => setAmountToClose(value)}
+					valueLabelDisplay="auto"
+					step={10}
+					marks min={50} max={10}
+				/>
 			</Grid>
 			<Grid item>
 				<Button color={"primary"} variant={"contained"} size={"large"} style={{height: 300}}
 						onClick={() =>
 						{
-							sendPostRequest("garageSwitch", {percentClosed: 90})
+							sendPostRequest("garageSwitch", {percentClosed: amountToClose})
 							.then(res => setGarageState(res.data.state));
 						}}
 				>
-					90% Closed Garage
+					<Typography color={"inherit"} variant={"h4"}>Open / Close Garage</Typography>
 				</Button>
 			</Grid>
 		</Grid>

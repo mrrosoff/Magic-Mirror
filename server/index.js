@@ -85,7 +85,7 @@ app.post('/api/garageSwitch', (req, res) =>
 			{
 				flipSwitch();
 			}, 2000)
-		}, 9500 * percentClosed / 100);
+		}, 10000 * percentClosed / 100);
 	}
 
 	res.send(garageState);
