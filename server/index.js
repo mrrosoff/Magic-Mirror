@@ -34,14 +34,30 @@ app.use((req, res, next) =>
 app.use(express.static('dist'));
 
 let garageState = { percentClosed: 100, nextDirection: "Up" };
+let flipGarageDirection = () =>
+{
+	garageState = { ...garageState, nextDirection: garageState.nextDirection === "Up" ? "Down" : "Up"};
+};
+
+let validUserName = "rosoff", validPassword = "club";
 
 app.get('/api/getGarageState', (req, res) =>
 {
 	res.send(garageState);
 });
 
-app.post('/api/getLatLngWeatherStats', async (req, res) =>
+app.post('/api/login', (req, res) =>
 {
+	let { username, password } = req.body;
+
+	if (username === validUserName && password === validPassword) res.send(true);
+	else res.send(false);
+});
+
+app.post('/api/getLatLngWeatherStats', (req, res) =>
+{
+	let { lat, lng } = req.body;
+
 	const axios = require('axios');
 	const params = [
 		'gust', 'secondarySwellDirection', 'secondarySwellHeight', 'secondarySwellPeriod',
@@ -52,23 +68,19 @@ app.post('/api/getLatLngWeatherStats', async (req, res) =>
 
 	try
 	{
-		await axios.get(`https://api.stormglass.io/v2/weather/point?lat=${req.body.lat}&lng=${req.body.lng}&params=${params}`,
-			{
-				headers: { 'Authorization': '39ddd11e-c628-11ea-954a-0242ac130002-39ddd1d2-c628-11ea-954a-0242ac130002' }
-			})
+		axios.get(`https://api.stormglass.io/v2/weather/point?lat=${lat}&lng=${lng}&params=${params}`,
+			{ headers: { Authorization: '39ddd11e-c628-11ea-954a-0242ac130002-39ddd1d2-c628-11ea-954a-0242ac130002' }})
 		.then(weatherData =>
 		{
 			res.send(weatherData.data);
 		});
 	}
-	catch(error) { console.log(error); }
-
-
+	catch(error) {}
 });
 
 app.post('/api/garageSwitch', (req, res) =>
 {
-	let percentClosed = req.body.percentClosed;
+	let { percentClosed } = req.body;
 
 	let gpio = require('onoff').Gpio;
 	let doorPin = new gpio(4, 'out');
@@ -78,6 +90,7 @@ app.post('/api/garageSwitch', (req, res) =>
 	{
 		doorPin.writeSync(0);
 		setTimeout(() => doorPin.writeSync(1), 500);
+		flipGarageDirection();
 	};
 
 	flipSwitch();
@@ -101,5 +114,5 @@ let port = secure ? 8443 : 8080;
 
 server.listen(port, () =>
 {
-	console.log('\n\n', 'Server Running on Port ' + port + '\n')
+	console.log('\n', 'Server Running on Port ' + port, '\n')
 });
