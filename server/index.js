@@ -33,49 +33,13 @@ app.use((req, res, next) =>
 
 app.use(express.static('dist'));
 
-let garageState = { percentClosed: 100, nextDirection: "Up" };
-let flipGarageDirection = () =>
-{
-	garageState = { ...garageState, nextDirection: garageState.nextDirection === "Up" ? "Down" : "Up"};
-};
+let garageState = { percentClosed: 100, nextDirection: 'Up' };
 
-let validUserName = "rosoff", validPassword = "club";
+let validUserName = 'rosoff', validPassword = 'club';
 
 app.get('/api/getGarageState', (req, res) =>
 {
 	res.send(garageState);
-});
-
-app.post('/api/login', (req, res) =>
-{
-	let { username, password } = req.body;
-
-	if (username === validUserName && password === validPassword) res.send(true);
-	else res.send(false);
-});
-
-app.post('/api/getLatLngWeatherStats', (req, res) =>
-{
-	let { lat, lng } = req.body;
-
-	const axios = require('axios');
-	const params = [
-		'gust', 'secondarySwellDirection', 'secondarySwellHeight', 'secondarySwellPeriod',
-		'swellDirection', 'swellHeight', 'swellPeriod',
-		'waveDirection', 'waveHeight', 'wavePeriod', 'windSpeed', 'waterTemperature',
-		'windWaveDirection', 'windWaveHeight', 'windWavePeriod'
-	].join(',');
-
-	try
-	{
-		axios.get(`https://api.stormglass.io/v2/weather/point?lat=${lat}&lng=${lng}&params=${params}`,
-			{ headers: { Authorization: '39ddd11e-c628-11ea-954a-0242ac130002-39ddd1d2-c628-11ea-954a-0242ac130002' }})
-		.then(weatherData =>
-		{
-			res.send(weatherData.data);
-		});
-	}
-	catch(error) {}
 });
 
 app.post('/api/garageSwitch', (req, res) =>
@@ -90,7 +54,7 @@ app.post('/api/garageSwitch', (req, res) =>
 	{
 		doorPin.writeSync(0);
 		setTimeout(() => doorPin.writeSync(1), 500);
-		flipGarageDirection();
+		garageState = { ...garageState, nextDirection: garageState.nextDirection === 'Up' ? 'Down' : 'Up'};
 	};
 
 	flipSwitch();
@@ -109,6 +73,39 @@ app.post('/api/garageSwitch', (req, res) =>
 
 	res.send(garageState);
 });
+
+app.post('/api/login', (req, res) =>
+{
+	let { username, password } = req.body;
+
+	if (username === validUserName && password === validPassword) res.send(true);
+	else res.send(false);
+});
+
+app.post('/api/getLatLngWeatherStats', (req, res) =>
+{
+	let { lat, lng } = req.body;
+	const params = [
+		'airTemperature', 'cloudCover', 'currentDirection', 'currentSpeed',
+		'gust', 'humidity', 'swellDirection', 'swellHeight', 'swellPeriod',
+		'secondarySwellPeriod', 'secondarySwellDirection', 'secondarySwellHeight',
+		'waterTemperature', 'waveDirection', 'waveHeight', 'wavePeriod', 'windDirection', 'windSpeed',
+	].join(',');
+
+	let url = `https://api.stormglass.io/v2/weather/point?lat=${lat}&lng=${lng}&params=${params}`;
+
+	try
+	{
+		const axios = require('axios');
+
+		axios.get(url, { headers: { Authorization: '39ddd11e-c628-11ea-954a-0242ac130002-39ddd1d2-c628-11ea-954a-0242ac130002' }})
+		.then(weatherData => res.send(weatherData.data))
+		.catch(err => console.error(err));
+	}
+	catch(error) {}
+});
+
+
 
 let port = secure ? 8443 : 8080;
 

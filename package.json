@@ -23,6 +23,7 @@
     "express": "^4.17.1",
     "framer-motion": "^2.0.0",
     "lodash": "^4.17.19",
+    "material-table": "^1.65.0",
     "module-alias": "^2.2.2",
     "morgan": "^1.10.0",
     "notistack": "^0.9.17",
