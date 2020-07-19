@@ -44,7 +44,7 @@ const tableIcons = {
 	ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-import {sendGetRequest, sendPostRequest} from "../../utils/api";
+import {sendGetRequest, sendPostRequest} from "../../hooks/api";
 
 const drawerWidth = 240;
 
@@ -114,7 +114,7 @@ const GarageScreen = props =>
 					>
 						<Menu />
 					</IconButton>
-					<Typography variant="h6" noWrap>The Rosoff Club</Typography>
+					<Typography variant={"h6"} noWrap>The Rosoff Club</Typography>
 				</Toolbar>
 			</AppBar>
 			<Drawer
