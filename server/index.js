@@ -33,14 +33,7 @@ app.use((req, res, next) =>
 
 app.use(express.static('dist'));
 
-let garageState = { percentClosed: 100, nextDirection: 'Up' };
-
 let validUserName = 'rosoff', validPassword = 'club';
-
-app.get('/api/getGarageState', (req, res) =>
-{
-	res.send(garageState);
-});
 
 app.post('/api/garageSwitch', (req, res) =>
 {
@@ -54,7 +47,6 @@ app.post('/api/garageSwitch', (req, res) =>
 	{
 		doorPin.writeSync(0);
 		setTimeout(() => doorPin.writeSync(1), 500);
-		garageState = { ...garageState, nextDirection: garageState.nextDirection === 'Up' ? 'Down' : 'Up'};
 	};
 
 	flipSwitch();
@@ -71,7 +63,7 @@ app.post('/api/garageSwitch', (req, res) =>
 		}, 9000);
 	}
 
-	res.send(garageState);
+	res.send(req.body);
 });
 
 app.post('/api/login', (req, res) =>
@@ -104,7 +96,6 @@ app.post('/api/getLatLngWeatherStats', (req, res) =>
 	}
 	catch(error) {}
 });
-
 
 
 let port = secure ? 8443 : 8080;

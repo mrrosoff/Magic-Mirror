@@ -2,7 +2,7 @@ import React, {useState} from "react";
 
 import { Button, Box, Grid, Paper, TextField, Typography } from "@material-ui/core";
 
-import {sendPostRequest} from "../../hooks/api";
+import {sendPostRequest} from "../hooks/api";
 
 const Login = props =>
 {
@@ -13,12 +13,12 @@ const Login = props =>
 				style={{height: "92vh"}}
 			>
 				<Grid item xs={12} sm={10} md={8}>
-					<Paper elevation={4} style={{height: '75vh'}}>
+					<Paper elevation={4} style={{height: props.width < 1200 ? '80vh' : '75vh'}}>
 						<Grid
 							container justify={"center"} alignContent={"center"} alignItems={"center"}
 							style={{height: "100%"}}
 						>
-							<Grid item style={{width: props.width < 1200 ? '75%' : '60%'}}>
+							<Grid item style={{width: props.width < 1200 ? '90%' : '60%'}}>
 								<LoginGrid {...props}/>
 							</Grid>
 						</Grid>
