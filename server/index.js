@@ -8,6 +8,8 @@ const express = require('express');
 const app = express();
 let credentials, server, secure = false;
 
+const keccak256 = require("js-sha3").keccak256;
+
 try
 {
 	const privateKey = fs.readFileSync('privkey.pem', 'utf8');
@@ -33,7 +35,7 @@ app.use((req, res, next) =>
 
 app.use(express.static('dist'));
 
-let validUserName = 'rosoff', validPassword = 'club';
+let validUserName = keccak256('rosoff'), validPassword = keccak256('club');
 
 app.post('/api/garageSwitch', (req, res) =>
 {

@@ -2,6 +2,8 @@ import React, {useState} from "react";
 
 import { Button, Box, Grid, Paper, TextField, Typography } from "@material-ui/core";
 
+import { keccak256 } from 'js-sha3';
+
 import {sendPostRequest} from "../hooks/api";
 
 const Login = props =>
@@ -36,7 +38,7 @@ const LoginGrid = props =>
 
 	const login = () =>
 	{
-		sendPostRequest("login", {username: username, password: password})
+		sendPostRequest("login", {username: keccak256(username), password: keccak256(password)})
 		.then(res =>
 		{
 			if (res.data) props.setLoggedIn(true);

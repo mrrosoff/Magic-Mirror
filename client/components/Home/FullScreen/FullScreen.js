@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 
 import { Button, Box, Divider, Grid, Typography } from "@material-ui/core";
 
-import {sendGetRequest, sendPostRequest} from "../../../hooks/api";
+import { sendPostRequest } from "../../../hooks/api";
 import HomeScreenDrawer from "../HomeScreenDrawer";
 
 const FullScreenHome = props =>
@@ -33,7 +33,7 @@ const FullScreenHome = props =>
 						container justify={"center"} alignContent={"center"} alignItems={"center"} spacing={2}
 					>
 						<Grid item style={{width: '100%'}}>
-
+							<Weather />
 						</Grid>
 					</Grid>
 				</Grid>
@@ -43,21 +43,6 @@ const FullScreenHome = props =>
 	)
 };
 
-/*
-<MaterialTable
-								title="Weather"
-								icons={tableIcons}
-								options={{
-									search: false,
-									pageSizeOptions: []
-								}}
-								columns={[{ title: "Key", field: "key" }, { title: "Value", field: "value" }]}
-								data={delMarWeatherData ? Object.entries(delMarWeatherData).map(([key, value]) =>
-								{
-									return { key: key, value: value.noaa || value.noaa === 0 ? value.noaa : value.meto || value.meto === 0 ? value.meto : value};
-								}) : []}
-							/>
- */
 const GarageOpener = props =>
 {
 	return(
@@ -66,7 +51,7 @@ const GarageOpener = props =>
 				<Button color={"primary"} variant={"contained"} size={"large"} style={{width: '100%', height: 400}}
 						onClick={() => sendPostRequest("garageSwitch", {percentClosed: 100})}
 				>
-					<Typography color={"inherit"} variant={"h3"}>Toggle Garage</Typography>
+					<Typography color={"inherit"} variant={"h3"}>Garage Door</Typography>
 				</Button>
 			</Grid>
 			<Grid
@@ -84,5 +69,10 @@ const GarageOpener = props =>
 		</Grid>
 	)
 };
+
+const Weather = props =>
+{
+	return null;
+}
 
 export default FullScreenHome;
