@@ -1,60 +1,29 @@
-# React-Express Template
+# Garage-Pi
 
-### A Starting Point For A Modern Website
+### A Custom Website For A Garage Door Opener
 
 ## About Project
 
-This template repository is a great starting point for a fresh modern website. Utilizing npm, webpack, and Express, the 
-site is ready for both development and production.
+After viewing the button on my family's garage wall for enough years, I decided to finally do something about it. I 
+imagined a world where there was a central database for important information about family endeavors, where one could go
+for quick information at a glance, but also for more detailed info.
 
-The site comes bundled with the following technology.
+Thus, the Garage-Pi was born.
 
-### Client
+A Raspberry Pi runs a custom express webserver out of our garage. Linked to our custom domain, one can access all garage
+controls from their mobile device, anytime, anywhere. A hashed login page provides a measure of security when 
+communicating with the API. 
 
-The site utilizes the newest React syntax for the base code. Use `client/components/Layout.js` as a starting point for 
-your site. App.js has built in error handling, call the method `props.produceSnackbar` from anywhere in `Layout.js`.
+With widget support, users can control what elements oof the site they wish to view, from weather and tide support to 
+local surf stats to family member locations.
 
-Styles can be used inline or within the SCSS file found under `client/static/styles/global.scss`. The file is imported 
-in `client/index.js`, if you wish to add more SCSS files, simply import them there.
+## Installation
 
-Replace elements of `client/static/templates/` with files to your liking. Image imports can be done directly, webpack 
-will handle the loading.
-
-The site is bundled with several React packages for a quick development start. Material-UI is packaged for a styled 
-component library, and framer-motion is included if animations are required.
-
-### Server
-
-The server is a simple Express server. When booted, it will search along the server file path for certificate files. If
-found, it will boot the server in HTTPS mode, otherwise in traditional HTTP mode. The site uses morgan for logging.
-
-## Quick Start
-
-First, download the required npm packages.
+Clone the repository and run the following command to build and boot the server.
 
 ```bash
-npm install
+npm run prod
 ```
 
-Then, run the appropriate command for your purposes.
-
-```bash
-npm run [dev / prod]
-```
-
-### Serverless Start
-
-If you do not need the server, run the script provided.
-
-```bash
-./removeServer.sh
-```
-
-Then in package.json, use the following for scripts:
-
-```json
-{
-    "dev": "webpack-dev-server -d",
-    "prod": "webpack -p"
-}
-```
+To link to a custom domain of your own, you will need to establish port forwarding to the device hosting the server on 
+the ports specified in the Express config. You will also need to forward your domain to your IP address.
