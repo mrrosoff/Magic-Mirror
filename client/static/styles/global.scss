@@ -1,0 +1,32 @@
+a {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.background-image {
+  background-image: url(../images/surf-background.jpg);
+  position: fixed;
+
+  left: 0;
+  right: 0;
+  z-index: -1;
+
+  filter: blur(5px);
+
+  display: block;
+  height: 100vh;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.content {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  margin-left: 20px;
+  margin-right: 20px;
+}

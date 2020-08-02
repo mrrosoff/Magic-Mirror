@@ -1,47 +1,29 @@
 import React, {useState} from "react";
 
-import { Button, Box, Grid, Paper, TextField, Typography } from "@material-ui/core";
+import { useHistory } from 'react-router-dom'
+
+import { Button, Grid, InputAdornment, TextField, Typography } from "@material-ui/core";
+
+import PersonIcon from '@material-ui/icons/Person';
+import LockIcon from '@material-ui/icons/Lock';
 
 import { keccak256 } from 'js-sha3';
 
-import {sendPostRequest} from "../hooks/api";
+import {sendPostRequest} from "../../hooks/api";
 
 const Login = props =>
 {
-	return (
-		<Box p={4}>
-			<Grid
-				container justify={"center"} alignContent={"center"} alignItems={"center"}
-				style={{height: "92vh"}}
-			>
-				<Grid item xs={12} sm={10} md={8}>
-					<Paper elevation={4} style={{height: props.width < 1200 ? '80vh' : '75vh'}}>
-						<Grid
-							container justify={"center"} alignContent={"center"} alignItems={"center"}
-							style={{height: "100%"}}
-						>
-							<Grid item style={{width: props.width < 1200 ? '90%' : '60%'}}>
-								<LoginGrid {...props}/>
-							</Grid>
-						</Grid>
-					</Paper>
-				</Grid>
-			</Grid>
-		</Box>
-	)
-};
+	const history = useHistory();
 
-const LoginGrid = props =>
-{
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
 	const login = () =>
 	{
-		sendPostRequest("login", {username: keccak256(username), password: keccak256(password)})
+		sendPostRequest("login", {username: username, password: keccak256(password)})
 		.then(res =>
 		{
-			if (res.data) props.setLoggedIn(true);
+			if (res.data) history.push("/home");
 			else props.produceSnackBar("Incorrect Username or Password");
 		})
 	};
@@ -52,20 +34,22 @@ const LoginGrid = props =>
 			spacing={8}
 		>
 			<Grid item>
-				<Typography variant={props.width < 1200 ? "h4" : "h2"} align={"center"}>The Rosoff Club</Typography>
+				<Typography variant={"h4"} align={"center"}>The Rosoff Club</Typography>
 			</Grid>
 			<LoginFields
 				username={username} setUsername={setUsername}
 				password={password} setPassword={setPassword}
 				login={login} {...props}
 			/>
-			<Grid item>
-				<Button
-					color={"primary"} variant={"contained"} size={"large"}
-					onClick={() => login()}
-				>
-					Login
-				</Button>
+			<Grid item container justify={"center"} alignItems={"center"} alignContent={"center"}>
+				<Grid item style={{width: "80%"}} align={"center"}>
+					<Button
+						color={"primary"} variant={"contained"} style={{width: "80%", height: "50px"}}
+						onClick={() => login()}
+					>
+						Login
+					</Button>
+				</Grid>
 			</Grid>
 		</Grid>
 	)
@@ -76,7 +60,7 @@ const LoginFields = props =>
 	return(
 		<Grid
 			item container direction={"column"} justify={"center"} alignItems={"center"} alignContent={"center"}
-			spacing={3}
+			spacing={3} style={{width: '90%'}}
 		>
 			<Grid item style={{width: '100%'}}>
 				<TextField
@@ -86,6 +70,13 @@ const LoginFields = props =>
 					onKeyDown={(e) =>
 					{
 						if(e.keyCode === 13) props.login();
+					}}
+					InputProps={{
+						startAdornment: (
+							<InputAdornment position="start">
+								<PersonIcon />
+							</InputAdornment>
+						),
 					}}
 				/>
 			</Grid>
@@ -97,6 +88,13 @@ const LoginFields = props =>
 					onKeyDown={(e) =>
 					{
 						if(e.keyCode === 13) props.login();
+					}}
+					InputProps={{
+						startAdornment: (
+							<InputAdornment position="start">
+								<LockIcon />
+							</InputAdornment>
+						),
 					}}
 				/>
 			</Grid>

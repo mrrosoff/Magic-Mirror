@@ -2,13 +2,18 @@ const fs = require('fs');
 
 const http = require('http');
 const https = require('https');
-const logger = require('morgan');
+
 const express = require('express');
+const logger = require('morgan');
 
 const app = express();
-let credentials, server, secure = false;
 
-const keccak256 = require("js-sha3").keccak256;
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static('dist'));
+
+let credentials, server, secure = false;
 
 try
 {
@@ -20,10 +25,6 @@ try
 }
 catch(e) {}
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
 if (secure) server = https.createServer(credentials, app);
 else server = http.createServer(app);
 
@@ -33,9 +34,77 @@ app.use((req, res, next) =>
 	else next();
 });
 
-app.use(express.static('dist'));
+const { MongoClient } = require('mongodb');
 
-let validUserName = keccak256('rosoff'), validPassword = keccak256('club');
+const executeMongoCommands = async (db, collection, command, query) => {
+
+	const uri = `mongodb+srv://mrosoff:ewjQdLwu5FoYXTWJ@garage-pi.vmi9r.mongodb.net/${db}?retryWrites=true&w=majority`;
+	const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
+
+	try
+	{
+		await client.connect();
+		return await client.db(db).collection(collection).findOne(query);
+	}
+
+	catch (err)
+	{
+		console.log(err);
+	}
+
+	finally
+	{
+		await client.close();
+	}
+};
+
+const keccak256 = require("js-sha3").keccak256;
+
+app.post('/api/createAccount', (req, res) =>
+{
+	let { username, password } = req.body;
+	let toSend = {username: username, password: keccak256(password)}
+	let checkRecord = executeMongoCommands('Rosoff-Club', 'Login-Data', 'findOne', {username: username});
+
+	if (!checkRecord)
+	{
+		let insertRecord = executeMongoCommands('Rosoff-Club', 'Login-Data', 'insertOne', toSend);
+		res.send({message: "Account Created Successfully"});
+	}
+
+	else
+	{
+		res.send({message: "Account Already Exists"});
+	}
+});
+
+app.post('/api/login', (req, res) =>
+{
+	let { username, password } = req.body;
+	/* executeMongoCommands('Rosoff-Club', 'Login-Data', 'findOne', {username: username})
+	.then((r) =>
+	{
+		console.error(r);
+
+		if (!r)
+		{
+			res.send({loginSuccess: false, message: "No Account Found"});
+		}
+
+		else if (r.password === password)
+		{
+			res.send({loginSuccess: true, message: "Login Successful"});
+		}
+
+		else
+		{
+			res.send({loginSuccess: false, message: "Invalid Password"});
+		}
+	});
+
+	*/
+	res.send(true);
+});
 
 app.post('/api/garageSwitch', (req, res) =>
 {
@@ -64,16 +133,6 @@ app.post('/api/garageSwitch', (req, res) =>
 			}, 2000 + 1000 * (90 - percentClosed) / 10)
 		}, 9000);
 	}
-
-	res.send(req.body);
-});
-
-app.post('/api/login', (req, res) =>
-{
-	let { username, password } = req.body;
-
-	if (username === validUserName && password === validPassword) res.send(true);
-	else res.send(false);
 });
 
 app.post('/api/getLatLngWeatherStats', (req, res) =>
@@ -98,7 +157,6 @@ app.post('/api/getLatLngWeatherStats', (req, res) =>
 	}
 	catch(error) {}
 });
-
 
 let port = secure ? 8443 : 8080;
 
