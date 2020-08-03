@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 import {Button, Grid, InputAdornment, TextField, Typography} from "@material-ui/core";
 
@@ -7,24 +7,55 @@ import LockIcon from "@material-ui/icons/Lock";
 import MailIcon from '@material-ui/icons/Mail';
 import PhoneIcon from '@material-ui/icons/Phone';
 
+import {useHistory} from "react-router-dom";
+
 import {keccak256} from "js-sha3";
 
 import {sendPostRequest} from "../../hooks/api";
 
 const CreateAccount = props =>
 {
+	const history = useHistory();
+
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [email, setEmail] = useState("");
 	const [phoneNumber, setPhoneNumber] = useState("");
 
+	const [disabledAccountCreation, setDisabledAccountCreation] = useState(true);
+
+	useEffect(() =>
+	{
+		if (!username || !password || !email)
+		{
+			setDisabledAccountCreation(true);
+		}
+
+		else
+		{
+			setDisabledAccountCreation(false);
+		}
+	}, [username, password, email]);
+
 	const createAccount = () =>
 	{
+		setDisabledAccountCreation(true);
+
 		sendPostRequest("createAccount", {username: username, password: keccak256(password), email: email, phoneNumber: phoneNumber})
 		.then(res =>
 		{
-			if (res.data) props.setLoggedIn(true);
-			else props.produceSnackBar("Incorrect Username or Password");
+			if (res.data.accountCreationSuccess)
+			{
+				props.produceSnackBar("Account Creation Successful, Please Log In", "info");
+				setDisabledAccountCreation(false);
+				history.push("/");
+			}
+
+			else
+			{
+				props.produceSnackBar(res.data.message, "error");
+				setDisabledAccountCreation(false);
+			}
 		})
 	};
 
@@ -47,7 +78,7 @@ const CreateAccount = props =>
 				<Grid item style={{width: "80%"}} align={"center"}>
 					<Button
 						color={"primary"} variant={"contained"} style={{width: "80%", height: "50px"}}
-						onClick={() => createAccount()}
+						disabled={disabledAccountCreation} onClick={() => createAccount()}
 					>
 						Create Account
 					</Button>
@@ -119,7 +150,7 @@ const LoginFields = props =>
 			</Grid>
 			<Grid item style={{width: '100%'}}>
 				<TextField
-					fullWidth color={"primary"} variant={"outlined"} required
+					fullWidth color={"primary"} variant={"outlined"}
 					label={"Phone Number"} value={props.phoneNumber} onChange={(e) => props.setPhoneNumber(e.target.value)}
 					onKeyDown={(e) =>
 					{

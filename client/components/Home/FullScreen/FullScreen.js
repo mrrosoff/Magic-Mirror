@@ -27,7 +27,7 @@ const FullScreenHome = props =>
 					<Grid item xs={12} sm={4}>
 						<GarageOpener {...props}/>
 					</Grid>
-					{props.width < 1200 ? null : <Divider orientation="vertical" flexItem style={{height: '90%'}}/>}
+					{props.width < 500 ? null : <Divider orientation="vertical" flexItem style={{height: '90%'}}/>}
 					<Grid
 						item xs={12} sm={8}
 						container justify={"center"} alignContent={"center"} alignItems={"center"} spacing={2}

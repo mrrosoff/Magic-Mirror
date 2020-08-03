@@ -14,24 +14,24 @@ const Router = props =>
 {
 	const {width, height} = useWindowSize();
 
-	let screen = width > 1200 ?
-		<FullScreenHome width={width} height={height} {...props}/> :
-		<MobileHome width={width} height={height} {...props}/>;
-
 	return (
 		<BrowserRouter>
 			<Switch>
 				<Route path="/home">
-					{screen}
+					{
+						width > 500 ?
+							<FullScreenHome width={width} height={height} {...props}/> :
+							<MobileHome width={width} height={height} {...props}/>
+					}
 				</Route>
 				<Route path="/createAccount">
-					<LoginLayout>
-						<CreateAccount />
+					<LoginLayout width={width} height={height} {...props}>
+						<CreateAccount {...props}/>
 					</LoginLayout>
 				</Route>
 				<Route path={"/"}>
-					<LoginLayout>
-						<Login />
+					<LoginLayout width={width} height={height} {...props}>
+						<Login {...props}/>
 					</LoginLayout>
 				</Route>
 			</Switch>

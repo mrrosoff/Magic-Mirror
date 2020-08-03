@@ -44,7 +44,7 @@ const executeMongoCommands = async (db, collection, command, query) => {
 	try
 	{
 		await client.connect();
-		return await client.db(db).collection(collection).findOne(query);
+		return await client.db(db).collection(collection)[command](query);
 	}
 
 	catch (err)
@@ -62,30 +62,27 @@ const keccak256 = require("js-sha3").keccak256;
 
 app.post('/api/createAccount', (req, res) =>
 {
-	let { username, password } = req.body;
-	let toSend = {username: username, password: keccak256(password)}
-	let checkRecord = executeMongoCommands('Rosoff-Club', 'Login-Data', 'findOne', {username: username});
+	let { username } = req.body;
 
-	if (!checkRecord)
+	executeMongoCommands('Rosoff-Club', 'Login-Data', 'findOne', {username: username})
+	.then((r) =>
 	{
-		let insertRecord = executeMongoCommands('Rosoff-Club', 'Login-Data', 'insertOne', toSend);
-		res.send({message: "Account Created Successfully"});
-	}
+		if(!r)
+		{
+			executeMongoCommands('Rosoff-Club', 'Login-Data', 'insertOne', req.body)
+			.then(r => res.send({accountCreationSuccess: true, message: "Account Created Successfully"}));
+		}
 
-	else
-	{
-		res.send({message: "Account Already Exists"});
-	}
+		else res.send({accountCreationSuccess: false, message: "Account With Username Already Exists!"})
+	});
 });
 
 app.post('/api/login', (req, res) =>
 {
 	let { username, password } = req.body;
-	/* executeMongoCommands('Rosoff-Club', 'Login-Data', 'findOne', {username: username})
+	executeMongoCommands('Rosoff-Club', 'Login-Data', 'findOne', {username: username})
 	.then((r) =>
 	{
-		console.error(r);
-
 		if (!r)
 		{
 			res.send({loginSuccess: false, message: "No Account Found"});
@@ -101,9 +98,6 @@ app.post('/api/login', (req, res) =>
 			res.send({loginSuccess: false, message: "Invalid Password"});
 		}
 	});
-
-	*/
-	res.send(true);
 });
 
 app.post('/api/garageSwitch', (req, res) =>

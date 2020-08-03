@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from "react-router-dom";
 
 import {Box, Grid, Link, Paper} from "@material-ui/core";
 
@@ -13,10 +13,10 @@ const LoginLayout = props =>
 		<>
 			<div className={"background-image"} />
 			<div className={"content"}>
-				<Box p={4}>
+				<Box p={props.width < 500 ? 0 : 4}>
 					<Grid
 						container justify={"center"} alignContent={"center"} alignItems={"center"}
-						style={{height: "92vh"}}
+						style={{height: props.width < 500 ? "95vh" : "92vh"}}
 					>
 						<Grid item xs={12} sm={12} md={5}>
 							<Paper elevation={8} style={{height: '80vh', position: "relative"}}>
@@ -24,7 +24,7 @@ const LoginLayout = props =>
 									container justify={"center"} alignContent={"center"} alignItems={"center"}
 									style={{height: "100%"}}
 								>
-									<Grid item style={{width: '80%'}}>
+									<Grid item style={{width: props.width < 500 ? '95%' : '80%'}}>
 										{props.children}
 									</Grid>
 								</Grid>

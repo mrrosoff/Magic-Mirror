@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-import { useHistory } from 'react-router-dom'
+import {useHistory} from "react-router-dom";
 
 import { Button, Grid, InputAdornment, TextField, Typography } from "@material-ui/core";
 
@@ -23,8 +23,8 @@ const Login = props =>
 		sendPostRequest("login", {username: username, password: keccak256(password)})
 		.then(res =>
 		{
-			if (res.data) history.push("/home");
-			else props.produceSnackBar("Incorrect Username or Password");
+			if (res.data.loginSuccess) history.push("/home");
+			else props.produceSnackBar(res.data.message);
 		})
 	};
 
