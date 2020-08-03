@@ -58,8 +58,6 @@ const executeMongoCommands = async (db, collection, command, query) => {
 	}
 };
 
-const keccak256 = require("js-sha3").keccak256;
-
 app.post('/api/createAccount', (req, res) =>
 {
 	let { username } = req.body;
