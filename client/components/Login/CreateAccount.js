@@ -41,12 +41,12 @@ const CreateAccount = props =>
 	{
 		setDisabledAccountCreation(true);
 
-		sendPostRequest("createAccount", {username: username, password: keccak256(password), email: email, phoneNumber: phoneNumber})
+		sendPostRequest("createAccount", {username: username, password: keccak256(password), email: email, phoneNumber: phoneNumber, approved: false})
 		.then(res =>
 		{
 			if (res.data.accountCreationSuccess)
 			{
-				props.produceSnackBar("Account Creation Successful, Please Log In", "info");
+				props.produceSnackBar("Account Creation Successful", "info");
 				setDisabledAccountCreation(false);
 				history.push("/");
 			}

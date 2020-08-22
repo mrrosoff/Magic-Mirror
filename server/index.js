@@ -86,9 +86,14 @@ app.post('/api/login', (req, res) =>
 			res.send({loginSuccess: false, message: "No Account Found"});
 		}
 
+		else if(!r.admin && !r.approved)
+		{
+			res.send({loginSuccess: false, message: "Your Account Has Not Been Approved By An Admin"});
+		}
+
 		else if (r.password === password)
 		{
-			res.send({loginSuccess: true, message: "Login Successful"});
+			res.send({loginSuccess: true, message: "Login Successful", admin: r.admin});
 		}
 
 		else

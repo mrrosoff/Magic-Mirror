@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from "react";
 
-import { Button, Box, Divider, Grid, Typography } from "@material-ui/core";
+import { Button, Box, Divider, Grid, Paper, Typography } from "@material-ui/core";
+
+import HomeTwoToneIcon from '@material-ui/icons/HomeTwoTone';
 
 import { sendPostRequest } from "../../../hooks/api";
+
 import HomeScreenDrawer from "../HomeScreenDrawer";
 
 const FullScreenHome = props =>
@@ -20,20 +23,22 @@ const FullScreenHome = props =>
 	return (
 		<HomeScreenDrawer>
 			<Box pl={2} pr={2}>
-				<Grid
-					container justify={"center"} alignContent={"center"} alignItems={"center"}
-					spacing={6} style={{height: "90vh"}}
-				>
-					<Grid item xs={12} sm={4}>
-						<GarageOpener {...props}/>
+				<Grid container spacing={6} style={{height: "90vh"}}>
+					<Grid item xs={12} sm={4} container justify={"center"} alignContent={"center"} alignItems={"center"}>
+						<Grid item>
+							<GarageOpener {...props}/>
+						</Grid>
 					</Grid>
-					{props.width < 500 ? null : <Divider orientation="vertical" flexItem style={{height: '90%'}}/>}
-					<Grid
-						item xs={12} sm={8}
-						container justify={"center"} alignContent={"center"} alignItems={"center"} spacing={2}
-					>
-						<Grid item style={{width: '100%'}}>
-							<Weather />
+					{props.width < 500 ? null : <Divider orientation="vertical" flexItem style={{justifySelf: 'center', alignSelf: 'center', height: '90%'}}/>}
+					<Grid item xs={12} sm={8} container spacing={4} style={{padding: 40}}>
+						{
+							props.adminDashboard ?
+								<Grid item>
+									<AdminWidget />
+								</Grid> : null
+						}
+						<Grid item>
+							<WeatherWidget />
 						</Grid>
 					</Grid>
 				</Grid>
@@ -51,7 +56,7 @@ const GarageOpener = props =>
 				<Button color={"primary"} variant={"contained"} size={"large"} style={{width: '100%', height: 400}}
 						onClick={() => sendPostRequest("garageSwitch", {percentClosed: 100})}
 				>
-					<Typography color={"inherit"} variant={"h3"}>Garage Door</Typography>
+					<HomeTwoToneIcon style={{width: '100%', height: '100%'}}/>
 				</Button>
 			</Grid>
 			<Grid
@@ -70,9 +75,37 @@ const GarageOpener = props =>
 	)
 };
 
-const Weather = props =>
+const AdminWidget = props =>
 {
-	return null;
+	useEffect(() =>
+	{
+
+	}, []);
+
+	return (
+		<Paper>
+			<Box width={300} height={300}>
+				<Grid container justify={"center"} alignItems={"center"} alignContent={"center"} spacing={2}>
+					<Grid item>
+						This is an admin widget
+					</Grid>
+				</Grid>
+			</Box>
+		</Paper>
+	);
+}
+
+const WeatherWidget = props =>
+{
+	return (
+		<Paper>
+			<Box width={300} height={300}>
+				<Grid container justify={"center"} alignItems={"center"} alignContent={"center"} spacing={2}>
+					It is hot out!
+				</Grid>
+			</Box>
+		</Paper>
+	);
 }
 
 export default FullScreenHome;

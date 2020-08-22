@@ -23,7 +23,11 @@ const Login = props =>
 		sendPostRequest("login", {username: username, password: keccak256(password)})
 		.then(res =>
 		{
-			if (res.data.loginSuccess) history.push("/home");
+			if (res.data.loginSuccess)
+			{
+				props.setAdminDashboard(Boolean(res.data.admin));
+				history.push("/home");
+			}
 			else props.produceSnackBar(res.data.message);
 		})
 	};
