@@ -46,22 +46,12 @@ const recipeasySchema = require("./schema/recipeasySchema")
 garageAPI.map(({path, callback}) => app.post('/api/garage/' + path, validate({body: garageSchema}), callback));
 recipeasyAPI.map(({path, callback}) => app.post('/api/recipeasy/' + path, validate({body: recipeasySchema}), callback));
 
-app.use(function(err, req, res, next) {
-
-	let responseData;
-
+app.use((err, req, res, next) =>
+{
 	if (err.name === 'JsonSchemaValidation')
 	{
-
 		res.status(400);
-
-		responseData =
-			{
-				statusText: 'Bad Request',
-				errors: err.validations
-			};
-
-		res.json(responseData);
+		res.json({ statusText: 'Bad Request', errors: err.validations });
 	}
 });
 

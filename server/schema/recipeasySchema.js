@@ -1,5 +1,5 @@
 
-recipeasySchema =
+const recipeasySchema =
 	{
 
 	}
