@@ -4,13 +4,13 @@
 
 ## About Project
 
-After viewing the button on my family's garage wall for enough years, I decided to finally do something about it. I 
+After viewing the button on my family's garageAPI wall for enough years, I decided to finally do something about it. I 
 imagined a world where there was a central database for important information about family endeavors, where one could go
 for quick information at a glance, but also for more detailed info.
 
 Thus, the Garage-Pi was born.
 
-A Raspberry Pi runs a custom express webserver out of our garage. Linked to our custom domain, one can access all garage
+A Raspberry Pi runs a custom express webserver out of our garageAPI. Linked to our custom domain, one can access all garageAPI
 controls from their mobile device, anytime, anywhere. A hashed login page provides a measure of security when 
 communicating with the API. 
 

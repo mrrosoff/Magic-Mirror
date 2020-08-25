@@ -1,0 +1,7 @@
+
+garageSchema =
+	{
+
+	}
+
+module.exports = garageSchema;

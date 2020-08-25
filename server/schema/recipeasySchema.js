@@ -1,0 +1,7 @@
+
+recipeasySchema =
+	{
+
+	}
+
+module.exports = recipeasySchema;
