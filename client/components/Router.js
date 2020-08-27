@@ -5,8 +5,7 @@ import {BrowserRouter, Switch, Route} from "react-router-dom";
 import LoginLayout from "./Login/LoginLayout";
 import Login from "./Login/Login";
 import CreateAccount from "./Login/CreateAccount";
-import MobileHome from "./Home/Mobile/Mobile";
-import FullScreenHome from "./Home/FullScreen/FullScreen";
+import Home from "./Home/Home";
 
 import useWindowSize from "../hooks/useWindowSize";
 
@@ -19,11 +18,7 @@ const Router = props =>
 		<BrowserRouter>
 			<Switch>
 				<Route path="/home">
-					{
-						width > 500 ?
-							<FullScreenHome width={width} height={height} adminDashboard={adminDashboard} {...props}/> :
-							<MobileHome width={width} height={height} adminDashboard={adminDashboard} {...props}/>
-					}
+					<Home width={width} height={height} adminDashboard={adminDashboard} {...props}/> :
 				</Route>
 				<Route path="/createAccount">
 					<LoginLayout width={width} height={height} {...props}>
