@@ -1,7 +1,7 @@
 {
-  "name": "react-express-template",
-  "version": "1.0.0",
-  "description": "Project Short Description",
+  "name": "garage-pi",
+  "version": "1.1.0",
+  "description": "A Custom Website For A Garage Door Opener",
   "scripts": {
     "devServer": "nodemon server/index.js",
     "devClient": "webpack-dev-server -d",
