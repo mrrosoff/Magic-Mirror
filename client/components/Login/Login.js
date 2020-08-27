@@ -9,7 +9,7 @@ import LockIcon from '@material-ui/icons/Lock';
 
 import { keccak256 } from 'js-sha3';
 
-import {sendPostRequest} from "../../hooks/api";
+import { sendUserDataRequest } from "../../hooks/api";
 
 const Login = props =>
 {
@@ -20,7 +20,7 @@ const Login = props =>
 
 	const login = () =>
 	{
-		sendPostRequest("login", {username: username, password: keccak256(password)})
+		sendUserDataRequest("login", {username: username, password: keccak256(password)})
 		.then(res =>
 		{
 			if (res.data.loginSuccess)

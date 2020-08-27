@@ -4,7 +4,7 @@ import { Button, Box, Divider, Grid, Paper, Typography } from "@material-ui/core
 
 import HomeTwoToneIcon from '@material-ui/icons/HomeTwoTone';
 
-import { sendPostRequest } from "../../../hooks/api";
+import { sendGarageDataRequest, sendWeatherDataRequest } from "../../../hooks/api";
 
 import HomeScreenDrawer from "../HomeScreenDrawer";
 
@@ -16,7 +16,7 @@ const FullScreenHome = props =>
 	{
 		const getClosestTime = data => data.hours.find(element => new Date() < new Date(element.time));
 
-		sendPostRequest("getLatLngWeatherStats", {lat: "32.9546027", lng: "-117.2719195"})
+		sendWeatherDataRequest("getLatLngWeatherStats", {lat: "32.9546027", lng: "-117.2719195"})
 		.then(res => setDelMarWeatherData(getClosestTime(res.data)));
 	}, []);
 
@@ -54,7 +54,7 @@ const GarageOpener = props =>
 		<Grid container direction={"column"} justify={"center"} alignContent={"center"} alignItems={"center"} spacing={6}>
 			<Grid item>
 				<Button color={"primary"} variant={"contained"} size={"large"} style={{width: '100%', height: 400}}
-						onClick={() => sendPostRequest("garageSwitch", {percentClosed: 100})}
+						onClick={() => sendGarageDataRequest("garageSwitch", {percentClosed: 100})}
 				>
 					<HomeTwoToneIcon style={{width: '100%', height: '100%'}}/>
 				</Button>
@@ -65,7 +65,7 @@ const GarageOpener = props =>
 			>
 				<Grid item>
 					<Button color={"primary"} variant={"contained"} size={"large"} style={{width: '100%', height: 200}}
-							onClick={() => sendPostRequest("garageSwitch", {percentClosed: 90})}
+							onClick={() => sendGarageDataRequest("garageSwitch", {percentClosed: 90})}
 					>
 						<Typography color={"inherit"} variant={"h5"}>Close Garage 90%</Typography>
 					</Button>

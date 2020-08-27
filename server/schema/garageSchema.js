@@ -25,6 +25,15 @@ const garageSchema =
 							{
 								percentToClose: { type: 'number', required: true },
 							}
+					},
+				weatherData:
+					{
+						type: 'object', required: false,
+						properties:
+							{
+								lat: 'string',
+								lng: 'string'
+							}
 					}
 			}
 	}

@@ -4,7 +4,7 @@ import { Button, Box, Grid, Typography } from "@material-ui/core";
 
 import HomeScreenDrawer from "../HomeScreenDrawer";
 
-import {sendPostRequest} from "../../../hooks/api";
+import { sendGarageGarageDataRequest } from "../../../hooks/api";
 
 const MobileHome = props =>
 {
@@ -22,7 +22,7 @@ const MobileHome = props =>
 							</Grid>
 							<Grid item>
 								<Button color={"primary"} variant={"contained"} size={"large"}
-										onClick={() => sendPostRequest("garageSwitch", {percentClosed: 100})}
+										onClick={() => sendGarageGarageDataRequest("garageSwitch", {percentClosed: 100})}
 								>
 									Toggle Garage
 								</Button>

@@ -37,14 +37,13 @@ app.use((req, res, next) =>
 	else next();
 });
 
-const garageAPI = require("./api/garageAPI");
-const recipeasyAPI = require("./api/recipeasyAPI");
+const API = require("./api/RESTfulAPI");
 
 const garageSchema = require("./schema/garageSchema")
 const recipeasySchema = require("./schema/recipeasySchema")
 
-garageAPI.map(({path, callback}) => app.post('/api/garage/' + path, validate({body: garageSchema}), callback));
-recipeasyAPI.map(({path, callback}) => app.post('/api/recipeasy/' + path, validate({body: recipeasySchema}), callback));
+API.garage.map(({path, callback}) => app.post('/api/garage' + path, validate({body: garageSchema}), callback));
+API.recipeasy.map(({path, callback}) => app.post('/api/recipeasy' + path, validate({body: recipeasySchema}), callback));
 
 app.use((err, req, res, next) =>
 {

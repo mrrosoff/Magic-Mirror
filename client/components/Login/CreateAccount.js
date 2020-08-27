@@ -11,7 +11,7 @@ import {useHistory} from "react-router-dom";
 
 import {keccak256} from "js-sha3";
 
-import {sendPostRequest} from "../../hooks/api";
+import { sendUserDataRequest } from "../../hooks/api";
 
 const CreateAccount = props =>
 {
@@ -41,7 +41,7 @@ const CreateAccount = props =>
 	{
 		setDisabledAccountCreation(true);
 
-		sendPostRequest("createAccount", {username: username, password: keccak256(password), email: email, phoneNumber: phoneNumber, approved: false})
+		sendUserDataRequest("createAccount", {username: username, password: keccak256(password), email: email, phoneNumber: phoneNumber, approved: false})
 		.then(res =>
 		{
 			if (res.data.accountCreationSuccess)
