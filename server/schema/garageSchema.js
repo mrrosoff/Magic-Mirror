@@ -23,7 +23,7 @@ const garageSchema =
 						type: 'object', required: false,
 						properties:
 							{
-								percentToClose: { type: 'number', required: true },
+								percentToClose: { type: 'string', required: true },
 							}
 					},
 				weatherData:
