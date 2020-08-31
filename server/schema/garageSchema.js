@@ -11,7 +11,7 @@ const garageSchema =
 						type: 'object', required: false,
 						properties:
 							{
-								username: { type: 'string', required: true },
+								username: { type: 'string', required: false },
 								password: { type: 'string', required: false },
 								email:  { type: 'string', required: false },
 								phoneNumber: { type: 'string', required: false },
@@ -23,7 +23,7 @@ const garageSchema =
 						type: 'object', required: false,
 						properties:
 							{
-								percentToClose: { type: 'string', required: true },
+								percentToClose: { type: 'number', required: true },
 							}
 					},
 				weatherData:
