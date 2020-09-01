@@ -6,8 +6,7 @@ garageGarageData.push(
 		path: '/garageSwitch',
 		callback: (req, res) =>
 		{
-			console.error("Hello!");
-			let {percentClosed} = req.body;
+			let { percentClosed } = req.body.garageData;
 
 			let gpio = require('onoff').Gpio;
 			let doorPin = new gpio(4, 'out');
