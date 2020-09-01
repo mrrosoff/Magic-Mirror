@@ -8,7 +8,7 @@ garageGarageData.push(
 		{
 			let { percentClosed } = req.body.garageData;
 
-			console.error(req.body.garageData);
+			console.error("Hi Jaden", req.body.garageData);
 
 			let gpio = require('onoff').Gpio;
 			let doorPin = new gpio(4, 'out');
