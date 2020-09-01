@@ -51,6 +51,8 @@ app.use((err, req, res, next) =>
 	{
 		res.status(400);
 		res.json({ statusText: 'Bad Request', errors: err.validations });
+
+		console.error(err.validations);
 	}
 });
 

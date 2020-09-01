@@ -11,7 +11,7 @@ const garageSchema =
 						type: 'object', required: false,
 						properties:
 							{
-								username: { type: 'string', required: false },
+								username: { type: 'string', required: true },
 								password: { type: 'string', required: false },
 								email:  { type: 'string', required: false },
 								phoneNumber: { type: 'string', required: false },
