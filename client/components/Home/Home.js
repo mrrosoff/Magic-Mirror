@@ -45,7 +45,7 @@ const GarageOpener = props =>
 		<Grid container direction={"column"} justify={"center"} alignContent={"center"} alignItems={"center"} spacing={6}>
 			<Grid item>
 				<Button color={"primary"} variant={"contained"} size={"large"} style={{width: '100%', height: 400}}
-						onClick={() => sendGarageDataRequest("garageSwitch", {percentClosed: 100})}
+						onClick={() => sendGarageDataRequest("garageSwitch", {percentToClose: 100})}
 				>
 					<HomeTwoToneIcon style={{width: '100%', height: '100%'}}/>
 				</Button>
@@ -56,7 +56,7 @@ const GarageOpener = props =>
 			>
 				<Grid item>
 					<Button color={"primary"} variant={"contained"} size={"large"} style={{width: '100%', height: 200}}
-							onClick={() => sendGarageDataRequest("garageSwitch", {percentClosed: 90})}
+							onClick={() => sendGarageDataRequest("garageSwitch", {percentToClose: 90})}
 					>
 						<Typography color={"inherit"} variant={"h5"}>Close Garage 90%</Typography>
 					</Button>

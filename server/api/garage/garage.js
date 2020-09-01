@@ -6,9 +6,7 @@ garageGarageData.push(
 		path: '/garageSwitch',
 		callback: (req, res) =>
 		{
-			let { percentClosed } = req.body.garageData;
-
-			console.error("Hi Jaden", req.body.garageData);
+			let { percentToClose } = req.body.garageData;
 
 			let gpio = require('onoff').Gpio;
 			let doorPin = new gpio(4, 'out');
@@ -22,7 +20,7 @@ garageGarageData.push(
 
 			flipSwitch();
 
-			if(percentClosed !== 100)
+			if(percentToClose !== 100)
 			{
 				setTimeout(() =>
 				{
@@ -30,7 +28,7 @@ garageGarageData.push(
 					setTimeout(() =>
 					{
 						flipSwitch();
-					}, 2000 + 1000 * (90 - percentClosed) / 10)
+					}, 2000 + 1000 * (90 - percentToClose) / 10)
 				}, 9000);
 			}
 		}
