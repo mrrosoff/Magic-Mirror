@@ -6,7 +6,7 @@ const Widgets = props =>
 {
 	const widgets = [<AdminWidget {...props} />, <WeatherWidget {...props} />];
 	return(
-		<Grid item xs={12} sm={8} container spacing={4} style={{padding: 40}}>
+		<Grid container spacing={4} style={{height: "92vh"}}>
 			{widgets.map(widget => <Grid item>{widget}</Grid>)}
 		</Grid>
 	);

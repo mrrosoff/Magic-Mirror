@@ -5,8 +5,8 @@
   "scripts": {
     "devServer": "nodemon server/index.js",
     "devClient": "webpack-dev-server -d",
-    "dev": "concurrently --kill-others-on-fail \"npm run devClient\" \"npm run devServer\"",
-    "prod": "webpack -p && node server/index.js"
+    "start": "concurrently --kill-others-on-fail \"npm run devClient\" \"npm run devServer\"",
+    "build": "webpack -p && node server/index.js"
   },
   "author": "Max Rosoff",
   "license": "MIT",

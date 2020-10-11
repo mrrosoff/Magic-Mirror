@@ -6,8 +6,8 @@ import HomeTwoToneIcon from '@material-ui/icons/HomeTwoTone';
 
 import { sendGarageDataRequest, sendWeatherDataRequest } from "../../hooks/api";
 
-import HomeScreenDrawer from "./HomeScreenDrawer";
 import Widgets from "./Widgets";
+import Paper from "@material-ui/core/Paper";
 
 const Home = props =>
 {
@@ -22,20 +22,25 @@ const Home = props =>
 	}, []);
 
 	return (
-		<HomeScreenDrawer>
-			<Box pl={2} pr={2}>
-				<Grid container spacing={6} style={{height: "90vh"}}>
-					<Grid item xs={12} sm={4} container justify={"center"} alignContent={"center"} alignItems={"center"}>
+		<Box p={2}>
+
+			<Grid container spacing={6} justify={"center"} alignContent={"center"} alignItems={"center"} style={{width: "100vw", height: "99.5vh"}}>
+
+				<Grid item xs={12} sm={3}>
+					<Grid container justify={"center"} alignContent={"center"} alignItems={"center"}>
 						<Grid item>
 							<GarageOpener {...props}/>
 						</Grid>
 					</Grid>
-					{props.width < 500 ? null : <Divider orientation="vertical" flexItem style={{justifySelf: 'center', alignSelf: 'center', height: '90%'}}/>}
-						<Widgets {...props}/>
 				</Grid>
-			</Box>
-		</HomeScreenDrawer>
 
+				{props.width < 500 ? null : <Grid item style={{height: '90%'}}><Divider orientation="vertical" /></Grid>}
+				<Grid item xs={12} sm={8}>
+					<Widgets {...props}/>
+				</Grid>
+			</Grid>
+
+		</Box>
 	)
 };
 
@@ -50,17 +55,12 @@ const GarageOpener = props =>
 					<HomeTwoToneIcon style={{width: '100%', height: '100%'}}/>
 				</Button>
 			</Grid>
-			<Grid
-				item
-				container justify={"center"} alignContent={"center"} alignItems={"center"} spacing={4}
-			>
-				<Grid item>
-					<Button color={"primary"} variant={"contained"} size={"large"} style={{width: '100%', height: 200}}
-							onClick={() => sendGarageDataRequest("garageSwitch", {percentToClose: 90})}
-					>
-						<Typography color={"inherit"} variant={"h5"}>Close Garage 90%</Typography>
-					</Button>
-				</Grid>
+			<Grid item>
+				<Button color={"primary"} variant={"contained"} size={"large"} style={{width: '100%', height: 200}}
+						onClick={() => sendGarageDataRequest("garageSwitch", {percentToClose: 90})}
+				>
+					<Typography color={"inherit"} variant={"h5"}>Close Garage 90%</Typography>
+				</Button>
 			</Grid>
 		</Grid>
 	)

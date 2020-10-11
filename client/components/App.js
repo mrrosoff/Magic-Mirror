@@ -18,7 +18,7 @@ const LoadApp = props =>
 
 const App = () =>
 {
-    const [darkMode, setDarkMode] = useState(useMediaQuery('(prefers-color-scheme: dark)'));
+    const darkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
     const theme = React.useMemo(
         () =>
@@ -35,7 +35,7 @@ const App = () =>
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <SnackbarProvider maxSnack={3} preventDuplicate>
-                <LoadApp darkMode={darkMode} setDarkMode={setDarkMode}/>
+                <LoadApp darkMode={darkMode} />
             </SnackbarProvider>
         </ThemeProvider>
     );
