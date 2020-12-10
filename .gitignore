@@ -1,4 +1,4 @@
-# Webstorm Files
+# Idea Files
 
 .idea/workspace.xml
 
@@ -10,5 +10,12 @@ package-lock.json
 # Output Files
 
 build
+coverage
 dist
+lib
 out
+
+# Server Files
+
+dependency-reduced-pom.xml
+target
