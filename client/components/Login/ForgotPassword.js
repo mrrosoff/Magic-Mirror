@@ -3,9 +3,7 @@ import React, {useState} from "react";
 import {Grid, InputAdornment, Link, TextField, Typography} from "@material-ui/core";
 
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import EmailIcon from '@material-ui/icons/Email';
 import PhoneIcon from '@material-ui/icons/Phone';
-import LockIcon from '@material-ui/icons/Lock';
 
 import {SignInButton} from "../UI/Buttons";
 import Logo from "../UI/Logo";
@@ -14,7 +12,7 @@ import MaskedInput from 'react-text-mask';
 
 import { post } from "../../hooks/useAPI";
 
-const CreateAccount = props =>
+const ForgotPassword = props =>
 {
 	return(
 
@@ -31,10 +29,10 @@ const CreateAccount = props =>
 					  direction={"column"} justify={"center"} alignItems={"center"} alignContent={"center"}
 				>
 					<Grid item>
-						<Typography variant={"h5"} align={"center"}>Create Account</Typography>
+						<Typography variant={"h5"} align={"center"}>Forgot Password</Typography>
 					</Grid>
 					<Grid item>
-						<Typography variant={"body1"} align={"center"}>Give us a few details, and you will be on your way.</Typography>
+						<Typography variant={"body1"} align={"center"}>Don't worry, it happens to the best of us.</Typography>
 					</Grid>
 				</Grid>
 				<Grid item style={{width: "90%"}}>
@@ -51,11 +49,9 @@ const CreateAccount = props =>
 const SignInArea = props =>
 {
 	const [username, setUsername] = useState("");
-	const [email, setEmail] = useState("");
 	const [phoneNumber, setPhoneNumber] = useState("");
-	const [password, setPassword] = useState("");
 
-	const createAccount = () =>
+	const resetAccount = () =>
 	{
 		post("login", {username: username, password: password})
 		.then(res =>
@@ -71,15 +67,13 @@ const SignInArea = props =>
 			<Grid item style={{width: "100%"}}>
 				<LoginFields
 					username={username} setUsername={setUsername}
-					email={email} setEmail={setEmail}
 					phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber}
-					password={password} setPassword={setPassword}
-					createAccount={createAccount} {...props}
+					resetAccount={resetAccount} {...props}
 				/>
 			</Grid>
 			<Grid item>
-				<SignInButton onClick={() => createAccount()}>
-					Create Account
+				<SignInButton onClick={() => resetAccount()}>
+					Reset Account
 				</SignInButton>
 			</Grid>
 		</Grid>
@@ -104,7 +98,7 @@ const LoginFields = props =>
 				<Grid item style={{width: '100%'}}>
 					<TextField
 						fullWidth autoComplete={"username"} size={"medium"}
-						label={"Username"} value={props.username} onChange={(e) => props.setUsername(e.target.value)}
+						label={"Username or Email"} value={props.username} onChange={(e) => props.setUsername(e.target.value)}
 						onKeyDown={(e) =>
 						{
 							if(e.key === 'Enter') moveDown(0);
@@ -121,50 +115,16 @@ const LoginFields = props =>
 				<Grid item style={{width: '100%'}}>
 					<TextField
 						fullWidth
-						label={"Email"} value={props.email} onChange={(e) => props.setEmail(e.target.value)}
-						onKeyDown={(e) =>
-						{
-							if(e.key === 'Enter') moveDown(1);
-						}}
-						InputProps={{
-							startAdornment: (
-								<InputAdornment position="start">
-									<EmailIcon />
-								</InputAdornment>
-							),
-						}}
-					/>
-				</Grid>
-				<Grid item style={{width: '100%'}}>
-					<TextField
-						fullWidth
 						label={"Phone Number"} value={props.phoneNumber} onChange={(e) => props.setPhoneNumber(e.target.value)}
 						onKeyDown={(e) =>
 						{
-							if(e.key === 'Enter') moveDown(2);
+							if(e.key === 'Enter') props.resetAccount();
 						}}
 						InputProps={{
 							inputComponent: PhoneNumberInput,
 							startAdornment: (
 								<InputAdornment position="start">
 									<PhoneIcon />
-								</InputAdornment>
-							),
-						}}
-					/>
-				</Grid>
-				<Grid item style={{width: '100%'}}>
-					<TextField
-						fullWidth type={"password"} autoComplete={"current-password"}
-						label={"Password"} value={props.password} onChange={(e) => props.setPassword(e.target.value)}
-						onKeyDown={(e) =>
-						{
-							if(e.key === 'Enter') props.createAccount();
-						}}
-						InputProps={{
-							startAdornment: (
-								<InputAdornment position="start">
-									<LockIcon />
 								</InputAdornment>
 							),
 						}}
@@ -196,7 +156,7 @@ const BackToSignInArea = props =>
 			  justify={"center"} alignItems={"center"} alignContent={"center"}
 		>
 			<Grid item>
-				<Typography variant={"body2"}>Already have an account?</Typography>
+				<Typography variant={"body2"}>Suddenly Remember?</Typography>
 			</Grid>
 			<Grid item>
 				<Link variant={"body2"} onClick={() => props.history.push("/")}>Sign In</Link>
@@ -205,4 +165,4 @@ const BackToSignInArea = props =>
 	)
 }
 
-export default CreateAccount;
+export default ForgotPassword;

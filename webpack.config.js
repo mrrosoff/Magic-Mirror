@@ -6,8 +6,8 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const outputDirectory = "dist";
 
 module.exports = {
-	entry: ["@babel/polyfill", "./site/index.js"],
-	devServer: {port: 3000, open: true, hot: true},
+	entry: ["@babel/polyfill", "./client/index.js"],
+	devServer: {port: 3000, open: true, hot: true, historyApiFallback: true},
 	devtool: 'eval-source-map',
 	module: {
 		rules: [
@@ -33,8 +33,9 @@ module.exports = {
 	plugins: [
 		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
-			template: "./site/static/template/index.html",
-			favicon: "./site/static/template/favicon.ico"
+			template: "./client/static/template/index.html",
+			favicon: "./client/static/template/favicon.ico",
+			title: 'Rosoff Club'
 		}),
 		new webpack.HotModuleReplacementPlugin()
 	],

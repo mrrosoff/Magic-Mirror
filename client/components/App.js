@@ -1,8 +1,9 @@
-import React, {useState} from "react";
+import React from "react";
 
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from "@material-ui/core/CssBaseline";
+import {CssBaseline} from "@material-ui/core";
+import {blue, blueGrey, green, grey} from "@material-ui/core/colors";
+
+import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
 
 import { SnackbarProvider, useSnackbar } from 'notistack';
 
@@ -18,24 +19,20 @@ const LoadApp = props =>
 
 const App = () =>
 {
-    const darkMode = useMediaQuery('(prefers-color-scheme: dark)');
-
-    const theme = React.useMemo(
-        () =>
-            createMuiTheme({
-                palette: {
-                    type: darkMode ? 'dark' : 'light',
-                    primary: { main: '#72BCD4' }
-                },
-            }),
-        [darkMode],
-    );
+    let theme = createMuiTheme({
+        palette: {
+            type: 'light',
+            primary: { main: green[500] },
+            secondary: { main: blueGrey[500] }
+        },
+    });
+    theme = responsiveFontSizes(theme);
 
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <SnackbarProvider maxSnack={3} preventDuplicate>
-                <LoadApp darkMode={darkMode} />
+                <LoadApp />
             </SnackbarProvider>
         </ThemeProvider>
     );

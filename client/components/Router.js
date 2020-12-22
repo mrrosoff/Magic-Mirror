@@ -1,38 +1,77 @@
-import React, {useState} from "react";
+import React, {createContext} from "react";
 
-import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {BrowserRouter, Switch, Route, useHistory} from "react-router-dom";
 
 import LoginLayout from "./Login/LoginLayout";
-import Login from "./Login/Login";
+import LandingPage from "./Login/LandingPage";
 import CreateAccount from "./Login/CreateAccount";
-import Home from "./Home/Home";
+import ForgotPassword from "./Login/ForgotPassword";
 
-import useWindowSize from "../hooks/useWindowSize";
+import HomeRoute from "./Home/HomeRoute";
+import DashBoard from "./Home/Dashboard/Dashboard";
+
+import NotFound from "./NotFound";
+
+export const AuthContext = createContext();
 
 const Router = props =>
 {
-	const {width, height} = useWindowSize();
-	const [adminDashboard, setAdminDashboard] = useState(false);
-
 	return (
-		<BrowserRouter>
-			<Switch>
-				<Route path="/home">
-					<Home width={width} height={height} adminDashboard={adminDashboard} {...props}/> :
-				</Route>
-				<Route path="/createAccount">
-					<LoginLayout width={width} height={height} {...props}>
-						<CreateAccount {...props}/>
-					</LoginLayout>
-				</Route>
-				<Route path={"/"}>
-					<LoginLayout width={width} height={height} {...props}>
-						<Login setAdminDashboard={setAdminDashboard} {...props}/>
-					</LoginLayout>
-				</Route>
-			</Switch>
-		</BrowserRouter>
+		<AuthNeeded>
+			<BrowserRouter>
+				<Routes {...props}/>
+			</BrowserRouter>
+		</AuthNeeded>
 	);
 };
+
+const Routes = props =>
+{
+	const history = useHistory();
+
+	return(
+		<Switch>
+			<Route exact path={"/"}>
+				<LoginLayout>
+					<LandingPage history={history} {...props}/>
+				</LoginLayout>
+			</Route>
+			<Route exact path={"/create-account"}>
+				<LoginLayout>
+					<CreateAccount history={history} {...props}/>
+				</LoginLayout>
+			</Route>
+			<Route exact path={"/forgot-password"}>
+				<LoginLayout>
+					<ForgotPassword history={history} {...props}/>
+				</LoginLayout>
+			</Route>
+			<HomeRoute exact path={"/dashboard"} history={history} {...props}>
+				<DashBoard history={history} {...props} />
+			</HomeRoute>
+			<Route exact path={"*"}>
+				<LoginLayout>
+					<NotFound history={history} {...props}/>
+				</LoginLayout>
+			</Route>
+		</Switch>
+	)
+}
+
+const AuthNeeded = props =>
+{
+	const authData = {
+		userData: null,
+		setUserData: (value) => authData.userData = value,
+		loggedIn: false,
+		setLoggedIn: (value) => authData.loggedIn = value
+	}
+
+	return (
+		<AuthContext.Provider value={authData}>
+			{props.children}
+		</AuthContext.Provider>
+	);
+}
 
 export default Router;

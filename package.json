@@ -1,6 +1,6 @@
 {
   "name": "garage-pi",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A Custom Website For A Garage Door Opener",
   "scripts": {
     "devServer": "nodemon server/index.js",
@@ -15,16 +15,13 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@material-ui/styles": "^4.11.2",
-    "@mui-treasury/components": "^1.9.1",
-    "@mui-treasury/styles": "^1.13.0",
-    "@mui-treasury/styling": "^0.2.8",
-    "axios": "^0.19.2",
+    "autoprefixer": "^10.1.0",
+    "axios": "^0.21.0",
     "body-parser": "^1.19.0",
     "clsx": "latest",
     "express": "^4.17.1",
     "express-jsonschema": "^1.1.6",
     "framer-motion": "^2.9.5",
-    "js-sha3": "^0.8.0",
     "lodash": "^4.17.20",
     "module-alias": "^2.2.2",
     "moment": "^2.27.0",
@@ -33,7 +30,9 @@
     "onoff": "^6.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-google-login": "^5.1.25",
     "react-router-dom": "^5.2.0",
+    "react-text-mask": "^5.4.3",
     "react-transition-group": "^4.4.1"
   },
   "devDependencies": {
