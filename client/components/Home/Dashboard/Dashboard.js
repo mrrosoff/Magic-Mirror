@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from 'react';
 
 import {Box, CircularProgress, Grid, IconButton, Typography} from '@material-ui/core';
 import {grey} from "@material-ui/core/colors";
@@ -10,6 +10,7 @@ import OpacityIcon from '@material-ui/icons/Opacity';
 import WavesIcon from '@material-ui/icons/Waves';
 import DirectionsIcon from '@material-ui/icons/Directions';
 
+import {AuthContext} from '../../Router';
 import {getSurf, getTidePrediction, getTideActual, getWeather} from '../../../hooks/useAPI';
 
 import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
@@ -58,11 +59,16 @@ const DashBoard = props =>
 		return () => clearInterval(interval);
 	}, [])
 
+	let authData = useContext(AuthContext);
+
 	return (
 		<Grid container spacing={5}>
-			<Grid item>
-				<WidgetCard title={"Administration"}/>
-			</Grid>
+			{
+				authData.userData.admin ?
+					<Grid item>
+						<WidgetCard title={"Admin"}/>
+					</Grid> : null
+			}
 			<Grid item>
 				<WidgetCard title={"Surf"}/>
 			</Grid>
@@ -102,7 +108,7 @@ const WidgetCard = props =>
 					</Grid>
 				</Grid>
 				<Grid item>
-					<Grid container direction={"column"} spacing={4}>
+					<Grid container direction={"column"} spacing={2}>
 						<Grid item>
 							<Typography variant={"h3"}>{props.title}</Typography>
 						</Grid>
@@ -190,6 +196,7 @@ const TideCard = props =>
 	if (!props.tidePredictionData || !props.tideActualData) return null;
 
 	const firstDataPointDate = new Date(props.tidePredictionData.predictions[0].t);
+	const lastActualPointDate = new Date(props.tideActualData.data[props.tideActualData.data.length - 1].t);
 
 	const startDate = new Date(firstDataPointDate.getFullYear(), firstDataPointDate.getMonth(), firstDataPointDate.getDate());
 	const endDate = new Date(firstDataPointDate.getFullYear(), firstDataPointDate.getMonth(), firstDataPointDate.getDate());
@@ -199,19 +206,81 @@ const TideCard = props =>
 
 	let data = predictionData.map(obj => ({...obj, ...actualData.find(item => item.timeNumber === obj.timeNumber)}));
 
+	let directionOne = true;
+	let dataPointOne;
+	let foundDirection = false;
+
+	for (let i = 0; i < predictionData.length; i++)
+	{
+		if(predictionData[i].time < lastActualPointDate) continue;
+
+		if(!foundDirection)
+		{
+			if (!dataPointOne) dataPointOne = predictionData[i];
+
+			else
+			{
+				if(predictionData[i].prediction < dataPointOne.prediction) directionOne = false;
+				foundDirection = true;
+				dataPointOne = predictionData[i];
+			}
+		}
+
+		else
+		{
+			if (directionOne)
+			{
+				if(predictionData[i].prediction < dataPointOne.prediction) break;
+			}
+
+			else
+			{
+				if(predictionData[i].prediction > dataPointOne.prediction) break;
+			}
+
+			dataPointOne = predictionData[i];
+		}
+	}
+
+	let directionTwo = !directionOne;
+	let dataPointTwo;
+
+	for(let i = 0; i < predictionData.length; i++)
+	{
+		if (predictionData[i].time < dataPointOne.time)
+		{
+			dataPointTwo = predictionData[i];
+			continue;
+		}
+
+		if (directionTwo)
+		{
+			if(predictionData[i].prediction < dataPointTwo.prediction) break;
+		}
+
+		else
+		{
+			if(predictionData[i].prediction > dataPointTwo.prediction) break;
+		}
+
+		dataPointTwo = predictionData[i];
+	}
+
+	const highTide = foundDirection ? dataPointOne.time : dataPointTwo.time;
+	const lowTide = foundDirection ? dataPointTwo.time : dataPointOne.time;
 
 	return(
 		<Grid container direction={"column"} spacing={3}
-			justify={"center"} alignItems={"center"} alignContent={"center"}
+			  justify={"center"} alignItems={"center"} alignContent={"center"}
 		>
-			<Grid item container spacing={4}
+			<Grid item container spacing={6}
 				  justify={"center"} alignItems={"center"} alignContent={"center"}
 			>
 				<Grid item>
-					<Typography variant={"h6"}>Next Low Tide: 1:00 PM</Typography>
+					<Typography variant={"h6"}>Next Low Tide: {moment(lowTide.getTime()).format('h:mm A')}</Typography>
 				</Grid>
 				<Grid item>
-					<Typography variant={"h6"}>Next High Tide: 2:00 PM</Typography>
+					<Typography variant={"h6"}>Next High Tide: {moment(highTide.getTime()).format('h:mm A')}</Typography>
 				</Grid>
 			</Grid>
 			<Grid item style={{width: "100%"}}>
