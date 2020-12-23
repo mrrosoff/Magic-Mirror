@@ -8,7 +8,7 @@ import CreateAccount from "./Login/CreateAccount";
 import ForgotPassword from "./Login/ForgotPassword";
 
 import HomeRoute from "./Home/HomeRoute";
-import DashBoard from "./Home/Dashboard/Dashboard";
+import DashBoard from "./Home/Dashboard";
 
 import NotFound from "./NotFound";
 
