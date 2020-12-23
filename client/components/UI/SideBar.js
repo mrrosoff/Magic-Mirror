@@ -1,78 +1,44 @@
 import React from "react";
 
-import {useLocation} from "react-router-dom";
-
-import {Box, Grid, Paper, Typography} from "@material-ui/core";
+import {Box, Button, Grid, IconButton, Paper, Typography} from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import PersonIcon from '@material-ui/icons/Person';
-import FlareIcon from '@material-ui/icons/Flare';
-import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
-import SettingsIcon from '@material-ui/icons/Settings';
+import HomeIcon from '@material-ui/icons/Home';
+
+import {post} from '../../hooks/useAPI';
 
 const useStyles = makeStyles(theme => ({
-	navBar: {
-		backgroundColor: theme.palette.secondary.main,
+	paper: {
 		padding: theme.spacing(3)
 	},
-	activeNavBar: {
-		backgroundColor: theme.palette.primary.main
+	garageIcon: {
+		width: "80%",
+		height: "80%"
 	}
 }));
 
 const SideBar = props =>
 {
 	const classes = useStyles();
-	let location = useLocation().pathname.replace("/", "");
-	let menuEntries = [
-		{ text: "Dashboard", icon: DashboardIcon },
-		{ text: "Profile", icon: PersonIcon },
-		{ text: "Collection", icon: FlareIcon },
-		{ text: "Matches", icon: SportsEsportsIcon },
-		{ text: "Settings", icon: SettingsIcon }
-	];
 
 	return(
 		<Box p={3} width={"100%"} height={"100%"}>
-			<Paper style={{width: "100%", height: "100%"}} className={classes.navBar}>
+			<Paper style={{width: "100%", height: "100%"}} className={classes.paper}>
 				<Grid container direction={"column"} spacing={1} style={{height: "100%"}}
 					  justify={"center"} alignItems={"center"} alignContent={"center"}
 				>
-					{menuEntries.map((item, index) =>
-						<Grid item key={index} style={{width: "100%"}}>
-							<NavMenuItem icon={item.icon} active={location === item.text.toLowerCase()} {...props}>
-								{item.text}
-							</NavMenuItem>
-						</Grid>
-					)}
+					<Grid item style={{width: "100%"}}>
+						<IconButton
+							style={{width: "100%"}}
+							onClick={() => post("garageSwitch")}
+						>
+							<HomeIcon className={classes.garageIcon}/>
+						</IconButton>
+					</Grid>
 				</Grid>
 			</Paper>
 		</Box>
-	)
-}
-
-const NavMenuItem = props =>
-{
-	const Icon = props.icon;
-	const Back = props.active ? Paper : Box
-
-	const classes = useStyles();
-
-	return(
-		<Back elevation={8} style={{width: 150, height: 120}} onClick={() => props.history.push(props.children.toLowerCase())} className={props.active ? classes.activeNavBar : null}>
-			<Grid container direction={"column"} style={{height: "100%"}}
-				  justify={"center"} alignContent={"center"} alignItems={"center"}
-			>
-				<Grid item>
-					<Icon style={{fill: "white"}}/>
-				</Grid>
-				<Grid item>
-					<Typography variant={"h6"} style={{color: "white"}}>{props.children}</Typography>
-				</Grid>
-			</Grid>
-		</Back>
 	)
 }
 

@@ -7,7 +7,7 @@ const outputDirectory = "dist";
 
 module.exports = {
 	entry: ["@babel/polyfill", "./client/index.js"],
-	devServer: {port: 3000, open: true, hot: true, historyApiFallback: true},
+	devServer: {port: 3000, open: true, hot: true, historyApiFallback: true, proxy: { "/api/*": "http://localhost:8080" }},
 	devtool: 'eval-source-map',
 	module: {
 		rules: [

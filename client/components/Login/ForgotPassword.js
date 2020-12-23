@@ -53,10 +53,10 @@ const SignInArea = props =>
 
 	const resetAccount = () =>
 	{
-		post("login", {username: username, password: password})
-		.then(res =>
+		post("forgotPassword", {username: username, phoneNumber: phoneNumber})
+		.then(r =>
 		{
-
+			props.produceSnackBar("Not Implemented Yet");
 		})
 	};
 

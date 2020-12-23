@@ -1,12 +1,6 @@
 
-const garageUserData = require("./garage/userData");
-const garageGarageData = require("./garage/garage");
-const garageWeatherData = require("./garage/weather");
+const login = require("./garage/login");
+const garage = require("./garage/garage");
+const weather = require("./garage/weather");
 
-const recipeasy = require("./recipeasy/recipeasyAPI");
-
-module.exports =
-	{
-		garage: [...garageUserData, ...garageGarageData, ...garageWeatherData],
-		recipeasy: [...recipeasy]
-	}
+module.exports = [...login, ...garage, ...weather];

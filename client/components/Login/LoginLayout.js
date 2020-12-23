@@ -17,6 +17,9 @@ const useStyles = makeStyles(theme =>
 	({
 		root: {
 			[theme.breakpoints.up('xs')]: {
+				padding: theme.spacing(4)
+			},
+			[theme.breakpoints.up('sm')]: {
 				padding: theme.spacing(6)
 			},
 			[theme.breakpoints.up('md')]: {
@@ -27,13 +30,17 @@ const useStyles = makeStyles(theme =>
 			},
 		},
 		boundingBox: {
-			[theme.breakpoints.up('xs')]: {
-				padding: theme.spacing(4)
+			[theme.breakpoints.up('xs')]: {},
+			[theme.breakpoints.up('sm')]: {
+				padding: theme.spacing(2)
 			},
 			[theme.breakpoints.up('md')]: {
 				padding: theme.spacing(2)
 			},
 			[theme.breakpoints.up('lg')]: {
+				padding: theme.spacing(6)
+			},
+			[theme.breakpoints.up('xl')]: {
 				padding: theme.spacing(8)
 			},
 		}
@@ -54,12 +61,12 @@ const LoginLayout = props =>
 						container justify={"center"} alignContent={"center"} alignItems={"center"}
 						style={{height: "100%"}}
 					>
-						<Hidden smDown>
-							<Grid item md={5} lg={7} style={{height: "100%"}}>
+						<Hidden mdDown>
+							<Grid item lg={7} style={{height: "100%"}}>
 								<ImageCarousel />
 							</Grid>
 						</Hidden>
-						<Grid item xs={12} md={7} lg={5}>
+						<Grid item xs={12} lg={5}>
 							<Box className={classes.boundingBox}>
 								{props.children}
 							</Box>

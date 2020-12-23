@@ -57,10 +57,18 @@ const SignInArea = props =>
 
 	const createAccount = () =>
 	{
-		post("login", {username: username, password: password})
-		.then(res =>
+		post("createAccount", {username: username, password: password, email: email, phoneNumber: phoneNumber})
+		.then(r =>
 		{
+			if(r.data.success)
+			{
+				props.history.push("/");
+			}
 
+			else
+			{
+				props.produceSnackBar(r.data.message);
+			}
 		})
 	};
 

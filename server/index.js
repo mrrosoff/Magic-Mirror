@@ -39,20 +39,7 @@ app.use((req, res, next) =>
 
 const API = require("./api/RESTfulAPI");
 
-const garageSchema = require("./schema/garageSchema")
-const recipeasySchema = require("./schema/recipeasySchema")
-
-API.garage.map(({path, callback}) => app.post('/api/garage' + path, validate({body: garageSchema}), callback));
-API.recipeasy.map(({path, callback}) => app.post('/api/recipeasy' + path, validate({body: recipeasySchema}), callback));
-
-app.use((err, req, res, next) =>
-{
-	if (err.name === 'JsonSchemaValidation')
-	{
-		res.status(400);
-		res.json({ statusText: 'Bad Request', errors: err.validations });
-	}
-});
+API.map(({path, callback}) => app.post('/api' + path, callback));
 
 let port = secure ? 8443 : 8080;
 

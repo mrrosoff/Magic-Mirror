@@ -54,13 +54,21 @@ const SignInArea = props =>
 
 	const login = () =>
 	{
-		//post("login", {username: username, password: password})
-		//.then(r =>
-		//{
-		authData.setLoggedIn(true);
-		//	authData.setUserData(r.data);
-		props.history.push("/dashboard");
-		//});
+		post("login", {username: username, password: password})
+		.then(r =>
+		{
+			if(r.data.success)
+			{
+				authData.setLoggedIn(true);
+				authData.setUserData(r.data.userData);
+				props.history.push("/dashboard");
+			}
+
+			else
+			{
+				props.produceSnackBar(r.data.message);
+			}
+		});
 	};
 
 	return (

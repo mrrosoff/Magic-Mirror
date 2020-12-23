@@ -1,13 +1,11 @@
 
-let garageGarageData = [];
+let garage = [];
 
-garageGarageData.push(
+garage.push(
 	{
 		path: '/garageSwitch',
 		callback: (req, res) =>
 		{
-			let { percentToClose } = req.body.garageData;
-
 			let gpio = require('onoff').Gpio;
 			let doorPin = new gpio(4, 'out');
 			doorPin.writeSync(1);
@@ -19,20 +17,8 @@ garageGarageData.push(
 			};
 
 			flipSwitch();
-
-			if(percentToClose !== 100)
-			{
-				setTimeout(() =>
-				{
-					flipSwitch();
-					setTimeout(() =>
-					{
-						flipSwitch();
-					}, 2000 + 1000 * (90 - percentToClose) / 10)
-				}, 9000);
-			}
 		}
 	}
 );
 
-module.exports = garageGarageData;
+module.exports = garage;
