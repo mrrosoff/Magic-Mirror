@@ -24,7 +24,7 @@
     "framer-motion": "^2.9.5",
     "lodash": "^4.17.20",
     "module-alias": "^2.2.2",
-    "moment": "^2.27.0",
+    "moment": "^2.29.1",
     "morgan": "^1.10.0",
     "notistack": "^1.0.2",
     "onoff": "^6.0.0",
@@ -33,7 +33,8 @@
     "react-google-login": "^5.1.25",
     "react-router-dom": "^5.2.0",
     "react-text-mask": "^5.4.3",
-    "react-transition-group": "^4.4.1"
+    "react-transition-group": "^4.4.1",
+    "recharts": "^1.8.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
