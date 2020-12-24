@@ -2,9 +2,8 @@ import React from 'react';
 
 import {Grid, Typography} from '@material-ui/core';
 
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-
 import moment from 'moment';
+import {Bar, BarChart, XAxis, YAxis} from 'recharts';
 
 const SurfCard = props =>
 {
@@ -24,16 +23,13 @@ const SurfCard = props =>
 	}
 
 	return(
-		<Grid container direction={"column"} spacing={2}>
+		<Grid container direction={"column"} spacing={4}>
 			<Grid item>
 				<Grid container spacing={2}
-					alignItems={"center"} alignContent={"center"}
+					  alignItems={"center"} alignContent={"center"}
 				>
 					<Grid item>
-						<TrendingUpIcon />
-					</Grid>
-					<Grid item>
-						<Typography variant={"h4"}>Today: {dayAverages[0].toFixed(0)} ft</Typography>
+						<Typography variant={"h4"}>{`Del Mar: ${dayAverages[0].toFixed(0)} ft`}</Typography>
 					</Grid>
 				</Grid>
 			</Grid>
@@ -42,9 +38,17 @@ const SurfCard = props =>
 					{
 						dayAverages.slice(1).map((average, index) =>
 							<Grid item key={index}>
-								<Typography variant={"h6"}>{(moment(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + index + 1))).format("dddd")}</Typography>
-								<Typography variant={"h6"}>{average.toFixed(0)} ft</Typography>
-
+								<BarChart width={95} height={125}
+										  data={[
+											  {
+												  date: (moment(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + index + 1))).format("dddd"),
+												  value: average.toFixed(0)
+											  }
+										  ]}>
+									<XAxis dataKey="date" />
+									<YAxis type="number" domain={[0, 5]} hide={true} scale={"linear"}/>
+									<Bar dataKey="value" fill="#8884d8" />
+								</BarChart>
 							</Grid>
 						)
 					}

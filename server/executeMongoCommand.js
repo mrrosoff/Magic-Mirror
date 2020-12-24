@@ -3,23 +3,22 @@ const { MongoClient } = require('mongodb');
 const executeMongoCommand = async (db, collection, command, query) => {
 
 	const uri = `mongodb+srv://mrosoff:ewjQdLwu5FoYXTWJ@garage-pi.vmi9r.mongodb.net/${db}?retryWrites=true&w=majority`;
-	const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
+	const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+	let returnValue;
 
 	try
 	{
 		await client.connect();
-		return await client.db(db).collection(collection)[command](query);
+		returnValue = await client.db(db).collection(collection)[command](query);
+		await client.close();
 	}
 
 	catch (err)
 	{
-		console.log(err);
+		console.error(err);
 	}
 
-	finally
-	{
-		await client.close();
-	}
+	return returnValue;
 };
 
 module.exports = executeMongoCommand;

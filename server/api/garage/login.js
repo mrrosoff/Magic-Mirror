@@ -58,4 +58,24 @@ login.push(
 	}
 );
 
+login.push(
+	{
+		path: '/getPendingAccounts',
+		callback: (req, res) =>
+		{
+			executeMongoCommand('Rosoff-Club', 'Login-Data', 'find', {approved: false})
+			.then((r) =>
+			{
+				if (r)
+				{
+					let users = [];
+					r.forEach(item => users.push(item));
+					res.send({success: true, userData: users, message: "Found Unapproved Accounts"})
+				}
+			});
+		}
+	}
+);
+
+
 module.exports = login;

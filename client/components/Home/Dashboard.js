@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 
-import {Box, CircularProgress, Grid, IconButton, Typography} from '@material-ui/core';
+import {Box, Grid, IconButton} from '@material-ui/core';
 import {grey} from "@material-ui/core/colors";
 
 import {makeStyles} from "@material-ui/core/styles";
@@ -10,6 +10,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import {AuthContext} from '../Router';
 import {getSurf, getTidePrediction, getTideActual, getWeather} from '../../hooks/useAPI';
 
+import AdminCard from './AdminCard';
 import TideCard from "./TideCard";
 import WeatherCard from "./WeatherCard";
 import SurfCard from "./SurfCard";
@@ -43,7 +44,8 @@ const DashBoard = props =>
 			.then(r => setWeatherData(r.data));
 		};
 
-		const interval = setInterval(getWeatherFromAPI(), 60000);
+		getWeatherFromAPI();
+		const interval = setInterval(getWeatherFromAPI, 60000);
 		return () => clearInterval(interval);
 	}, []);
 
@@ -54,7 +56,9 @@ const DashBoard = props =>
 			getTidePrediction({}).then(r => setTidePredictionData(r.data));
 			getTideActual({}).then(r => setTideActualData(r.data));
 		}
-		const interval = setInterval(getTidesFromAPI(), 60000);
+
+		getTidesFromAPI();
+		const interval = setInterval(getTidesFromAPI, 60000);
 		return () => clearInterval(interval);
 	}, [])
 
@@ -62,9 +66,12 @@ const DashBoard = props =>
 	{
 		const getSurfFromAPI = () =>
 		{
-			getSurf().then(r => setSurfData(r.data));
+			getSurf()
+			.then(r => setSurfData(r.data));
 		}
-		const interval = setInterval(getSurfFromAPI(), 60000);
+
+		getSurfFromAPI();
+		const interval = setInterval(getSurfFromAPI, 60000);
 		return () => clearInterval(interval);
 	}, [])
 
@@ -75,7 +82,9 @@ const DashBoard = props =>
 			{
 				authData.userData.admin ?
 					<Grid item>
-						<WidgetCard title={"Admin"}/>
+						<WidgetCard title={"Admin"}>
+							<AdminCard />
+						</WidgetCard>
 					</Grid> : null
 			}
 			<Grid item>
@@ -130,7 +139,9 @@ const WidgetCard = props =>
 				<Grid item>
 					<Grid container direction={"column"} spacing={2}>
 						<Grid item>
-							<Typography variant={"h3"}>{props.title}</Typography>
+							<Box fontWeight={500} fontSize="h2.fontSize">
+								{props.title}
+							</Box>
 						</Grid>
 						<Grid item>
 							{props.children}

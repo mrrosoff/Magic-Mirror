@@ -57,7 +57,7 @@ const SignInArea = props =>
 
 	const createAccount = () =>
 	{
-		post("createAccount", {username: username, password: password, email: email, phoneNumber: phoneNumber})
+		post("createAccount", {username: username, password: password, email: email, phoneNumber: phoneNumber, approved: false})
 		.then(r =>
 		{
 			if(r.data.success)

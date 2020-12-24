@@ -4,7 +4,6 @@ import {Grid, Typography} from '@material-ui/core';
 
 import OpacityIcon from '@material-ui/icons/Opacity';
 import WavesIcon from '@material-ui/icons/Waves';
-import DirectionsIcon from '@material-ui/icons/Directions';
 
 const WeatherCard = props =>
 {
