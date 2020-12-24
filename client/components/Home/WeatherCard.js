@@ -47,12 +47,6 @@ const WeatherCard = props =>
 							text={props.weatherData.wind.speed + " mi/h"}
 						/>
 					</Grid>
-					<Grid item>
-						<IconTextPair
-							icon={<DirectionsIcon />}
-							text={props.weatherData.wind.deg + "°"}
-						/>
-					</Grid>
 				</Grid>
 			</Grid>
 		</Grid>

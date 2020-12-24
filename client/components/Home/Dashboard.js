@@ -12,6 +12,7 @@ import {getSurf, getTidePrediction, getTideActual, getWeather} from '../../hooks
 
 import TideCard from "./TideCard";
 import WeatherCard from "./WeatherCard";
+import SurfCard from "./SurfCard";
 
 const useStyles = makeStyles(theme => ({
 	cardBox: {
@@ -30,6 +31,7 @@ const useStyles = makeStyles(theme => ({
 const DashBoard = props =>
 {
 	const [weatherData, setWeatherData] = useState();
+	const [surfData, setSurfData] = useState();
 	const [tidePredictionData, setTidePredictionData] = useState();
 	const [tideActualData, setTideActualData] = useState();
 
@@ -56,6 +58,16 @@ const DashBoard = props =>
 		return () => clearInterval(interval);
 	}, [])
 
+	useEffect(() =>
+	{
+		const getSurfFromAPI = () =>
+		{
+			getSurf().then(r => setSurfData(r.data));
+		}
+		const interval = setInterval(getSurfFromAPI(), 60000);
+		return () => clearInterval(interval);
+	}, [])
+
 	let authData = useContext(AuthContext);
 
 	return (
@@ -67,17 +79,28 @@ const DashBoard = props =>
 					</Grid> : null
 			}
 			<Grid item>
-				<WidgetCard title={"Surf"}/>
+				{
+					weatherData ?
+						<WidgetCard title={"Weather"}>
+							<WeatherCard weatherData={weatherData}/>
+						</WidgetCard> : null
+				}
 			</Grid>
 			<Grid item>
-				<WidgetCard title={"Weather"}>
-					{weatherData ? <WeatherCard weatherData={weatherData}/> : <CircularProgress />}
-				</WidgetCard>
+				{
+					surfData && surfData.data ?
+						<WidgetCard title={"Surf"}>
+							<SurfCard surfData={surfData}/>
+						</WidgetCard> : null
+				}
 			</Grid>
 			<Grid item style={{width: "100%"}}>
-				<WidgetCard title={"Tide"}>
-					{tidePredictionData ? <TideCard tidePredictionData={tidePredictionData} tideActualData={tideActualData}/> : <CircularProgress />}
-				</WidgetCard>
+				{
+					tideActualData && tideActualData.data && tidePredictionData && tidePredictionData.predictions ?
+						<WidgetCard title={"Tide"}>
+							<TideCard tidePredictionData={tidePredictionData} tideActualData={tideActualData}/>
+						</WidgetCard> : null
+				}
 			</Grid>
 		</Grid>
 

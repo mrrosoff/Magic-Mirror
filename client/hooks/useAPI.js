@@ -26,11 +26,11 @@ export const post = async (location, payload) =>
 	}
 }
 
-export const getSurf = async ({station = "92130", key}) =>
+export const getSurf = async () =>
 {
 	try
 	{
-		return await axios.post(`https://api.openweathermap.org/data/2.5/weather?zip=${zip}&units=imperial&appid=${key}`)
+		return await axios.get(`https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088af&days=5&intervalHours=3&maxHeights=true`)
 	}
 
 	catch(err)
@@ -43,7 +43,7 @@ export const getTidePrediction = async ({station = "9410230"}) =>
 {
 	try
 	{
-		return await axios.post(`https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=today&station=${station}&product=predictions&datum=MLLW&time_zone=lst&units=english&format=json`);
+		return await axios.get(`https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=today&station=${station}&product=predictions&datum=MLLW&time_zone=lst&units=english&format=json`);
 	}
 
 	catch(err)
@@ -56,7 +56,7 @@ export const getTideActual = async ({station = "9410230"}) =>
 {
 	try
 	{
-		return await axios.post(`https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=today&station=${station}&product=one_minute_water_level&datum=MLLW&time_zone=lst&units=english&format=json`);
+		return await axios.get(`https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=today&station=${station}&product=one_minute_water_level&datum=MLLW&time_zone=lst&units=english&format=json`);
 	}
 
 	catch(err)
@@ -69,7 +69,7 @@ export const getWeather = async ({zip = "92130", key}) =>
 {
 	try
 	{
-		return await axios.post(`https://api.openweathermap.org/data/2.5/weather?zip=${zip}&units=imperial&appid=${key}`)
+		return await axios.get(`https://api.openweathermap.org/data/2.5/weather?zip=${zip}&units=imperial&appid=${key}`)
 	}
 
 	catch(err)
