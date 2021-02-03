@@ -10,17 +10,13 @@ for quick information at a glance, but also for more detailed info.
 
 Thus, the Garage-Pi was born.
 
-A Raspberry Pi runs a custom Express webserver out of our garageAPI. Linked to our custom domain, one can access all garageAPI
-controls from their mobile device, anytime, anywhere. A hashed login page provides a measure of security when 
-communicating with the API. 
+A Raspberry Pi runs this repo as an Electron app out of our garage. It of course has garage door controls, but it also 
+shows tide, weather, and surf data. The app is configured so that new data sources can be easily added at a later date.
 
 ## Installation
 
-Clone the repository and run the following command to build and boot the server.
+Clone the repository and run the following command to build and run the app. Good luck!
 
 ```bash
 npm install && npm start
 ```
-
-To link to a custom domain of your own, you will need to establish port forwarding to the device hosting the server on 
-the ports specified in the Express config. You will also need to forward your domain to your IP address.
