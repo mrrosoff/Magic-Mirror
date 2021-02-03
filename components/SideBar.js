@@ -1,12 +1,10 @@
 import React from "react";
 
-import {Box, Button, Grid, IconButton, Paper, Typography} from '@material-ui/core';
+import {Box, Grid, IconButton, Paper} from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 import HomeIcon from '@material-ui/icons/Home';
-
-import {post} from '../../hooks/useAPI';
 
 const useStyles = makeStyles(theme => ({
 	paper: {
@@ -31,7 +29,7 @@ const SideBar = props =>
 					<Grid item style={{width: "100%"}}>
 						<IconButton
 							style={{width: "100%"}}
-							onClick={() => post("garageSwitch")}
+							onClick={() => garageSwitch()}
 						>
 							<HomeIcon className={classes.garageIcon}/>
 						</IconButton>
@@ -40,6 +38,21 @@ const SideBar = props =>
 			</Paper>
 		</Box>
 	)
+}
+
+const garageSwitch = () =>
+{
+	let gpio = require('onoff').Gpio;
+	let doorPin = new gpio(4, 'out');
+	doorPin.writeSync(1);
+
+	const flipSwitch = () =>
+	{
+		doorPin.writeSync(0);
+		setTimeout(() => doorPin.writeSync(1), 500);
+	};
+
+	flipSwitch();
 }
 
 export default SideBar;

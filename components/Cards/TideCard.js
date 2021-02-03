@@ -91,18 +91,18 @@ const TideCard = props =>
 				  justify={"center"} alignItems={"center"} alignContent={"center"}
 			>
 				<Grid item>
-					<Box fontWeight={450} fontSize="h4.fontSize">
+					<Box fontWeight={450} fontSize="h5.fontSize">
 						Next Low Tide: {moment(lowTide.getTime()).format('h:mm A')}
 					</Box>
 				</Grid>
 				<Grid item>
-					<Box fontWeight={450} fontSize="h4.fontSize">
+					<Box fontWeight={450} fontSize="h5.fontSize">
 						Next High Tide: {moment(highTide.getTime()).format('h:mm A')}
 					</Box>
 				</Grid>
 			</Grid>
 			<Grid item style={{width: "100%"}}>
-				<ResponsiveContainer width={"100%"} height={350}>
+				<ResponsiveContainer width={"100%"} height={275}>
 					<LineChart width={730} height={250} data={data}
 							   margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
 						<XAxis

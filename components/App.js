@@ -7,14 +7,14 @@ import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui
 
 import { SnackbarProvider, useSnackbar } from 'notistack';
 
-import Router from "./Router";
+import DashBoard from "./Dashboard";
 
 const LoadApp = props =>
 {
     const { enqueueSnackbar } = useSnackbar();
     const produceSnackBar = (message, variant="error") => enqueueSnackbar(message, { variant: variant });
 
-    return <Router produceSnackBar={produceSnackBar} {...props}/>;
+    return <DashBoard produceSnackBar={produceSnackBar} {...props}/>;
 };
 
 const App = () =>
