@@ -1,7 +1,7 @@
 import React from "react";
 
 import {CssBaseline} from "@material-ui/core";
-import {blue, blueGrey, green, grey} from "@material-ui/core/colors";
+import {blueGrey, green} from "@material-ui/core/colors";
 
 import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
 

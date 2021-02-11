@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
 
-import {Box, Grid, IconButton, Paper} from '@material-ui/core';
+import {Box, Grid, Paper} from '@material-ui/core';
 import {grey} from "@material-ui/core/colors";
 
 import {makeStyles} from "@material-ui/core/styles";
-
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 import TideCard from "./Cards/TideCard";
 import WeatherCard from "./Cards/WeatherCard";
@@ -93,8 +91,6 @@ const DashBoard = props =>
 		const interval = setInterval(getSurfFromAPI, 60000);
 		return () => clearInterval(interval);
 	}, [])
-
-	console.log(tideActualData)
 
 	return (
 		<Box height={"100vh"}>
