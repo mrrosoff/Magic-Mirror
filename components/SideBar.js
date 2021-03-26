@@ -6,6 +6,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import HomeIcon from '@material-ui/icons/Home';
 
+import { remote }  from 'electron';
+const mainProcess = remote.require('./main.js');
+
 const useStyles = makeStyles(theme => ({
 	paper: {
 		padding: theme.spacing(3)
@@ -29,7 +32,7 @@ const SideBar = props =>
 					<Grid item style={{width: "100%"}}>
 						<IconButton
 							style={{width: "100%"}}
-							onClick={() => garageSwitch()}
+							onClick={() => mainProcess.garageSwitch()}
 						>
 							<HomeIcon className={classes.garageIcon}/>
 						</IconButton>
@@ -38,21 +41,6 @@ const SideBar = props =>
 			</Paper>
 		</Box>
 	)
-}
-
-const garageSwitch = () =>
-{
-	let gpio = require('onoff').Gpio;
-	let doorPin = new gpio(4, 'out');
-	doorPin.writeSync(1);
-
-	const flipSwitch = () =>
-	{
-		doorPin.writeSync(0);
-		setTimeout(() => doorPin.writeSync(1), 500);
-	};
-
-	flipSwitch();
 }
 
 export default SideBar;

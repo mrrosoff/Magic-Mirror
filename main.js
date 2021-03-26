@@ -5,6 +5,21 @@ const url = require('url');
 let mainWindow;
 let dev = false;
 
+exports.garageSwitch = () =>
+{
+	let gpio = require('onoff').Gpio;
+	let doorPin = new gpio(4, 'out');
+	doorPin.writeSync(1);
+
+	const flipSwitch = () =>
+	{
+		doorPin.writeSync(0);
+		setTimeout(() => doorPin.writeSync(1), 500);
+	};
+
+	flipSwitch();
+}
+
 if (process.defaultApp || /[\\/]electron-prebuilt[\\/]/.test(process.execPath) || /[\\/]electron[\\/]/.test(process.execPath))
 {
 	dev = true;
@@ -12,7 +27,7 @@ if (process.defaultApp || /[\\/]electron-prebuilt[\\/]/.test(process.execPath) |
 
 function createWindow() {
 
-	mainWindow = new BrowserWindow({width: 1300, height: 750, icon: path.join(__dirname, './src/template/icon.png'), show: false, darkTheme: true, fullscreen: true, autoHideMenuBar: true, webPreferences: { nodeIntegration: true }});
+	mainWindow = new BrowserWindow({width: 1300, height: 750, icon: path.join(__dirname, './src/template/icon.png'), show: false, darkTheme: true, fullscreen: true, autoHideMenuBar: true, webPreferences: { enableRemoteModule: true, nodeIntegration: true }});
 
 	let indexPath;
 

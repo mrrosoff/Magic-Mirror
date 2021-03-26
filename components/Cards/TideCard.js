@@ -113,7 +113,7 @@ const TideCard = props =>
 							tickFormatter={tickItem => moment(tickItem).format('h:mm')}
 							domain={[startDate.getTime(), endDate.getTime()]}
 						/>
-						<YAxis domain={[0, 6]}/>
+						<YAxis domain={[Math.floor(Math.min(...predictionData.map(item => item.prediction))), 6]}/>
 						<Legend />
 						<Line name="Predicted" type="monotone" dataKey="prediction" stroke="#8884d8" dot={false} strokeWidth={4}/>
 						<Line name="Actual" type="monotone" dataKey="actual" stroke="#82ca9d" dot={false} strokeWidth={4}/>
