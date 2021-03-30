@@ -1,127 +1,247 @@
-import React from 'react';
+import React from "react";
 
-import {Box, Grid} from '@material-ui/core';
+import { Box, Grid, Typography } from "@material-ui/core";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import { makeStyles } from "@material-ui/core/styles";
+import { grey } from "@material-ui/core/colors";
 
-import {Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis} from 'recharts';
-import moment from 'moment';
+import {
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+} from "recharts";
+import moment from "moment";
 
-const TideCard = props =>
-{
-	if (!props.tidePredictionData || !props.tideActualData) return null;
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(5),
+  },
+  fancyBox: {
+    height: "100%",
+    [theme.breakpoints.up("xs")]: {
+      padding: theme.spacing(3),
+    },
+    [theme.breakpoints.up("sm")]: {
+      paddingTop: theme.spacing(3),
+      paddingBottom: theme.spacing(3),
+      paddingRight: theme.spacing(3),
+    },
+  },
+  cardBox: {
+    borderWidth: 2,
+    borderStyle: "solid",
+    borderColor: grey[300],
+    borderRadius: 5,
+  },
+}));
 
-	const firstDataPointDate = new Date(props.tidePredictionData.predictions[0].t);
-	const lastActualPointDate = new Date(props.tideActualData.data[props.tideActualData.data.length - 1].t);
+const TideCard = (props) => {
+  const firstDataPointDate = new Date(
+    props.tidePredictionData.predictions[0].t
+  );
+  const domain = new Date(
+    firstDataPointDate.getFullYear(),
+    firstDataPointDate.getMonth(),
+    firstDataPointDate.getDate()
+  );
 
-	const startDate = new Date(firstDataPointDate.getFullYear(), firstDataPointDate.getMonth(), firstDataPointDate.getDate());
-	const endDate = new Date(firstDataPointDate.getFullYear(), firstDataPointDate.getMonth(), firstDataPointDate.getDate());
+  const predictionData = props.tidePredictionData.predictions.map(
+    ({ t, v }) => ({
+      time: new Date(t),
+      timeNumber: new Date(t).getTime(),
+      prediction: v,
+    })
+  );
 
-	const predictionData = props.tidePredictionData.predictions.map(({t, v}) => ({time: new Date(t), timeNumber: new Date(t).getTime(), prediction: v}));
-	const actualData = props.tideActualData.data.map(({t, v}) => ({time: new Date(t), timeNumber: new Date(t).getTime(), actual: v}));
+  let data = predictionData;
+  console.log(props.tideActualData);
+  let { highTide, lowTide } = getTideTimes(
+    predictionData,
+    props.tideActualData
+  );
 
-	let data = predictionData.map(obj => ({...obj, ...actualData.find(item => item.timeNumber === obj.timeNumber)}));
+  if (props.tideActualData && props.tideActualData.data) {
+    data = predictionData.map((obj) => ({
+      ...obj,
+      ...props.tideActualData.data
+        .map(({ t, v }) => ({
+          time: new Date(t),
+          timeNumber: new Date(t).getTime(),
+          actual: v,
+        }))
+        .find((item) => item.timeNumber === obj.timeNumber),
+    }));
+  }
 
-	let directionOne = true;
-	let dataPointOne;
-	let foundDirection = false;
+  const classes = useStyles();
 
-	for (let i = 0; i < predictionData.length; i++)
-	{
-		if(predictionData[i].time < lastActualPointDate) continue;
+  return (
+    <Box p={4} className={classes.cardBox}>
+      <Grid container direction={"column"} spacing={5}>
+        <Grid item container justify={"space-between"}>
+          <Grid item>
+            <Typography style={{ fontSize: 60, fontWeight: 500 }}>
+              Tide
+            </Typography>
+          </Grid>
+          <Grid item>
+            {lowTide && highTide ? (
+              <Grid
+                container
+                spacing={3}
+                justify={"center"}
+                alignItems={"center"}
+              >
+                <Grid item>
+                  <Grid
+                    container
+                    justify={"center"}
+                    alignItems={"center"}
+                    spacing={1}
+                  >
+                    <ArrowDownwardIcon style={{ fontSize: 35 }} />
+                    <Grid item>
+                      <Typography style={{ fontSize: 35, fontWeight: 400 }}>
+                        {moment(lowTide.getTime()).format("h:mm A")}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item>
+                  <Grid
+                    container
+                    justify={"center"}
+                    alignItems={"center"}
+                    spacing={1}
+                  >
+                    <ArrowUpwardIcon style={{ fontSize: 35 }} />
+                    <Grid item>
+                      <Typography style={{ fontSize: 35, fontWeight: 400 }}>
+                        {moment(highTide.getTime()).format("h:mm A")}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            ) : null}
+          </Grid>
+        </Grid>
+        <Grid item>
+          <ResponsiveContainer width={"100%"} height={275}>
+            <LineChart
+              width={730}
+              height={250}
+              data={data}
+              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            >
+              <XAxis
+                dataKey="timeNumber"
+                type="number"
+                scale="time"
+                interval="preserveStartEnd"
+                tickFormatter={(tickItem) => moment(tickItem).format("h:mm")}
+                domain={[domain.getTime(), domain.getTime()]}
+              />
+              <YAxis
+                domain={[
+                  Math.floor(
+                    Math.min(...predictionData.map((item) => item.prediction))
+                  ),
+                  6,
+                ]}
+              />
+              <Legend />
+              <Line
+                name="Predicted"
+                type="monotone"
+                dataKey="prediction"
+                stroke="#8884d8"
+                dot={false}
+                strokeWidth={4}
+              />
+              {props.tideActualData ? (
+                <Line
+                  name="Actual"
+                  type="monotone"
+                  dataKey="actual"
+                  stroke="#82ca9d"
+                  dot={false}
+                  strokeWidth={4}
+                />
+              ) : null}
+            </LineChart>
+          </ResponsiveContainer>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
 
-		if(!foundDirection)
-		{
-			if (!dataPointOne) dataPointOne = predictionData[i];
+const getTideTimes = (predictionData, actualData) => {
+  if (!actualData || !actualData.data) return { highTide: null, lowTide: null };
 
-			else
-			{
-				if(predictionData[i].prediction < dataPointOne.prediction) directionOne = false;
-				foundDirection = true;
-				dataPointOne = predictionData[i];
-			}
-		}
+  let i = 0;
+  const lastActualDate = new Date(
+    actualData.data[actualData.data.length - 1].t
+  );
 
-		else
-		{
-			if (directionOne)
-			{
-				if(predictionData[i].prediction < dataPointOne.prediction) break;
-			}
+  for (; i < predictionData.length; i++) {
+    if (predictionData[i].time > lastActualDate) break;
+  }
 
-			else
-			{
-				if(predictionData[i].prediction > dataPointOne.prediction) break;
-			}
+  let graphStartsDown =
+    predictionData[0].prediction > predictionData[1].prediction;
+  let firstInflectionPoint = predictionData[1];
 
-			dataPointOne = predictionData[i];
-		}
-	}
+  for (; i < predictionData.length; i++) {
+    const nextDataPointIsBelow =
+      firstInflectionPoint.prediction > predictionData[i].prediction;
 
-	let directionTwo = !directionOne;
-	let dataPointTwo;
+    if (graphStartsDown !== nextDataPointIsBelow) break;
 
-	for(let i = 0; i < predictionData.length; i++)
-	{
-		if (predictionData[i].time < dataPointOne.time)
-		{
-			dataPointTwo = predictionData[i];
-			continue;
-		}
+    firstInflectionPoint = predictionData[i];
+  }
 
-		if (directionTwo)
-		{
-			if(predictionData[i].prediction < dataPointTwo.prediction) break;
-		}
+  let secondInflectionPoint = firstInflectionPoint;
 
-		else
-		{
-			if(predictionData[i].prediction > dataPointTwo.prediction) break;
-		}
+  for (; i < predictionData.length; i++) {
+    const nextDataPointIsBelow =
+      secondInflectionPoint.prediction > predictionData[i].prediction;
 
-		dataPointTwo = predictionData[i];
-	}
+    if (!graphStartsDown !== nextDataPointIsBelow) break;
 
-	const highTide = directionOne ? dataPointOne.time : dataPointTwo.time;
-	const lowTide = directionOne ? dataPointTwo.time : dataPointOne.time;
+    secondInflectionPoint = predictionData[i];
+  }
 
-	return(
-		<Grid container direction={"column"} spacing={3}
-			  justify={"center"} alignItems={"center"} alignContent={"center"}
-		>
-			<Grid item container spacing={6}
-				  justify={"center"} alignItems={"center"} alignContent={"center"}
-			>
-				<Grid item>
-					<Box fontWeight={450} fontSize="h5.fontSize">
-						Next Low Tide: {moment(lowTide.getTime()).format('h:mm A')}
-					</Box>
-				</Grid>
-				<Grid item>
-					<Box fontWeight={450} fontSize="h5.fontSize">
-						Next High Tide: {moment(highTide.getTime()).format('h:mm A')}
-					</Box>
-				</Grid>
-			</Grid>
-			<Grid item style={{width: "100%"}}>
-				<ResponsiveContainer width={"100%"} height={275}>
-					<LineChart width={730} height={250} data={data}
-							   margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-						<XAxis
-							dataKey="timeNumber"
-							type="number"
-							scale="time"
-							interval="preserveStartEnd"
-							tickFormatter={tickItem => moment(tickItem).format('h:mm')}
-							domain={[startDate.getTime(), endDate.getTime()]}
-						/>
-						<YAxis domain={[Math.floor(Math.min(...predictionData.map(item => item.prediction))), 6]}/>
-						<Legend />
-						<Line name="Predicted" type="monotone" dataKey="prediction" stroke="#8884d8" dot={false} strokeWidth={4}/>
-						<Line name="Actual" type="monotone" dataKey="actual" stroke="#82ca9d" dot={false} strokeWidth={4}/>
-					</LineChart>
-				</ResponsiveContainer>
-			</Grid>
-		</Grid>
-	)
-}
+  const highTide = graphStartsDown
+    ? secondInflectionPoint.time
+    : firstInflectionPoint.time;
+  const lowTide = graphStartsDown
+    ? firstInflectionPoint.time
+    : secondInflectionPoint.time;
+
+  return { highTide, lowTide };
+};
+
+const WidgetCard = (props) => {
+  const classes = useStyles();
+
+  return (
+    <Box p={4} className={classes.cardBox}>
+      <Grid container direction={"column"} spacing={2}>
+        <Grid item>
+          <Box fontWeight={500} fontSize="h1.fontSize">
+            {props.title}
+          </Box>
+        </Grid>
+        <Grid item>{props.children}</Grid>
+      </Grid>
+    </Box>
+  );
+};
 
 export default TideCard;
