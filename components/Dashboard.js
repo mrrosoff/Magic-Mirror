@@ -70,7 +70,7 @@ const DashBoard = (props) => {
     const getSurfFromAPI = () => {
       axios
         .get(
-          `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088af&days=1&intervalHours=1&maxHeights=true`
+          `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a770883b&days=1&intervalHours=1&maxHeights=true`
         )
         .then((r) =>
           setSurfData([
@@ -97,7 +97,7 @@ const DashBoard = (props) => {
 
       axios
         .get(
-          `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088af&days=1&intervalHours=1&maxHeights=true`
+          `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088a0&days=1&intervalHours=1&maxHeights=true`
         )
         .then((r) =>
         setSurfData([
