@@ -4,14 +4,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { spawn } = require('child_process');
 
-const output = 'dist/electron'
+const output = 'dist'
 
 module.exports = {
-	entry: ['@babel/polyfill', './index.js'],
+	entry: './index.js',
 	devServer: {
 		contentBase: path.resolve(__dirname, output),
-		port: 3000, open: false, hot: true, historyApiFallback: true, proxy: { "/api/*": "http://localhost:8000" },
-		stats: "minimal",
+		port: 3000, open: false, hot: true, historyApiFallback: true, stats: "minimal",
 		before() {
 			spawn('electron', ['.'], { shell: true, env: process.env, stdio: 'inherit' })
 				.on('close', code => process.exit(code))
@@ -33,7 +32,7 @@ module.exports = {
 					[
 						{loader: 'style-loader'},
 						{loader: 'css-loader'},
-						// {loader: 'postcss-loader', options: {postcssOptions: {plugins: ['autoprefixer', 'precss']}}},
+						{loader: 'postcss-loader', options: {postcssOptions: {plugins: ['autoprefixer', 'precss']}}},
 						{loader: 'sass-loader'}
 					]
 			},

@@ -3,7 +3,6 @@ const path = require('path')
 const url = require('url');
 
 let mainWindow;
-let dev = false;
 
 exports.garageSwitch = () =>
 {
@@ -20,18 +19,13 @@ exports.garageSwitch = () =>
 	flipSwitch();
 }
 
-if (process.defaultApp || /[\\/]electron-prebuilt[\\/]/.test(process.execPath) || /[\\/]electron[\\/]/.test(process.execPath))
-{
-	dev = true;
-}
-
 function createWindow() {
 
 	mainWindow = new BrowserWindow({width: 1300, height: 750, icon: path.join(__dirname, './src/template/icon.png'), show: false, darkTheme: true, fullscreen: true, autoHideMenuBar: true, webPreferences: { enableRemoteModule: true, nodeIntegration: true }});
 
 	let indexPath;
 
-	if (dev && process.argv.indexOf('--noDevServer') === -1)
+	if (process.env.NODE_ENV === 'dev')
 	{
 		indexPath = url.format({protocol: 'http:', host: 'localhost:3000', pathname: '/', slashes: true})
 	}
