@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     borderStyle: "solid",
     borderColor: grey[300],
     borderRadius: 5,
-    width: 300,
+    width: 250,
     height: 200,
   },
 }));
@@ -30,29 +30,24 @@ const WeatherCard = (props) => {
         <Grid item>
           <Grid container direction={"column"} spacing={2}>
             <Grid item>
-              <Grid container spacing={4} alignItems={"center"}>
-                <Grid item>
-                  <Grid container direction={"column"}>
-                    <Grid item>
-                      <Typography style={{ fontSize: 25, fontWeight: 500 }}>
-                        {Math.floor(props.weatherData.main.temp) + " °F"}
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography style={{ fontSize: 18 }}>
-                        {props.weatherData.weather[0].main}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item>
+              <Box display={"flex"} alignItems={"center"}>
+                <Box display={"flex"} flexDirection={"column"}>
+                  <Typography style={{ fontSize: 25, fontWeight: 500 }}>
+                    {Math.floor(props.weatherData.main.temp) + " °F"}
+                  </Typography>
+
+                  <Typography style={{ fontSize: 18 }}>
+                    {props.weatherData.weather[0].main}
+                  </Typography>
+                </Box>
+                <Box pl={4}>
                   <i
                     className={`wi wi-owm-${props.weatherData.weather[0].id}`}
                     alt={"Weather Icon"}
-                    style={{ fontSize: 45 }}
+                    style={{ fontSize: 55 }}
                   />
-                </Grid>
-              </Grid>
+                </Box>
+              </Box>
             </Grid>
             <Grid item>
               <OtherDetails {...props} />
@@ -68,31 +63,27 @@ const OtherDetails = (props) => {
   return (
     <Grid container spacing={2}>
       <Grid item>
-        <Grid container spacing={1} alignItems={"center"}>
-          <Grid item>
-            <OpacityIcon style={{ fontSize: 18, paddingTop: 4 }} />
-          </Grid>
-          <Grid item>
+        <Box display={"flex"} alignItems={"center"}>
+          <OpacityIcon style={{ fontSize: 16 }} />
+          <Box pl={1}>
             <Typography style={{ fontSize: 15, fontWeight: 400 }}>
               {props.weatherData.main.humidity + "%"}
             </Typography>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Grid>
       <Grid item>
-        <Grid container spacing={1} alignItems={"center"}>
-          <Grid item>
-            <i
-              className={`<wi wi-wind from-${props.weatherData.wind.deg}-deg`}
-              style={{ fontSize: 15 }}
-            />
-          </Grid>
-          <Grid item>
+        <Box display={"flex"} alignItems={"center"}>
+          <i
+            className={`wi wi-wind from-${props.weatherData.wind.deg}-deg`}
+            style={{ fontSize: 20 }}
+          />
+          <Box pl={1}>
             <Typography style={{ fontSize: 15, fontWeight: 400 }}>
               {props.weatherData.wind.speed + " mi/h"}
             </Typography>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Grid>
     </Grid>
   );
