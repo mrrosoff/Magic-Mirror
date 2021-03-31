@@ -113,9 +113,7 @@ const DashBoard = (props) => {
                 </Grid>
                 <Grid item xs={6}>
                   {surfData && surfData.data ? (
-                    <WidgetCard title={"Surf"}>
-                      <SurfCard surfData={surfData} />
-                    </WidgetCard>
+                    <SurfCard surfData={surfData} />
                   ) : null}
                 </Grid>
                 <Grid item xs={12}>

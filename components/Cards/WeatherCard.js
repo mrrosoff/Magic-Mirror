@@ -35,9 +35,9 @@ const WeatherCard = (props) => {
     <Box p={4} className={classes.cardBox}>
       <Grid container direction={"column"} spacing={2}>
         <Grid item>
-          <Box fontWeight={500} fontSize="h1.fontSize">
-            Weather
-          </Box>
+		<Typography style={{ fontSize: 45, fontWeight: 500 }}>
+              Weather
+            </Typography>
         </Grid>
         <Grid item>
           <Grid container direction={"column"} spacing={2}>
@@ -46,12 +46,12 @@ const WeatherCard = (props) => {
                 <Grid item>
                   <Grid container direction={"column"}>
                     <Grid item>
-                      <Typography style={{ fontSize: 40 }}>
+                      <Typography style={{ fontSize: 30 }}>
                         {props.weatherData.main.temp + " °F"}
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Typography style={{ fontSize: 35 }}>
+                      <Typography style={{ fontSize: 25 }}>
                         {props.weatherData.weather[0].main}
                       </Typography>
                     </Grid>
@@ -104,7 +104,7 @@ const IconTextPair = (props) => {
     >
       <Grid item>{props.icon}</Grid>
       <Grid item>
-        <Typography variant={"h6"}>{props.text}</Typography>
+        <Typography style={{fontSize: 20, fontWeight: 400}}>{props.text}</Typography>
       </Grid>
     </Grid>
   );

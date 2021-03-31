@@ -81,10 +81,10 @@ const TideCard = (props) => {
 
   return (
     <Box p={4} className={classes.cardBox}>
-      <Grid container direction={"column"} spacing={5}>
+      <Grid container direction={"column"} spacing={6}>
         <Grid item container justify={"space-between"}>
           <Grid item>
-            <Typography style={{ fontSize: 60, fontWeight: 500 }}>
+            <Typography style={{ fontSize: 45, fontWeight: 500 }}>
               Tide
             </Typography>
           </Grid>
@@ -103,9 +103,9 @@ const TideCard = (props) => {
                     alignItems={"center"}
                     spacing={1}
                   >
-                    <ArrowDownwardIcon style={{ fontSize: 35 }} />
+                    <ArrowDownwardIcon style={{ fontSize: 30 }} />
                     <Grid item>
-                      <Typography style={{ fontSize: 35, fontWeight: 400 }}>
+                      <Typography style={{ fontSize: 30, fontWeight: 400 }}>
                         {moment(lowTide.getTime()).format("h:mm A")}
                       </Typography>
                     </Grid>
@@ -118,9 +118,9 @@ const TideCard = (props) => {
                     alignItems={"center"}
                     spacing={1}
                   >
-                    <ArrowUpwardIcon style={{ fontSize: 35 }} />
+                    <ArrowUpwardIcon style={{ fontSize: 30 }} />
                     <Grid item>
-                      <Typography style={{ fontSize: 35, fontWeight: 400 }}>
+                      <Typography style={{ fontSize: 30, fontWeight: 400 }}>
                         {moment(highTide.getTime()).format("h:mm A")}
                       </Typography>
                     </Grid>

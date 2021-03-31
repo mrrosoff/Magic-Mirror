@@ -1,9 +1,34 @@
 import React from "react";
 
-import { Grid, Typography } from "@material-ui/core";
+import {Box, Grid, Typography } from "@material-ui/core";
 
 import moment from "moment";
 import { Bar, BarChart, XAxis, YAxis } from "recharts";
+import { makeStyles } from "@material-ui/core/styles";
+import { grey } from "@material-ui/core/colors";
+
+const useStyles = makeStyles((theme) => ({
+	root: {
+	  padding: theme.spacing(5),
+	},
+	fancyBox: {
+	  height: "100%",
+	  [theme.breakpoints.up("xs")]: {
+		padding: theme.spacing(3),
+	  },
+	  [theme.breakpoints.up("sm")]: {
+		paddingTop: theme.spacing(3),
+		paddingBottom: theme.spacing(3),
+		paddingRight: theme.spacing(3),
+	  },
+	},
+	cardBox: {
+	  borderWidth: 2,
+	  borderStyle: "solid",
+	  borderColor: grey[300],
+	  borderRadius: 5,
+	},
+  }));
 
 const SurfCard = (props) => {
   let dayAverages = [];
@@ -19,23 +44,35 @@ const SurfCard = (props) => {
     average /= 2;
   }
 
+  const classes = useStyles();
   return (
-    <Grid container direction={"column"} spacing={4}>
-      <Grid item>
-        <Grid
-          container
-          spacing={2}
-          alignItems={"center"}
-          alignContent={"center"}
-        >
-          <Grid item>
-            <Typography variant={"h4"}>{`Del Mar: ${dayAverages[0].toFixed(
-              0
-            )} ft`}</Typography>
+    <Box p={4} className={classes.cardBox}>
+      <Grid container direction={"column"} spacing={2}>
+        <Grid item>
+          <Typography style={{ fontSize: 45, fontWeight: 500 }}>
+            Surf
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Grid container direction={"column"} spacing={4}>
+            <Grid item>
+              <Grid
+                container
+                spacing={2}
+                alignItems={"center"}
+                alignContent={"center"}
+              >
+                <Grid item>
+                  <Typography
+                    style={{fontSize: 30, fontWeight: 400}}
+                  >{`Del Mar: ${dayAverages[0].toFixed(0)} ft`}</Typography>
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </Box>
   );
 };
 
