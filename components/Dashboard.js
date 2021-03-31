@@ -28,7 +28,7 @@ const DashBoard = (props) => {
   const classes = useStyles();
 
   const [weatherData, setWeatherData] = useState();
-  const [surfData, setSurfData] = useState();
+  const [surfData, setSurfData] = useState([]);
   const [tidePredictionData, setTidePredictionData] = useState();
   const [tideActualData, setTideActualData] = useState();
 
@@ -70,10 +70,48 @@ const DashBoard = (props) => {
     const getSurfFromAPI = () => {
       axios
         .get(
-          `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088af&days=4&intervalHours=2&maxHeights=true`
+          `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088af&days=1&intervalHours=1&maxHeights=true`
         )
-        .then((r) => setSurfData(r.data));
+        .then((r) =>
+          setSurfData([
+            ...surfData,
+            {
+              name: "Blacks",
+              waveHeight: calculateTodaysAverage(r.data.data.wave),
+            },
+          ])
+        );
+      axios
+        .get(
+          `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088af&days=1&intervalHours=1&maxHeights=true`
+        )
+        .then((r) =>
+        setSurfData([
+          ...surfData,
+          {
+            name: "15th Street",
+            waveHeight: calculateTodaysAverage(r.data.data.wave),
+          },
+        ])
+        );
+
+      axios
+        .get(
+          `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088af&days=1&intervalHours=1&maxHeights=true`
+        )
+        .then((r) =>
+        setSurfData([
+          ...surfData,
+          {
+            name: "Beacons",
+            waveHeight: calculateTodaysAverage(r.data.data.wave),
+          },
+        ])
+        );
     };
+
+    const calculateTodaysAverage = (data) =>
+      data.map((item) => item.surf.max).reduce((a, b) => a + b) / data.length;
 
     getSurfFromAPI();
     const interval = setInterval(getSurfFromAPI, 60000);
@@ -98,7 +136,12 @@ const DashBoard = (props) => {
             style={{ width: "100%", height: "100%" }}
             className={classes.root}
           >
-            <Box width={"100%"} height={"100%"} display={"flex"} flexDirection={"column"}>
+            <Box
+              width={"100%"}
+              height={"100%"}
+              display={"flex"}
+              flexDirection={"column"}
+            >
               <Box display={"flex"}>
                 <Box>
                   {weatherData ? (
@@ -106,9 +149,7 @@ const DashBoard = (props) => {
                   ) : null}
                 </Box>
                 <Box pl={3} flexGrow={1}>
-                  {surfData && surfData.data ? (
-                    <SurfCard surfData={surfData} />
-                  ) : null}
+                  {surfData.length > 0 ? <SurfCard surfData={surfData} /> : null}
                 </Box>
               </Box>
               <Box pt={3} flexGrow={1}>
