@@ -12,6 +12,8 @@ const useStyles = makeStyles((theme) => ({
     borderStyle: "solid",
     borderColor: grey[300],
     borderRadius: 5,
+    width: 300,
+    height: 200,
   },
 }));
 
@@ -33,7 +35,7 @@ const WeatherCard = (props) => {
                   <Grid container direction={"column"}>
                     <Grid item>
                       <Typography style={{ fontSize: 25, fontWeight: 500 }}>
-                        {props.weatherData.main.temp + " °F"}
+                        {Math.floor(props.weatherData.main.temp) + " °F"}
                       </Typography>
                     </Grid>
                     <Grid item>
@@ -44,33 +46,16 @@ const WeatherCard = (props) => {
                   </Grid>
                 </Grid>
                 <Grid item>
-                  <img
+                  <i
+                    className={`wi wi-owm-${props.weatherData.weather[0].id}`}
                     alt={"Weather Icon"}
-                    src={
-                      "http://openweathermap.org/img/wn/" +
-                      props.weatherData.weather[0].icon +
-                      "@2x.png"
-                    }
-                    style={{ height: 75 }}
+                    style={{ fontSize: 45 }}
                   />
                 </Grid>
               </Grid>
             </Grid>
             <Grid item>
-              <Grid container spacing={2}>
-                <Grid item>
-                  <IconTextPair
-                    icon={OpacityIcon}
-                    text={props.weatherData.main.humidity + "%"}
-                  />
-                </Grid>
-                <Grid item>
-                  <IconTextPair
-                    icon={WavesIcon}
-                    text={props.weatherData.wind.speed + " mi/h"}
-                  />
-                </Grid>
-              </Grid>
+              <OtherDetails {...props} />
             </Grid>
           </Grid>
         </Grid>
@@ -79,17 +64,35 @@ const WeatherCard = (props) => {
   );
 };
 
-const IconTextPair = (props) => {
-  const Icon = props.icon;
+const OtherDetails = (props) => {
   return (
-    <Grid container spacing={1} alignItems={"center"}>
+    <Grid container spacing={2}>
       <Grid item>
-        <Icon style={{ fontSize: 18, paddingTop: 4 }} />
+        <Grid container spacing={1} alignItems={"center"}>
+          <Grid item>
+            <OpacityIcon style={{ fontSize: 18, paddingTop: 4 }} />
+          </Grid>
+          <Grid item>
+            <Typography style={{ fontSize: 15, fontWeight: 400 }}>
+              {props.weatherData.main.humidity + "%"}
+            </Typography>
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item>
-        <Typography style={{ fontSize: 15, fontWeight: 400 }}>
-          {props.text}
-        </Typography>
+        <Grid container spacing={1} alignItems={"center"}>
+          <Grid item>
+            <i
+              className={`<wi wi-wind from-${props.weatherData.wind.deg}-deg`}
+              style={{ fontSize: 15 }}
+            />
+          </Grid>
+          <Grid item>
+            <Typography style={{ fontSize: 15, fontWeight: 400 }}>
+              {props.weatherData.wind.speed + " mi/h"}
+            </Typography>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

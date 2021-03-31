@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, Grid, IconButton, Paper } from "@material-ui/core";
+import { Box, Button, Grid, Paper } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -29,13 +29,13 @@ const SideBar = (props) => {
       alignItems={"center"}
       alignContent={"center"}
     >
-      <Grid item style={{ width: "100%" }}>
-        <IconButton
-          style={{ width: "100%" }}
+      <Grid item style={{ height: "100%", width: "100%" }}>
+        <Button
+          style={{ height: "100%", width: "100%" }}
           onClick={() => mainProcess.garageSwitch()}
         >
-          <HomeIcon className={classes.garageIcon} />
-        </IconButton>
+          <HomeIcon className={classes.garageIcon} color="action"/>
+        </Button>
       </Grid>
     </Grid>
   );

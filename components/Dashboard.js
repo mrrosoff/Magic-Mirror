@@ -50,13 +50,13 @@ const DashBoard = (props) => {
     const getTidesFromAPI = () => {
       axios
         .get(
-          `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=today&station=9410230&product=predictions&datum=MLLW&time_zone=lst&units=english&format=json`
+          `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=today&station=9410230&product=predictions&datum=MLLW&time_zone=lst_ldt&units=english&format=json`
         )
         .then((r) => setTidePredictionData(r.data));
 
       axios
         .get(
-          `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=today&station=9410230&product=one_minute_water_level&datum=MLLW&time_zone=lst&units=english&format=json`
+          `https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=today&station=9410230&product=one_minute_water_level&datum=MLLW&time_zone=lst_ldt&units=english&format=json`
         )
         .then((r) => setTideActualData(r.data));
     };
@@ -70,7 +70,7 @@ const DashBoard = (props) => {
     const getSurfFromAPI = () => {
       axios
         .get(
-          `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088af&days=5&intervalHours=3&maxHeights=true`
+          `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088af&days=4&intervalHours=2&maxHeights=true`
         )
         .then((r) => setSurfData(r.data));
     };
@@ -98,24 +98,28 @@ const DashBoard = (props) => {
             style={{ width: "100%", height: "100%" }}
             className={classes.root}
           >
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                {weatherData ? <WeatherCard weatherData={weatherData} /> : null}
-              </Grid>
-              <Grid item xs={6}>
-                {surfData && surfData.data ? (
-                  <SurfCard surfData={surfData} />
-                ) : null}
-              </Grid>
-              <Grid item xs={12}>
+            <Box width={"100%"} height={"100%"} display={"flex"} flexDirection={"column"}>
+              <Box display={"flex"}>
+                <Box>
+                  {weatherData ? (
+                    <WeatherCard weatherData={weatherData} />
+                  ) : null}
+                </Box>
+                <Box pl={3} flexGrow={1}>
+                  {surfData && surfData.data ? (
+                    <SurfCard surfData={surfData} />
+                  ) : null}
+                </Box>
+              </Box>
+              <Box pt={3} flexGrow={1}>
                 {tidePredictionData ? (
                   <TideCard
                     tidePredictionData={tidePredictionData}
                     tideActualData={tideActualData}
                   />
                 ) : null}
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
           </Paper>
         </Box>
       </Box>
