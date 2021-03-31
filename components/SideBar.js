@@ -10,9 +10,9 @@ import { remote } from "electron";
 const mainProcess = remote.require("./main.js");
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: theme.spacing(3),
-  },
+	root: {
+		padding: theme.spacing(4),
+	  },
   garageIcon: {
     width: "80%",
     height: "80%",
@@ -23,10 +23,8 @@ const SideBar = (props) => {
   const classes = useStyles();
 
   return (
-    <Box p={3} width={"100%"} height={"100%"}>
-      <Paper
-        style={{ width: "100%", height: "100%" }}
-        className={classes.paper}
+      <Paper style={{ width: "100%", height: "100%" }}
+	  className={classes.root}
       >
         <Grid
           container
@@ -47,7 +45,6 @@ const SideBar = (props) => {
           </Grid>
         </Grid>
       </Paper>
-    </Box>
   );
 };
 

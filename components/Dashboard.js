@@ -14,18 +14,7 @@ import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(5),
-  },
-  fancyBox: {
-    height: "100%",
-    [theme.breakpoints.up("xs")]: {
-      padding: theme.spacing(3),
-    },
-    [theme.breakpoints.up("sm")]: {
-      paddingTop: theme.spacing(3),
-      paddingBottom: theme.spacing(3),
-      paddingRight: theme.spacing(3),
-    },
+    padding: theme.spacing(4),
   },
   cardBox: {
     borderWidth: 2,
@@ -93,19 +82,17 @@ const DashBoard = (props) => {
 
   console.log(tideActualData);
   return (
-    <Box height={"100vh"}>
-      <Grid container style={{ height: "100%" }}>
+    <Box height={"100vh"} p={4}>
+      <Grid container style={{ height: "100%" }} spacing={3}>
         <Grid item sm={4} style={{ height: "100%" }}>
           <SideBar {...props} />
         </Grid>
         <Grid item sm={8} style={{ height: "100%" }}>
-          <Box className={classes.fancyBox}>
             <Paper
-              id={"wrappingPaper"}
-              style={{ width: "100%", height: "100%", overflow: "hidden" }}
+              style={{ width: "100%", height: "100%" }}
               className={classes.root}
             >
-              <Grid container spacing={5}>
+              <Grid container spacing={4}>
                 <Grid item xs={6}>
                   {weatherData ? (
                     <WeatherCard weatherData={weatherData} />
@@ -126,25 +113,7 @@ const DashBoard = (props) => {
                 </Grid>
               </Grid>
             </Paper>
-          </Box>
         </Grid>
-      </Grid>
-    </Box>
-  );
-};
-
-const WidgetCard = (props) => {
-  const classes = useStyles();
-
-  return (
-    <Box p={4} className={classes.cardBox}>
-      <Grid container direction={"column"} spacing={2}>
-        <Grid item>
-          <Box fontWeight={500} fontSize="h1.fontSize">
-            {props.title}
-          </Box>
-        </Grid>
-        <Grid item>{props.children}</Grid>
       </Grid>
     </Box>
   );
