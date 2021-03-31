@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { grey } from "@material-ui/core/colors";
 
 import {
-  Legend,
+	CartesianGrid,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -116,8 +116,8 @@ const TideCard = (props) => {
             ) : null}
           </Grid>
         </Grid>
-        <Grid item style={{paddingRight: 50}}>
-          <ResponsiveContainer width={"100%"} height={175}>
+        <Grid item>
+          <ResponsiveContainer width={"100%"} height={150}>
             <LineChart
               width={730}
               height={250}
@@ -129,10 +129,12 @@ const TideCard = (props) => {
                 type="number"
                 scale="time"
                 interval="preserveStartEnd"
-                tickFormatter={(tickItem) => moment(tickItem).format("h:mm")}
+				minTickGap={40}
+                tickFormatter={(tickItem) => moment(tickItem).format("h:mm A")}
                 domain={[domain.getTime(), domain.getTime()]}
               />
               <YAxis
+			  	hide
                 domain={[
                   Math.floor(
                     Math.min(...predictionData.map((item) => item.prediction))
@@ -140,6 +142,7 @@ const TideCard = (props) => {
                   6,
                 ]}
               />
+			<CartesianGrid strokeDasharray="3 3" />
               <Line
                 name="Predicted"
                 type="monotone"

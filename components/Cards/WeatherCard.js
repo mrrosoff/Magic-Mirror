@@ -82,12 +82,12 @@ const WeatherCard = (props) => {
 const IconTextPair = (props) => {
   const Icon = props.icon;
   return (
-    <Grid container spacing={2} alignItems={"center"}>
+    <Grid container spacing={1} alignItems={"center"}>
       <Grid item>
-        <Icon style={{ fontSize: 18 }} />
+        <Icon style={{ fontSize: 18, paddingTop: 4 }} />
       </Grid>
       <Grid item>
-        <Typography style={{ fontSize: 16, fontWeight: 400 }}>
+        <Typography style={{ fontSize: 15, fontWeight: 400 }}>
           {props.text}
         </Typography>
       </Grid>
