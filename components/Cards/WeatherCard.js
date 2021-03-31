@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     borderStyle: "solid",
     borderColor: grey[300],
     borderRadius: 5,
-    width: 250,
+    width: 240,
     height: 200,
   },
 }));
@@ -21,7 +21,7 @@ const WeatherCard = (props) => {
   const classes = useStyles();
   return (
     <Box p={2} className={classes.cardBox}>
-      <Grid container direction={"column"} spacing={2}>
+      <Grid container direction={"column"} spacing={1}>
         <Grid item>
           <Typography style={{ fontSize: 32, fontWeight: 500 }}>
             Weather
@@ -32,7 +32,7 @@ const WeatherCard = (props) => {
             <Grid item>
               <Box display={"flex"} alignItems={"center"}>
                 <Box display={"flex"} flexDirection={"column"}>
-                  <Typography style={{ fontSize: 25, fontWeight: 500 }}>
+                  <Typography style={{ fontSize: 28, fontWeight: 500 }}>
                     {Math.floor(props.weatherData.main.temp) + " °F"}
                   </Typography>
 
@@ -44,7 +44,7 @@ const WeatherCard = (props) => {
                   <i
                     className={`wi wi-owm-${props.weatherData.weather[0].id}`}
                     alt={"Weather Icon"}
-                    style={{ fontSize: 55 }}
+                    style={{ fontSize: 42 }}
                   />
                 </Box>
               </Box>
@@ -64,9 +64,9 @@ const OtherDetails = (props) => {
     <Grid container spacing={2}>
       <Grid item>
         <Box display={"flex"} alignItems={"center"}>
-          <OpacityIcon style={{ fontSize: 16 }} />
+          <OpacityIcon style={{ fontSize: 18 }} />
           <Box pl={1}>
-            <Typography style={{ fontSize: 15, fontWeight: 400 }}>
+            <Typography style={{ fontSize: 16, fontWeight: 400 }}>
               {props.weatherData.main.humidity + "%"}
             </Typography>
           </Box>
@@ -76,10 +76,10 @@ const OtherDetails = (props) => {
         <Box display={"flex"} alignItems={"center"}>
           <i
             className={`wi wi-wind from-${props.weatherData.wind.deg}-deg`}
-            style={{ fontSize: 20 }}
+            style={{ fontSize: 22 }}
           />
           <Box pl={1}>
-            <Typography style={{ fontSize: 15, fontWeight: 400 }}>
+            <Typography style={{ fontSize: 16, fontWeight: 400 }}>
               {props.weatherData.wind.speed + " mi/h"}
             </Typography>
           </Box>

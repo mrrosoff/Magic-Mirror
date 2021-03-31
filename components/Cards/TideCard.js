@@ -4,7 +4,7 @@ import { Box, Grid, Typography } from "@material-ui/core";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import { makeStyles } from "@material-ui/core/styles";
-import { grey, green } from "@material-ui/core/colors";
+import { grey, green, blue, lightGreen } from "@material-ui/core/colors";
 
 import {
   CartesianGrid,
@@ -100,7 +100,9 @@ const TideCard = (props) => {
                 />
               </Grid>
             </Grid>
-          ) : null}
+          ) : <Typography style={{ fontSize: 20, fontWeight: 400 }}>
+              Tomorrow
+            </Typography>}
         </Grid>
       </Grid>
       <Box pt={2} flexGrow={1}>
@@ -115,7 +117,7 @@ const TideCard = (props) => {
   );
 };
 
-const TideTime = (props) => {
+const TideTime = (props) => { 
   const Icon = props.tide === "low" ? ArrowDownwardIcon : ArrowUpwardIcon;
   return (
     <Grid container justify={"center"} alignItems={"center"} spacing={1}>
@@ -168,7 +170,7 @@ const TideGraph = (props) => {
           name="Predicted"
           type="monotone"
           dataKey="prediction"
-          stroke="#8884d8"
+          stroke={blue[500]}
           dot={false}
           strokeWidth={4}
         />
@@ -177,7 +179,7 @@ const TideGraph = (props) => {
             name="Actual"
             type="monotone"
             dataKey="actual"
-            stroke="#82ca9d"
+            stroke={lightGreen[400]}
             dot={false}
             strokeWidth={4}
           />

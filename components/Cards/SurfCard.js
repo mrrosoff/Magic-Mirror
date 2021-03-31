@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Grid, Typography, useTheme } from "@material-ui/core";
 
 import moment from "moment";
 import {
@@ -14,7 +14,7 @@ import {
   YAxis,
 } from "recharts";
 import { makeStyles } from "@material-ui/core/styles";
-import { grey, green } from "@material-ui/core/colors";
+import { grey, green, blue } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   cardBox: {
@@ -75,6 +75,7 @@ const SurfCard = (props) => {
 };
 
 const SurfGraph = (props) => {
+  const theme = useTheme();
   return (
     <ResponsiveContainer width={"99%"} height={"100%"}>
       <LineChart
@@ -105,6 +106,8 @@ const SurfGraph = (props) => {
           strokeWidth={2}
         >
           <Label
+          
+            style={{fill: theme.palette.type === "dark" ? "rgba(255, 255, 255, 0.87)" : undefined}}
             value={`${props.closest.waveHeight.toFixed(2)} Feet`}
             position="insideLeft"
           />
@@ -113,7 +116,7 @@ const SurfGraph = (props) => {
           name="Wave Height"
           type="monotone"
           dataKey="waveHeight"
-          stroke="#8884d8"
+          stroke={blue[500]}
           dot={false}
           strokeWidth={4}
         />
