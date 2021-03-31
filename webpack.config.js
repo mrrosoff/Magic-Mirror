@@ -11,7 +11,7 @@ module.exports = {
 	devServer: {
 		contentBase: path.resolve(__dirname, output),
 		port: 3000, open: false, hot: true, historyApiFallback: true, proxy: { "/api/*": "http://localhost:8000" },
-		stats: { colors: true, chunks: false, children: false},
+		stats: "minimal",
 		before() {
 			spawn('electron', ['.'], { shell: true, env: process.env, stdio: 'inherit' })
 				.on('close', code => process.exit(code))
@@ -25,7 +25,7 @@ module.exports = {
 				test: /\.jsx?$/,
 				exclude: /node_modules/,
 				loader: 'babel-loader',
-				options: {presets: ['@babel/preset-env', '@babel/react']}
+				options: {presets: ['@babel/react']}
 			},
 			{test: /\.css$/i, use: ['style-loader', 'css-loader']},
 			{
@@ -33,7 +33,7 @@ module.exports = {
 					[
 						{loader: 'style-loader'},
 						{loader: 'css-loader'},
-						{loader: 'postcss-loader', options: {postcssOptions: {plugins: ['autoprefixer', 'precss']}}},
+						// {loader: 'postcss-loader', options: {postcssOptions: {plugins: ['autoprefixer', 'precss']}}},
 						{loader: 'sass-loader'}
 					]
 			},
@@ -47,7 +47,8 @@ module.exports = {
 			template: "./static/template/index.html",
 			favicon: "./static/template/favicon.ico",
 			title: 'Rosoff Club'
-		}),		new webpack.HotModuleReplacementPlugin(),
+		}),
+		new webpack.HotModuleReplacementPlugin(),
 	],
 	target: 'electron-renderer',
 };
