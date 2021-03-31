@@ -37,7 +37,7 @@ const SurfCard = (props) => {
         <Grid item container justify={"space-between"}>
           <Grid item>
             <Typography style={{ fontSize: 32, fontWeight: 500 }}>
-              Tide
+              Surf
             </Typography>
           </Grid>
           <Grid item>
@@ -58,7 +58,7 @@ const SurfCard = (props) => {
                 <Grid item>
                   <Typography
                     style={{ fontSize: 20, fontWeight: 400 }}
-                  >{`Del Mar: ${dayAverages[0].toFixed(0)} ft`}</Typography>
+                  >{`${dayAverages[0].toFixed(0)} feet`}</Typography>
                 </Grid>
               </Grid>
             </Grid>

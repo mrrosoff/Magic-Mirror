@@ -67,7 +67,7 @@ const TideCard = (props) => {
 
   return (
     <Box p={2} className={classes.cardBox}>
-      <Grid container direction={"column"} spacing={2}>
+      <Grid container direction={"column"} spacing={3}>
         <Grid item container justify={"space-between"}>
           <Grid item>
             <Typography style={{ fontSize: 32, fontWeight: 500 }}>
@@ -116,8 +116,8 @@ const TideCard = (props) => {
             ) : null}
           </Grid>
         </Grid>
-        <Grid item style={{paddingRight: 20}}>
-          <ResponsiveContainer width={"100%"} height={275}>
+        <Grid item style={{paddingRight: 50}}>
+          <ResponsiveContainer width={"100%"} height={175}>
             <LineChart
               width={730}
               height={250}
@@ -140,7 +140,6 @@ const TideCard = (props) => {
                   6,
                 ]}
               />
-              <Legend />
               <Line
                 name="Predicted"
                 type="monotone"
