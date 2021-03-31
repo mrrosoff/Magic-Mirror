@@ -14,7 +14,7 @@ import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(4),
+    padding: theme.spacing(3),
   },
   cardBox: {
     borderWidth: 2,
@@ -82,7 +82,7 @@ const DashBoard = (props) => {
 
   console.log(tideActualData);
   return (
-    <Box height={"100vh"} p={4}>
+    <Box height={"100vh"} p={3}>
       <Grid container style={{ height: "100%" }} spacing={3}>
         <Grid item sm={4} style={{ height: "100%" }}>
           <SideBar {...props} />

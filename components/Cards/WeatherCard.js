@@ -35,7 +35,7 @@ const WeatherCard = (props) => {
     <Box p={4} className={classes.cardBox}>
       <Grid container direction={"column"} spacing={2}>
         <Grid item>
-		<Typography style={{ fontSize: 35, fontWeight: 500 }}>
+		<Typography style={{ fontSize: 32, fontWeight: 500 }}>
               Weather
             </Typography>
         </Grid>
@@ -65,7 +65,7 @@ const WeatherCard = (props) => {
                       props.weatherData.weather[0].icon +
                       "@2x.png"
                     }
-                    style={{ height: 100 }}
+                    style={{ height: 75 }}
                   />
                 </Grid>
               </Grid>
@@ -104,7 +104,7 @@ const IconTextPair = (props) => {
     >
       <Grid item>{props.icon}</Grid>
       <Grid item>
-        <Typography style={{fontSize: 15, fontWeight: 400}}>{props.text}</Typography>
+        <Typography style={{fontSize: 12, fontWeight: 400}}>{props.text}</Typography>
       </Grid>
     </Grid>
   );

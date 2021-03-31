@@ -11,7 +11,7 @@ const mainProcess = remote.require("./main.js");
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		padding: theme.spacing(4),
+		padding: theme.spacing(3),
 	  },
   garageIcon: {
     width: "80%",

@@ -84,7 +84,7 @@ const TideCard = (props) => {
       <Grid container direction={"column"} spacing={6}>
         <Grid item container justify={"space-between"}>
           <Grid item>
-            <Typography style={{ fontSize: 35, fontWeight: 500 }}>
+            <Typography style={{ fontSize: 32, fontWeight: 500 }}>
               Tide
             </Typography>
           </Grid>

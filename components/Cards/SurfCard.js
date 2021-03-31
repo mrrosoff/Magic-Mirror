@@ -49,7 +49,7 @@ const SurfCard = (props) => {
     <Box p={4} className={classes.cardBox}>
       <Grid container direction={"column"} spacing={2}>
         <Grid item>
-          <Typography style={{ fontSize: 35, fontWeight: 500 }}>
+          <Typography style={{ fontSize: 32, fontWeight: 500 }}>
             Surf
           </Typography>
         </Grid>
