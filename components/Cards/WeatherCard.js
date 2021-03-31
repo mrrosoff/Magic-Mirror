@@ -7,20 +7,6 @@ import WavesIcon from "@material-ui/icons/Waves";
 import { grey } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: theme.spacing(5),
-  },
-  fancyBox: {
-    height: "100%",
-    [theme.breakpoints.up("xs")]: {
-      padding: theme.spacing(3),
-    },
-    [theme.breakpoints.up("sm")]: {
-      paddingTop: theme.spacing(3),
-      paddingBottom: theme.spacing(3),
-      paddingRight: theme.spacing(3),
-    },
-  },
   cardBox: {
     borderWidth: 2,
     borderStyle: "solid",
@@ -32,12 +18,12 @@ const useStyles = makeStyles((theme) => ({
 const WeatherCard = (props) => {
   const classes = useStyles();
   return (
-    <Box p={4} className={classes.cardBox}>
+    <Box p={2} className={classes.cardBox}>
       <Grid container direction={"column"} spacing={2}>
         <Grid item>
-		<Typography style={{ fontSize: 32, fontWeight: 500 }}>
-              Weather
-            </Typography>
+          <Typography style={{ fontSize: 32, fontWeight: 500 }}>
+            Weather
+          </Typography>
         </Grid>
         <Grid item>
           <Grid container direction={"column"} spacing={2}>
@@ -46,12 +32,12 @@ const WeatherCard = (props) => {
                 <Grid item>
                   <Grid container direction={"column"}>
                     <Grid item>
-                      <Typography style={{ fontSize: 20 }}>
+                      <Typography style={{ fontSize: 25, fontWeight: 500 }}>
                         {props.weatherData.main.temp + " °F"}
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Typography style={{ fontSize: 15 }}>
+                      <Typography style={{ fontSize: 18 }}>
                         {props.weatherData.weather[0].main}
                       </Typography>
                     </Grid>
@@ -71,16 +57,16 @@ const WeatherCard = (props) => {
               </Grid>
             </Grid>
             <Grid item>
-              <Grid container spacing={4}>
+              <Grid container spacing={2}>
                 <Grid item>
                   <IconTextPair
-                    icon={<OpacityIcon />}
+                    icon={OpacityIcon}
                     text={props.weatherData.main.humidity + "%"}
                   />
                 </Grid>
                 <Grid item>
                   <IconTextPair
-                    icon={<WavesIcon />}
+                    icon={WavesIcon}
                     text={props.weatherData.wind.speed + " mi/h"}
                   />
                 </Grid>
@@ -94,17 +80,16 @@ const WeatherCard = (props) => {
 };
 
 const IconTextPair = (props) => {
+  const Icon = props.icon;
   return (
-    <Grid
-      container
-      spacing={1}
-      justify={"center"}
-      alignItems={"center"}
-      alignContent={"center"}
-    >
-      <Grid item>{props.icon}</Grid>
+    <Grid container spacing={2} alignItems={"center"}>
       <Grid item>
-        <Typography style={{fontSize: 12, fontWeight: 400}}>{props.text}</Typography>
+        <Icon style={{ fontSize: 18 }} />
+      </Grid>
+      <Grid item>
+        <Typography style={{ fontSize: 16, fontWeight: 400 }}>
+          {props.text}
+        </Typography>
       </Grid>
     </Grid>
   );

@@ -80,41 +80,45 @@ const DashBoard = (props) => {
     return () => clearInterval(interval);
   }, []);
 
-  console.log(tideActualData);
   return (
-    <Box height={"100vh"} p={3}>
-      <Grid container style={{ height: "100%" }} spacing={3}>
-        <Grid item sm={4} style={{ height: "100%" }}>
-          <SideBar {...props} />
-        </Grid>
-        <Grid item sm={8} style={{ height: "100%" }}>
-            <Paper
-              style={{ width: "100%", height: "100%" }}
-              className={classes.root}
-            >
-              <Grid container spacing={4}>
-                <Grid item xs={6}>
-                  {weatherData ? (
-                    <WeatherCard weatherData={weatherData} />
-                  ) : null}
-                </Grid>
-                <Grid item xs={6}>
-                  {surfData && surfData.data ? (
-                    <SurfCard surfData={surfData} />
-                  ) : null}
-                </Grid>
-                <Grid item xs={12}>
-                  {tidePredictionData ? (
-                    <TideCard
-                      tidePredictionData={tidePredictionData}
-                      tideActualData={tideActualData}
-                    />
-                  ) : null}
-                </Grid>
+    <Box height={"100%"} p={3}>
+      <Box height={"100%"} display={"flex"} flexDirection={"row"}>
+        <Box width={"33.33%"} height={"100%"} paddingRight={3}>
+          <Paper
+            elevation={2}
+            style={{ width: "100%", height: "100%" }}
+            className={classes.root}
+          >
+            <SideBar {...props} />
+          </Paper>
+        </Box>
+        <Box width={"66.66%"} height={"100%"}>
+          <Paper
+            elevation={2}
+            style={{ width: "100%", height: "100%" }}
+            className={classes.root}
+          >
+            <Grid container spacing={3}>
+              <Grid item xs={6}>
+                {weatherData ? <WeatherCard weatherData={weatherData} /> : null}
               </Grid>
-            </Paper>
-        </Grid>
-      </Grid>
+              <Grid item xs={6}>
+                {surfData && surfData.data ? (
+                  <SurfCard surfData={surfData} />
+                ) : null}
+              </Grid>
+              <Grid item xs={12}>
+                {tidePredictionData ? (
+                  <TideCard
+                    tidePredictionData={tidePredictionData}
+                    tideActualData={tideActualData}
+                  />
+                ) : null}
+              </Grid>
+            </Grid>
+          </Paper>
+        </Box>
+      </Box>
     </Box>
   );
 };

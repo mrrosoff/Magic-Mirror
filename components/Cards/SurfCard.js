@@ -1,6 +1,6 @@
 import React from "react";
 
-import {Box, Grid, Typography } from "@material-ui/core";
+import { Box, Grid, Typography } from "@material-ui/core";
 
 import moment from "moment";
 import { Bar, BarChart, XAxis, YAxis } from "recharts";
@@ -8,27 +8,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import { grey } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-	  padding: theme.spacing(5),
-	},
-	fancyBox: {
-	  height: "100%",
-	  [theme.breakpoints.up("xs")]: {
-		padding: theme.spacing(3),
-	  },
-	  [theme.breakpoints.up("sm")]: {
-		paddingTop: theme.spacing(3),
-		paddingBottom: theme.spacing(3),
-		paddingRight: theme.spacing(3),
-	  },
-	},
-	cardBox: {
-	  borderWidth: 2,
-	  borderStyle: "solid",
-	  borderColor: grey[300],
-	  borderRadius: 5,
-	},
-  }));
+  cardBox: {
+    borderWidth: 2,
+    borderStyle: "solid",
+    borderColor: grey[300],
+    borderRadius: 5,
+  },
+}));
 
 const SurfCard = (props) => {
   let dayAverages = [];
@@ -46,15 +32,22 @@ const SurfCard = (props) => {
 
   const classes = useStyles();
   return (
-    <Box p={4} className={classes.cardBox}>
+    <Box p={2} className={classes.cardBox}>
       <Grid container direction={"column"} spacing={2}>
-        <Grid item>
-          <Typography style={{ fontSize: 32, fontWeight: 500 }}>
-            Surf
-          </Typography>
+        <Grid item container justify={"space-between"}>
+          <Grid item>
+            <Typography style={{ fontSize: 32, fontWeight: 500 }}>
+              Tide
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography style={{ fontSize: 18, fontWeight: 500 }}>
+              Del Mar
+            </Typography>
+          </Grid>
         </Grid>
         <Grid item>
-          <Grid container direction={"column"} spacing={4}>
+          <Grid container direction={"column"} spacing={3}>
             <Grid item>
               <Grid
                 container
@@ -64,7 +57,7 @@ const SurfCard = (props) => {
               >
                 <Grid item>
                   <Typography
-                    style={{fontSize: 20, fontWeight: 400}}
+                    style={{ fontSize: 20, fontWeight: 400 }}
                   >{`Del Mar: ${dayAverages[0].toFixed(0)} ft`}</Typography>
                 </Grid>
               </Grid>

@@ -17,20 +17,6 @@ import {
 import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: theme.spacing(5),
-  },
-  fancyBox: {
-    height: "100%",
-    [theme.breakpoints.up("xs")]: {
-      padding: theme.spacing(3),
-    },
-    [theme.breakpoints.up("sm")]: {
-      paddingTop: theme.spacing(3),
-      paddingBottom: theme.spacing(3),
-      paddingRight: theme.spacing(3),
-    },
-  },
   cardBox: {
     borderWidth: 2,
     borderStyle: "solid",
@@ -80,8 +66,8 @@ const TideCard = (props) => {
   const classes = useStyles();
 
   return (
-    <Box p={4} className={classes.cardBox}>
-      <Grid container direction={"column"} spacing={6}>
+    <Box p={2} className={classes.cardBox}>
+      <Grid container direction={"column"} spacing={2}>
         <Grid item container justify={"space-between"}>
           <Grid item>
             <Typography style={{ fontSize: 32, fontWeight: 500 }}>
@@ -130,7 +116,7 @@ const TideCard = (props) => {
             ) : null}
           </Grid>
         </Grid>
-        <Grid item>
+        <Grid item style={{paddingRight: 20}}>
           <ResponsiveContainer width={"100%"} height={275}>
             <LineChart
               width={730}
