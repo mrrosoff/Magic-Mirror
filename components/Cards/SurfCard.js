@@ -49,7 +49,7 @@ const SurfCard = (props) => {
     <Box p={4} className={classes.cardBox}>
       <Grid container direction={"column"} spacing={2}>
         <Grid item>
-          <Typography style={{ fontSize: 45, fontWeight: 500 }}>
+          <Typography style={{ fontSize: 35, fontWeight: 500 }}>
             Surf
           </Typography>
         </Grid>
@@ -64,7 +64,7 @@ const SurfCard = (props) => {
               >
                 <Grid item>
                   <Typography
-                    style={{fontSize: 30, fontWeight: 400}}
+                    style={{fontSize: 20, fontWeight: 400}}
                   >{`Del Mar: ${dayAverages[0].toFixed(0)} ft`}</Typography>
                 </Grid>
               </Grid>
