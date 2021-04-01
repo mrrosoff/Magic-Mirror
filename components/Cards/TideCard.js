@@ -1,10 +1,10 @@
 import React from "react";
 
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Grid, Typography, useTheme } from "@material-ui/core";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import { makeStyles } from "@material-ui/core/styles";
-import { grey, green, blue, lightGreen } from "@material-ui/core/colors";
+import { grey, green} from "@material-ui/core/colors";
 
 import {
   CartesianGrid,
@@ -132,6 +132,7 @@ const TideTime = (props) => {
 };
 
 const TideGraph = (props) => {
+  const theme = useTheme();
   return (
     <ResponsiveContainer width={"100%"} height={"100%"}>
       <LineChart
@@ -170,18 +171,18 @@ const TideGraph = (props) => {
           name="Predicted"
           type="monotone"
           dataKey="prediction"
-          stroke={blue[500]}
+          stroke={theme.palette.primary.main}
           dot={false}
-          strokeWidth={4}
+          strokeWidth={6}
         />
         {props.tideActualData ? (
           <Line
             name="Actual"
             type="monotone"
             dataKey="actual"
-            stroke={lightGreen[400]}
+            stroke={theme.palette.secondary.main}
             dot={false}
-            strokeWidth={4}
+            strokeWidth={5}
           />
         ) : null}
       </LineChart>
