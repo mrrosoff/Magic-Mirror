@@ -5,7 +5,7 @@ import { Button, Grid, SvgIcon } from "@material-ui/core";
 import { remote } from "electron";
 const mainProcess = remote.require("./main.js");
 
-const SideBar = props => {
+const SideBar = (props) => {
 	return (
 		<Grid
 			container
@@ -28,13 +28,9 @@ const SideBar = props => {
 	);
 };
 
-const HomeIcon = props => (
+const HomeIcon = (props) => (
 	<SvgIcon color="primary" style={{ fontSize: 220 }}>
-		<path
-			d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"
-			stroke="black"
-			strokeWidth={1}
-		/>
+		<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" stroke="black" strokeWidth={1} />
 	</SvgIcon>
 );
 

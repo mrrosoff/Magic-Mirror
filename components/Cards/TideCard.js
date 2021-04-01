@@ -17,7 +17,7 @@ import {
 } from "recharts";
 import moment from "moment";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	cardBox: {
 		borderWidth: 2,
 		borderStyle: "solid",
@@ -27,32 +27,25 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const TideCard = props => {
-	const firstDataPointDate = new Date(
-		props.tidePredictionData.predictions[0].t
-	);
+const TideCard = (props) => {
+	const firstDataPointDate = new Date(props.tidePredictionData.predictions[0].t);
 	const domain = new Date(
 		firstDataPointDate.getFullYear(),
 		firstDataPointDate.getMonth(),
 		firstDataPointDate.getDate()
 	);
 
-	const predictionData = props.tidePredictionData.predictions.map(
-		({ t, v }) => ({
-			time: new Date(t),
-			timeNumber: new Date(t).getTime(),
-			prediction: v
-		})
-	);
+	const predictionData = props.tidePredictionData.predictions.map(({ t, v }) => ({
+		time: new Date(t),
+		timeNumber: new Date(t).getTime(),
+		prediction: v
+	}));
 
 	let data = predictionData;
-	let { highTide, lowTide, nextTideIsLow } = getTideTimes(
-		predictionData,
-		props.tideActualData
-	);
+	let { highTide, lowTide, nextTideIsLow } = getTideTimes(predictionData, props.tideActualData);
 
 	if (props.tideActualData && props.tideActualData.data) {
-		data = predictionData.map(obj => ({
+		data = predictionData.map((obj) => ({
 			...obj,
 			...props.tideActualData.data
 				.map(({ t, v }) => ({
@@ -60,33 +53,21 @@ const TideCard = props => {
 					timeNumber: new Date(t).getTime(),
 					actual: v
 				}))
-				.find(item => item.timeNumber === obj.timeNumber)
+				.find((item) => item.timeNumber === obj.timeNumber)
 		}));
 	}
 
 	const classes = useStyles();
 
 	return (
-		<Box
-			p={2}
-			className={classes.cardBox}
-			display={"flex"}
-			flexDirection={"column"}
-		>
+		<Box p={2} className={classes.cardBox} display={"flex"} flexDirection={"column"}>
 			<Grid item container justify={"space-between"}>
 				<Grid item>
-					<Typography style={{ fontSize: 32, fontWeight: 500 }}>
-						Tide
-					</Typography>
+					<Typography style={{ fontSize: 32, fontWeight: 500 }}>Tide</Typography>
 				</Grid>
 				<Grid item>
 					{lowTide && highTide ? (
-						<Grid
-							container
-							spacing={3}
-							justify={"center"}
-							alignItems={"center"}
-						>
+						<Grid container spacing={3} justify={"center"} alignItems={"center"}>
 							<Grid item>
 								<TideTime
 									tide={nextTideIsLow ? "low" : "high"}
@@ -101,9 +82,7 @@ const TideCard = props => {
 							</Grid>
 						</Grid>
 					) : (
-						<Typography style={{ fontSize: 20, fontWeight: 500 }}>
-							Tomorrow
-						</Typography>
+						<Typography style={{ fontSize: 20, fontWeight: 500 }}>Tomorrow</Typography>
 					)}
 				</Grid>
 			</Grid>
@@ -119,7 +98,7 @@ const TideCard = props => {
 	);
 };
 
-const TideTime = props => {
+const TideTime = (props) => {
 	const Icon = props.tide === "low" ? ArrowDownwardIcon : ArrowUpwardIcon;
 	return (
 		<Grid container justify={"center"} alignItems={"center"} spacing={1}>
@@ -133,23 +112,18 @@ const TideTime = props => {
 	);
 };
 
-const TideGraph = props => {
+const TideGraph = (props) => {
 	const theme = useTheme();
 	return (
 		<ResponsiveContainer width={"100%"} height={"100%"}>
-			<LineChart
-				data={props.data}
-				margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-			>
+			<LineChart data={props.data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
 				<XAxis
 					dataKey="timeNumber"
 					type="number"
 					scale="time"
 					interval="preserveStartEnd"
 					minTickGap={40}
-					tickFormatter={tickItem =>
-						moment(tickItem).format("h:mm A")
-					}
+					tickFormatter={(tickItem) => moment(tickItem).format("h:mm A")}
 					domain={[props.domain.getTime(), props.domain.getTime()]}
 				/>
 				<YAxis
@@ -157,28 +131,13 @@ const TideGraph = props => {
 					scale={"linear"}
 					domain={[
 						Math.floor(
-							Math.min(
-								...props.predictionData.map(
-									item => item.prediction
-								)
-							)
+							Math.min(...props.predictionData.map((item) => item.prediction))
 						),
-						Math.ceil(
-							Math.max(
-								...props.predictionData.map(
-									item => item.prediction
-								)
-							)
-						),
-						,
+						Math.ceil(Math.max(...props.predictionData.map((item) => item.prediction)))
 					]}
 				/>
 				<CartesianGrid strokeDasharray="3 3" />
-				<ReferenceLine
-					x={new Date().getTime()}
-					stroke={green[500]}
-					strokeWidth={2}
-				/>
+				<ReferenceLine x={new Date().getTime()} stroke={green[500]} strokeWidth={2} />
 				<Line
 					name="Predicted"
 					type="monotone"
@@ -207,21 +166,17 @@ const getTideTimes = (predictionData, actualData) => {
 		return { highTide: null, lowTide: null, nextTideIsLow: null };
 
 	let i = 0;
-	const lastActualDate = new Date(
-		actualData.data[actualData.data.length - 1].t
-	);
+	const lastActualDate = new Date(actualData.data[actualData.data.length - 1].t);
 
 	for (; i < predictionData.length; i++) {
 		if (predictionData[i].time > lastActualDate) break;
 	}
 
-	let graphStartsDown =
-		predictionData[i].prediction > predictionData[i + 1].prediction;
+	let graphStartsDown = predictionData[i].prediction > predictionData[i + 1].prediction;
 	let firstInflectionPoint = predictionData[i + 1];
 
 	for (i += 2; i < predictionData.length; i++) {
-		const nextDataPointIsBelow =
-			firstInflectionPoint.prediction > predictionData[i].prediction;
+		const nextDataPointIsBelow = firstInflectionPoint.prediction > predictionData[i].prediction;
 
 		if (graphStartsDown !== nextDataPointIsBelow) break;
 
@@ -239,12 +194,8 @@ const getTideTimes = (predictionData, actualData) => {
 		secondInflectionPoint = predictionData[i];
 	}
 
-	const highTide = graphStartsDown
-		? secondInflectionPoint.time
-		: firstInflectionPoint.time;
-	const lowTide = graphStartsDown
-		? firstInflectionPoint.time
-		: secondInflectionPoint.time;
+	const highTide = graphStartsDown ? secondInflectionPoint.time : firstInflectionPoint.time;
+	const lowTide = graphStartsDown ? firstInflectionPoint.time : secondInflectionPoint.time;
 
 	const nextTideIsLow = lowTide < highTide ? lowTide : highTide;
 

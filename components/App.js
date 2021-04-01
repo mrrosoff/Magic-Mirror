@@ -3,11 +3,7 @@ import React, { useEffect, useState } from "react";
 import { CssBaseline } from "@material-ui/core";
 import { blue, lightGreen } from "@material-ui/core/colors";
 
-import {
-	createMuiTheme,
-	responsiveFontSizes,
-	ThemeProvider
-} from "@material-ui/core/styles";
+import { createMuiTheme, responsiveFontSizes, ThemeProvider } from "@material-ui/core/styles";
 
 import { SnackbarProvider } from "notistack";
 
@@ -22,10 +18,7 @@ const App = () => {
 
 	let theme = createMuiTheme({
 		palette: {
-			type:
-				currentDate.getHours() < 4 || currentDate.getHours() > 19
-					? "dark"
-					: "light",
+			type: currentDate.getHours() < 4 || currentDate.getHours() > 19 ? "dark" : "light",
 			primary: { main: blue[500] },
 			secondary: { main: lightGreen[400] }
 		}

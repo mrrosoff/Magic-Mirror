@@ -5,7 +5,7 @@ import { Box, Grid, makeStyles, Typography, useTheme } from "@material-ui/core";
 import OpacityIcon from "@material-ui/icons/Opacity";
 import { grey } from "@material-ui/core/colors";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
 	cardBox: {
 		borderWidth: 2,
 		borderStyle: "solid",
@@ -16,16 +16,14 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-const WeatherCard = props => {
+const WeatherCard = (props) => {
 	const classes = useStyles();
 
 	return (
 		<Box p={2} className={classes.cardBox}>
 			<Grid container direction={"column"} spacing={1}>
 				<Grid item>
-					<Typography style={{ fontSize: 32, fontWeight: 500 }}>
-						Weather
-					</Typography>
+					<Typography style={{ fontSize: 32, fontWeight: 500 }}>Weather</Typography>
 				</Grid>
 				<Grid item>
 					<Grid container direction={"column"} spacing={2}>
@@ -38,9 +36,7 @@ const WeatherCard = props => {
 											fontWeight: 500
 										}}
 									>
-										{Math.floor(
-											props.weatherData.main.temp
-										) + " °F"}
+										{Math.floor(props.weatherData.main.temp) + " °F"}
 									</Typography>
 									<Typography style={{ fontSize: 18 }}>
 										{props.weatherData.weather[0].main}
@@ -65,7 +61,7 @@ const WeatherCard = props => {
 	);
 };
 
-const OtherDetails = props => {
+const OtherDetails = (props) => {
 	const theme = useTheme();
 	return (
 		<Grid container spacing={2}>
