@@ -4,7 +4,7 @@ import { Box, Grid, Typography, useTheme } from "@material-ui/core";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import { makeStyles } from "@material-ui/core/styles";
-import { grey, green } from "@material-ui/core/colors";
+import { grey, purple } from "@material-ui/core/colors";
 
 import {
 	CartesianGrid,
@@ -104,7 +104,7 @@ const TideTime = (props) => {
 		<Grid container justify={"center"} alignItems={"center"} spacing={1}>
 			<Icon style={{ fontSize: 20 }} />
 			<Grid item>
-				<Typography style={{ fontSize: 20, fontWeight: 400 }}>
+				<Typography style={{ fontSize: 20, fontWeight: 500 }}>
 					{moment(props.data.getTime()).format("h:mm A")}
 				</Typography>
 			</Grid>
@@ -137,7 +137,7 @@ const TideGraph = (props) => {
 					]}
 				/>
 				<CartesianGrid strokeDasharray="3 3" />
-				<ReferenceLine x={new Date().getTime()} stroke={green[500]} strokeWidth={2} />
+				<ReferenceLine x={new Date().getTime()} stroke={purple[500]} strokeWidth={2} />
 				<Line
 					name="Predicted"
 					type="monotone"
@@ -197,9 +197,7 @@ const getTideTimes = (predictionData, actualData) => {
 	const highTide = graphStartsDown ? secondInflectionPoint.time : firstInflectionPoint.time;
 	const lowTide = graphStartsDown ? firstInflectionPoint.time : secondInflectionPoint.time;
 
-	const nextTideIsLow = lowTide < highTide ? lowTide : highTide;
-
-	return { highTide, lowTide, nextTideIsLow };
+	return { highTide, lowTide, nextTideIsLow: lowTide < highTide };
 };
 
 export default TideCard;

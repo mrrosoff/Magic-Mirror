@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { CssBaseline } from "@material-ui/core";
-import { blue, lightGreen } from "@material-ui/core/colors";
+import { blue, green } from "@material-ui/core/colors";
 
 import { createMuiTheme, responsiveFontSizes, ThemeProvider } from "@material-ui/core/styles";
 
@@ -20,7 +20,7 @@ const App = () => {
 		palette: {
 			type: currentDate.getHours() < 4 || currentDate.getHours() > 19 ? "dark" : "light",
 			primary: { main: blue[500] },
-			secondary: { main: lightGreen[400] }
+			secondary: { main: green[500] }
 		}
 	});
 	theme = responsiveFontSizes(theme);
