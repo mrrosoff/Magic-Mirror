@@ -1,23 +1,11 @@
 import React from "react";
 
-import { Box, Button, Grid, Paper } from "@material-ui/core";
-
-import { makeStyles } from "@material-ui/core/styles";
-
-import HomeIcon from "@material-ui/icons/Home";
+import { Button, Grid, SvgIcon } from "@material-ui/core";
 
 import { remote } from "electron";
 const mainProcess = remote.require("./main.js");
 
-const useStyles = makeStyles((theme) => ({
-  garageIcon: {
-    width: "80%",
-    height: "80%",
-  },
-}));
-
 const SideBar = (props) => {
-  const classes = useStyles();
 
   return (
     <Grid
@@ -34,11 +22,21 @@ const SideBar = (props) => {
           style={{ height: "100%", width: "100%" }}
           onClick={() => mainProcess.garageSwitch()}
         >
-          <HomeIcon className={classes.garageIcon} color="primary"/>
+          <HomeIcon />
         </Button>
       </Grid>
     </Grid>
   );
 };
+
+const HomeIcon = props => (
+  <SvgIcon color="primary" style={{fontSize: 220}}>
+    <path
+      d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"
+      stroke="black"
+      strokeWidth={1}
+    />
+  </SvgIcon>
+);
 
 export default SideBar;
