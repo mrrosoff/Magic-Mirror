@@ -1,9 +1,8 @@
 import React from "react";
 
-import { Box, Grid, makeStyles, Typography } from "@material-ui/core";
+import { Box, Grid, makeStyles, Typography, useTheme } from "@material-ui/core";
 
 import OpacityIcon from "@material-ui/icons/Opacity";
-import WavesIcon from "@material-ui/icons/Waves";
 import { grey } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
@@ -19,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 const WeatherCard = (props) => {
   const classes = useStyles();
+  
   return (
     <Box p={2} className={classes.cardBox}>
       <Grid container direction={"column"} spacing={1}>
@@ -35,7 +35,6 @@ const WeatherCard = (props) => {
                   <Typography style={{ fontSize: 28, fontWeight: 500 }}>
                     {Math.floor(props.weatherData.main.temp) + " °F"}
                   </Typography>
-
                   <Typography style={{ fontSize: 18 }}>
                     {props.weatherData.weather[0].main}
                   </Typography>
@@ -44,7 +43,7 @@ const WeatherCard = (props) => {
                   <i
                     className={`wi wi-owm-${props.weatherData.weather[0].id}`}
                     alt={"Weather Icon"}
-                    style={{ fontSize: 42 }}
+                    style={{ fontSize: 42}}
                   />
                 </Box>
               </Box>
@@ -60,11 +59,12 @@ const WeatherCard = (props) => {
 };
 
 const OtherDetails = (props) => {
+  const theme = useTheme();
   return (
     <Grid container spacing={2}>
       <Grid item>
         <Box display={"flex"} alignItems={"center"}>
-          <OpacityIcon style={{ fontSize: 18 }} />
+          <OpacityIcon style={{ fontSize: 18, fill: theme.palette.primary.main }} />
           <Box pl={1}>
             <Typography style={{ fontSize: 16, fontWeight: 400 }}>
               {props.weatherData.main.humidity + "%"}
@@ -76,7 +76,8 @@ const OtherDetails = (props) => {
         <Box display={"flex"} alignItems={"center"}>
           <i
             className={`wi wi-wind from-${props.weatherData.wind.deg}-deg`}
-            style={{ fontSize: 22 }}
+            style={{ fontSize: 22, color: theme.palette.primary.main }}
+            
           />
           <Box pl={1}>
             <Typography style={{ fontSize: 16, fontWeight: 400 }}>

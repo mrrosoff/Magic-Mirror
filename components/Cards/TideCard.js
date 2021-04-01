@@ -100,7 +100,7 @@ const TideCard = (props) => {
                 />
               </Grid>
             </Grid>
-          ) : <Typography style={{ fontSize: 20, fontWeight: 400 }}>
+          ) : <Typography style={{ fontSize: 20, fontWeight: 500 }}>
               Tomorrow
             </Typography>}
         </Grid>

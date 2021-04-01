@@ -34,7 +34,7 @@ const SideBar = (props) => {
           style={{ height: "100%", width: "100%" }}
           onClick={() => mainProcess.garageSwitch()}
         >
-          <HomeIcon className={classes.garageIcon} color="action"/>
+          <HomeIcon className={classes.garageIcon} color="primary"/>
         </Button>
       </Grid>
     </Grid>

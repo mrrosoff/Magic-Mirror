@@ -72,42 +72,41 @@ const DashBoard = (props) => {
         .get(
           `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a770883b&days=1&intervalHours=1&maxHeights=true`
         )
-        .then((r) =>
-          setSurfData(surfData => [
+        .then((r) => {
+          setSurfData((surfData) => [
             ...surfData,
             {
               name: "Blacks",
               waveHeight: calculateTodaysAverage(r.data.data.wave),
             },
-          ])
-        );
-      axios
-        .get(
-          `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088af&days=1&intervalHours=1&maxHeights=true`
-        )
-        .then((r) =>
-        setSurfData(surfData => [
-          ...surfData,
-          {
-            name: "15th Street",
-            waveHeight: calculateTodaysAverage(r.data.data.wave),
-          },
-        ])
-        );
-
-      axios
-        .get(
-          `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088a0&days=1&intervalHours=1&maxHeights=true`
-        )
-        .then((r) =>
-        setSurfData(surfData => [
-          ...surfData,
-          {
-            name: "Beacons",
-            waveHeight: calculateTodaysAverage(r.data.data.wave),
-          },
-        ])
-        );
+          ]);
+          axios
+            .get(
+              `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088af&days=1&intervalHours=1&maxHeights=true`
+            )
+            .then((r) => {
+              setSurfData((surfData) => [
+                ...surfData,
+                {
+                  name: "15th Street",
+                  waveHeight: calculateTodaysAverage(r.data.data.wave),
+                },
+              ]);
+              axios
+                .get(
+                  `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088a0&days=1&intervalHours=1&maxHeights=true`
+                )
+                .then((r) =>
+                  setSurfData((surfData) => [
+                    ...surfData,
+                    {
+                      name: "Beacons",
+                      waveHeight: calculateTodaysAverage(r.data.data.wave),
+                    },
+                  ])
+                );
+            });
+        });
     };
 
     const calculateTodaysAverage = (data) =>
@@ -149,7 +148,9 @@ const DashBoard = (props) => {
                   ) : null}
                 </Box>
                 <Box pl={3} flexGrow={1}>
-                  {surfData.length > 0 ? <SurfCard surfData={surfData} /> : null}
+                  {surfData.length > 0 ? (
+                    <SurfCard surfData={surfData} />
+                  ) : null}
                 </Box>
               </Box>
               <Box pt={3} flexGrow={1}>
