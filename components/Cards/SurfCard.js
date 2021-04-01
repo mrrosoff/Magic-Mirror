@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SurfCard = (props) => {
-
   const classes = useStyles();
   return (
     <Box

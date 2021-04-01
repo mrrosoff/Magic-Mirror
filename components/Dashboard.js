@@ -73,38 +73,61 @@ const DashBoard = (props) => {
           `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a770883b&days=1&intervalHours=1&maxHeights=true`
         )
         .then((r) => {
-          setSurfData((surfData) => [
-            ...surfData,
-            {
-              name: "Blacks",
-              waveHeight: calculateTodaysAverage(r.data.data.wave),
-            },
-          ]);
+          setSurfData((surfData) => {
+            const isItem = surfData.some((item) => item.name === "Blacks");
+            surfData.splice(
+              isItem ? surfData.findIndex((item) => item.name === "Blacks") : 0,
+              isItem ? 1 : 0,
+              {
+                name: "Blacks",
+                waveHeight: calculateTodaysAverage(r.data.data.wave),
+              }
+            );
+            return surfData;
+          });
           axios
             .get(
               `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088af&days=1&intervalHours=1&maxHeights=true`
             )
             .then((r) => {
-              setSurfData((surfData) => [
-                ...surfData,
-                {
-                  name: "15th Street",
-                  waveHeight: calculateTodaysAverage(r.data.data.wave),
-                },
-              ]);
+              setSurfData((surfData) => {
+                const isItem = surfData.some(
+                  (item) => item.name === "15th Street"
+                );
+                surfData.splice(
+                  isItem
+                    ? surfData.findIndex((item) => item.name === "15th Street")
+                    : 0,
+                  isItem ? 1 : 0,
+                  {
+                    name: "15th Street",
+                    waveHeight: calculateTodaysAverage(r.data.data.wave),
+                  }
+                );
+                return surfData;
+              });
               axios
                 .get(
                   `https://services.surfline.com/kbyg/spots/forecasts/wave?spotId=5842041f4e65fad6a77088a0&days=1&intervalHours=1&maxHeights=true`
                 )
-                .then((r) =>
-                  setSurfData((surfData) => [
-                    ...surfData,
-                    {
-                      name: "Beacons",
-                      waveHeight: calculateTodaysAverage(r.data.data.wave),
-                    },
-                  ])
-                );
+                .then((r) => {
+                  const isItem = surfData.some(
+                    (item) => item.name === "Beacons"
+                  );
+                  setSurfData((surfData) => {
+                    surfData.splice(
+                      isItem
+                        ? surfData.findIndex((item) => item.name === "Beacons")
+                        : 0,
+                      isItem ? 1 : 0,
+                      {
+                        name: "Beacons",
+                        waveHeight: calculateTodaysAverage(r.data.data.wave),
+                      }
+                    );
+                    return surfData;
+                  });
+                });
             });
         });
     };
