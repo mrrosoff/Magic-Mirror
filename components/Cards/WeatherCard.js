@@ -5,6 +5,8 @@ import { Box, Grid, makeStyles, Typography, useTheme } from "@material-ui/core";
 import OpacityIcon from "@material-ui/icons/Opacity";
 import { grey } from "@material-ui/core/colors";
 
+import moment from "moment";
+
 const useStyles = makeStyles((theme) => ({
 	cardBox: {
 		borderWidth: 2,
@@ -39,7 +41,7 @@ const WeatherCard = (props) => {
 										{Math.floor(props.weatherData.main.temp) + " °F"}
 									</Typography>
 									<Typography style={{ fontSize: 18 }}>
-										{props.weatherData.weather[0].main}
+										{moment(new Date().getTime()).format("h:mm A")}
 									</Typography>
 								</Box>
 								<Box pl={4}>
@@ -91,7 +93,7 @@ const OtherDetails = (props) => {
 					/>
 					<Box pl={1}>
 						<Typography style={{ fontSize: 16, fontWeight: 400 }}>
-							{props.weatherData.wind.speed + " mi/h"}
+							{Math.floor(props.weatherData.wind.speed) + " mi/h"}
 						</Typography>
 					</Box>
 				</Box>

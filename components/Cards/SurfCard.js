@@ -73,18 +73,19 @@ const SurfGraph = (props) => {
 };
 
 const renderCustomizedLabel = (props) => {
+	const theme = useTheme();
 	const { x, y, width, value } = props;
 	const radius = 10;
 	return (
 		<text
-			style={{ fontWeight: 500 }}
+			style={{ fontWeight: 600 }}
 			x={x + width / 2}
 			y={y - radius}
-			fill="#000"
+			fill={theme.palette.type === "dark" ? "#FFFFFF" : "#000000"}
 			textAnchor="middle"
 			dominantBaseline="middle"
 		>
-			{Math.floor(value) + " Ft"}
+			{Math.floor(value) + " ft"}
 		</text>
 	);
 };

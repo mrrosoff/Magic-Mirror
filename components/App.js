@@ -13,12 +13,12 @@ const App = () => {
 	const [currentDate, setCurrentDate] = useState(new Date());
 
 	useEffect(() => {
-		setInterval(setCurrentDate(currentDate), 360000);
+		setInterval(() => setCurrentDate(new Date()), 180000);
 	}, []);
 
 	let theme = createMuiTheme({
 		palette: {
-			type: currentDate.getHours() < 4 || currentDate.getHours() > 19 ? "dark" : "light",
+			type: currentDate.getHours() < 4 || currentDate.getHours() > 20 ? "dark" : "light",
 			primary: { main: blue[500] },
 			secondary: { main: green[500] }
 		}
