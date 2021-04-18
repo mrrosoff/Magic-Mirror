@@ -28,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TideCard = (props) => {
+	if (!props.tidePredictionData.predictions) {
+		return null;
+	}
+
 	const firstDataPointDate = new Date(props.tidePredictionData.predictions[0].t);
 	const domain = new Date(
 		firstDataPointDate.getFullYear(),
