@@ -28,7 +28,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TideCard = (props) => {
-	if (!props.tidePredictionData.predictions) {
+	const classes = useStyles();
+
+	if (
+		!props.tidePredictionData.predictions ||
+		!props.tidePredictionData.predictions.length ||
+		props.tidePredictionData.predictions.length < 1
+	) {
 		return null;
 	}
 
@@ -46,7 +52,7 @@ const TideCard = (props) => {
 	}));
 
 	let data = predictionData;
-	let { highTide, lowTide, nextTideIsLow } = getTideTimes(predictionData, props.tideActualData);
+	const { highTide, lowTide, nextTideIsLow } = getTideTimes(predictionData, props.tideActualData);
 
 	if (props.tideActualData && props.tideActualData.data) {
 		data = predictionData.map((obj) => ({
@@ -60,8 +66,6 @@ const TideCard = (props) => {
 				.find((item) => item.timeNumber === obj.timeNumber)
 		}));
 	}
-
-	const classes = useStyles();
 
 	return (
 		<Box p={2} className={classes.cardBox} display={"flex"} flexDirection={"column"}>
@@ -95,7 +99,7 @@ const TideCard = (props) => {
 					data={data}
 					domain={domain}
 					predictionData={predictionData}
-					tideActualData={props.tideActualData}
+					showTideActualData={!!props.tideActualData}
 				/>
 			</Box>
 		</Box>
@@ -150,7 +154,7 @@ const TideGraph = (props) => {
 					dot={false}
 					strokeWidth={6}
 				/>
-				{props.tideActualData ? (
+				{props.showTideActualData && (
 					<Line
 						name="Actual"
 						type="monotone"
@@ -159,16 +163,16 @@ const TideGraph = (props) => {
 						dot={false}
 						strokeWidth={5}
 					/>
-				) : null}
+				)}
 			</LineChart>
 		</ResponsiveContainer>
 	);
 };
 
 const getTideTimes = (predictionData, actualData) => {
-	if (!actualData || !actualData.data)
+	if (!actualData || !actualData.data) {
 		return { highTide: null, lowTide: null, nextTideIsLow: null };
-
+	}
 	let i = 0;
 	const lastActualDate = new Date(actualData.data[actualData.data.length - 1].t);
 

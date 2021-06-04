@@ -26,7 +26,7 @@ function createWindow() {
 		darkTheme: true,
 		fullscreen: true,
 		autoHideMenuBar: true,
-		webPreferences: { enableRemoteModule: true, nodeIntegration: true }
+		webPreferences: { enableRemoteModule: true, nodeIntegration: true, contextIsolation: false }
 	});
 
 	let indexPath;

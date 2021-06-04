@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
 
 const DashBoard = (props) => {
 	const classes = useStyles();
-
 	const [weatherData, setWeatherData] = useState();
 	const [surfData, setSurfData] = useState([]);
 	const [tidePredictionData, setTidePredictionData] = useState();
@@ -122,19 +121,19 @@ const DashBoard = (props) => {
 						>
 							<Box display={"flex"}>
 								<Box>
-									{weatherData ? <WeatherCard weatherData={weatherData} /> : null}
+									{weatherData && <WeatherCard weatherData={weatherData} />}
 								</Box>
 								<Box pl={3} flexGrow={1}>
-									{surfData.length > 0 ? <SurfCard surfData={surfData} /> : null}
+									{surfData.length > 0 && <SurfCard surfData={surfData} />}
 								</Box>
 							</Box>
 							<Box pt={3} flexGrow={1}>
-								{tidePredictionData ? (
+								{tidePredictionData && (
 									<TideCard
 										tidePredictionData={tidePredictionData}
 										tideActualData={tideActualData}
 									/>
-								) : null}
+								)}
 							</Box>
 						</Box>
 					</Paper>
