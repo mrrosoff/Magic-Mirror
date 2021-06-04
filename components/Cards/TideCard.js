@@ -33,7 +33,7 @@ const TideCard = (props) => {
 	if (
 		!props.tidePredictionData.predictions ||
 		!props.tidePredictionData.predictions.length ||
-		props.tidePredictionData.predictions.length < 1
+		props.tidePredictionData.predictions.length < 2
 	) {
 		return null;
 	}
@@ -185,9 +185,7 @@ const getTideTimes = (predictionData, actualData) => {
 
 	for (i += 2; i < predictionData.length; i++) {
 		const nextDataPointIsBelow = firstInflectionPoint.prediction > predictionData[i].prediction;
-
 		if (graphStartsDown !== nextDataPointIsBelow) break;
-
 		firstInflectionPoint = predictionData[i];
 	}
 
@@ -196,15 +194,12 @@ const getTideTimes = (predictionData, actualData) => {
 	for (; i < predictionData.length; i++) {
 		const nextDataPointIsBelow =
 			secondInflectionPoint.prediction > predictionData[i].prediction;
-
 		if (!graphStartsDown !== nextDataPointIsBelow) break;
-
 		secondInflectionPoint = predictionData[i];
 	}
 
 	const highTide = graphStartsDown ? secondInflectionPoint.time : firstInflectionPoint.time;
 	const lowTide = graphStartsDown ? firstInflectionPoint.time : secondInflectionPoint.time;
-
 	return { highTide, lowTide, nextTideIsLow: lowTide < highTide };
 };
 
