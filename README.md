@@ -1,4 +1,4 @@
-# Garage-Pi
+# Garage-UI
 
 ### A Custom UI For A Garage Door Opener
 
