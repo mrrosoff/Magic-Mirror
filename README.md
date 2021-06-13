@@ -1,6 +1,6 @@
 # Garage-Pi
 
-### A Custom Website For A Garage Door Opener
+### A Custom UI For A Garage Door Opener
 
 ## About Project
 
