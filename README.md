@@ -1,6 +1,6 @@
-# Garage-UI
+# Magic Mirror
 
-### A Custom UI For A Garage Door Opener
+### A Custom UI For A Magic Mirror
 
 ## About Project
 
